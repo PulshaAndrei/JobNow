@@ -1,80 +1,96 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://jobnow.apiblueprint.org/
 
 # JobNow
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+This api can be used for the development of mobile and web version of JobNow service.
 
-## Questions Collection [/questions]
+# Group Authorization
 
-### List All Questions [GET]
+## Login [/auth/login]
 
-+ Response 200 (application/json)
+### Get an Access Token [POST]
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+You must provide the Authorization: {access_token} header in all other requests.
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "username": "+375291234567",
+            "password": "password"
         }
 
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
++ Response 200 (application/json)
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiY3JlYXRlZCI6MTQ3OTM4NTQ2OTkyMSwiZXhwIjoxNDgyMTA3MDY5fQ.1OurxLH4nCzvt5K4uhcv_dbs4QX0pIHb3-cm6zJiLSilclUSd_vSKfBY5TrQSSmhrTFVs5r9SWeVwH5sJenAJQ",
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "message": "Wrong username or password"
+            }
+
+## Phone Confirmation [/auth/phone_confirmation]
+
+### Send SMS [POST]
+
+Use this request for sending SMS with confirmation code for regitration.
+
++ Request (application/json)
+
+        {
+            "phone": "+375291234567"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "OK"
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "message": "Wrong phone number"
+            }
+            
+## Registration [/auth/signup]
+
+### Sign Up [POST]
+
+You need to get confirmation code from the request "Phone Confirmation".
+
++ Request (application/json)
+
+        {
+            "phone": "+375291234567",
+            "confirmation_code": "123456",
+            "given_name": "Andrei",
+            "family_name": "Pulsha"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "OK"
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "message": "Wrong phone number/ confirmation code / empty family or given name."
             }
