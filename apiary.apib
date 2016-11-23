@@ -35,8 +35,115 @@ You must provide the Authorization: {access_token} header in all other requests.
             {
                 "message": "Wrong username or password"
             }
+ 
+# Group Account
 
-## Phone Confirmation [/auth/phone_confirmation]
+## Account and Registration [/account]
+
+### Create an Account [POST]
+
+You need to get confirmation code from the request "Phone Confirmation".
+
++ Request (application/json)
+
+        {
+            "phone": "+375291234567",
+            "confirmation_code": "123456",
+            "given_name": "Ivan",
+            "family_name": "Ivanov",
+            "email": "ivanov@mail.com",
+            "communication_method": 0,
+            "basic_info": "Some information about user",
+            "image_data": "{image_data}"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "OK"
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "message": "Wrong phone number/ confirmation code / empty family or given name."
+            }
+
+### Get an Accounts Information [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "given_name": "Ivan",
+                "family_name": "Ivanov",
+                "phone": "+375291234567",
+                "email": "ivanov@mail.com",
+                "communication_method": 0,
+                "basic_info": "Some information about user",
+                "image_url": "{link_to_s3}"
+            }
+            
+### Change an Account [PUT]
++ Request (application/json)
+    + Headers
+            
+            Authorization: {access_token}
+
+    + Body
+    
+            {
+                "given_name": "Ivan",
+                "family_name": "Ivanov",
+                "email": "ivanov@mail.com",
+                "communication_method": 0,
+                "basic_info": "Some information about user",
+                "image_data": "{image_data}"
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "OK"
+            }
+
++ Response 401 (application/json)
+
+    + Body
+
+            {
+                "message": "Empty family or given name..."
+            }
+
+### Delete an Account [DELETE]
+
++ Request 
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "OK"
+            }
+
+
+## Phone Confirmation [/account/phone_confirmation]
 
 ### Send SMS [POST]
 
@@ -62,35 +169,4 @@ Use this request for sending SMS with confirmation code for regitration.
 
             {
                 "message": "Wrong phone number"
-            }
-            
-## Registration [/auth/signup]
-
-### Sign Up [POST]
-
-You need to get confirmation code from the request "Phone Confirmation".
-
-+ Request (application/json)
-
-        {
-            "phone": "+375291234567",
-            "confirmation_code": "123456",
-            "given_name": "Andrei",
-            "family_name": "Pulsha"
-        }
-
-+ Response 201 (application/json)
-
-    + Body
-
-            {
-                "message": "OK"
-            }
-
-+ Response 401 (application/json)
-
-    + Body
-
-            {
-                "message": "Wrong phone number/ confirmation code / empty family or given name."
             }
