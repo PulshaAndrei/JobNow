@@ -91,7 +91,8 @@ You need to get confirmation code from the request "Phone Confirmation".
                 "email": "ivanov@mail.com",
                 "communication_method": 0,
                 "basic_info": "Some information about user",
-                "image_url": "{link_to_s3}"
+                "image_url": "{link_to_s3}",
+                "rate": 4.5
             }
             
 ### Change an Account [PUT]
@@ -111,7 +112,7 @@ You need to get confirmation code from the request "Phone Confirmation".
                 "image_data": "{image_data}"
             }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Body
 
@@ -134,7 +135,7 @@ You need to get confirmation code from the request "Phone Confirmation".
             
             Authorization: {access_token}
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Body
 
@@ -155,7 +156,7 @@ Use this request for sending SMS with confirmation code for regitration.
             "phone": "+375291234567"
         }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
     + Body
 
@@ -169,4 +170,223 @@ Use this request for sending SMS with confirmation code for regitration.
 
             {
                 "message": "Wrong phone number"
+            }
+            
+# Group Users Orders
+
+## List of Orders [/users_order]
+
+### Get all Orders [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 0,
+                    "name": "Name of order",
+                    "creator": {
+                        "id":0,
+                        "given_name": "Ivan",
+                        "family_name": "Ivanov",
+                        "rate": 4.5
+                    },
+                    "start_work": 14562157812,
+                    "duration": {
+                        "from": 120,
+                        "to": 240
+                    },
+                    "location": {GMaps Location Object},
+                    "price": {
+                        "value": {
+                            "from": 15,
+                            "to": 20
+                        },
+                        "currency": BYN,
+                        "bets_count": 3
+                    }
+                }
+            ]
+            
+### Create an Order [POST]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+            
+    + Body
+            
+            {
+                "name": "Name of order",
+                "description": "Some text",
+                "address": "Minsk, Zacharova street, 21"
+                "start_work": 14562157812,
+                "duration": {
+                    "from": 120,
+                    "to": 240
+                },
+                "location": {GMaps Location Object}
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 0,
+                "name": "Name of order",
+                "description": "Some text",
+                "address": "Minsk, Zacharova street, 21"
+                "start_work": 14562157812,
+                "duration": {
+                    "from": 120,
+                    "to": 240
+                },
+                "location": {GMaps Location Object},
+                "price": {
+                    "value": {
+                        "from": 15,
+                        "to": 20
+                    },
+                    "currency": "BYN"
+                },
+                "bets": [
+                    {
+                        "id": 0,
+                        "user": {
+                            "id": 0,
+                            "given_name": "Ivan",
+                            "family_name": "Ivanov",
+                            "rate": 4.5
+                        },
+                        "price": 18
+                    }
+                ]
+            }
+
+## Details of Orders [/users_order/{order_id}]
+
++ Parameters
+    + order_id (number) - ID of the Order
+
+### Get Orders Details [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 0,
+                "name": "Name of order",
+                "description": "Some text",
+                "address": "Minsk, Zacharova street, 21"
+                "start_work": 14562157812,
+                "duration": {
+                    "from": 120,
+                    "to": 240
+                },
+                "location": {GMaps Location Object},
+                "price": {
+                    "value": {
+                        "from": 15,
+                        "to": 20
+                    },
+                    "currency": "BYN"
+                },
+                "bets": [
+                    {
+                        "id": 0,
+                        "user": {
+                            "id": 0,
+                            "given_name": "Ivan",
+                            "family_name": "Ivanov",
+                            "rate": 4.5
+                        },
+                        "price": 18
+                    }
+                ]
+            }
+
+### Change an Order [PUT]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+            
+    + Body
+            
+            {
+                "name": "Name of order",
+                "description": "Some text",
+                "address": "Minsk, Zacharova street, 21"
+                "start_work": 14562157812,
+                "duration": {
+                    "from": 120,
+                    "to": 240
+                },
+                "location": {GMaps Location Object}
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 0,
+                "name": "Name of order",
+                "description": "Some text",
+                "address": "Minsk, Zacharova street, 21"
+                "start_work": 14562157812,
+                "duration": {
+                    "from": 120,
+                    "to": 240
+                },
+                "location": {GMaps Location Object},
+                "price": {
+                    "value": {
+                        "from": 15,
+                        "to": 20
+                    },
+                    "currency": "BYN"
+                },
+                "bets": [
+                    {
+                        "id": 0,
+                        "user": {
+                            "id": 0,
+                            "given_name": "Ivan",
+                            "family_name": "Ivanov",
+                            "rate": 4.5
+                        },
+                        "price": 18
+                    }
+                ]
+            }
+            
+### Delete an Order [DELETE]
+
++ Request 
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "OK"
             }
