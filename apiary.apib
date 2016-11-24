@@ -390,3 +390,321 @@ Use this request for sending SMS with confirmation code for regitration.
             {
                 "message": "OK"
             }
+
+            
+# Group Users Proposals
+
+## List of Proposals [/users_proposal]
+
+### Get all Proposals [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 0,
+                    "name": "Name of order",
+                    "creator": {
+                        "id":0,
+                        "given_name": "Ivan",
+                        "family_name": "Ivanov",
+                        "rate": 4.5
+                    },
+                    "start_work": 14562157812,
+                    "duration": {
+                        "from": 120,
+                        "to": 240
+                    },
+                    "location": {GMaps Location Object},
+                    "price": {
+                        "value": {
+                            "from": 15,
+                            "to": 20
+                        },
+                        "currency": BYN,
+                        "bets_count": 3
+                    },
+                    "proposal": 18
+                }
+            ]
+
+
+## Proposals [/users_proposal/{order_id}]
+
++ Parameters
+    + order_id (number) - ID of the Order
+    
+### Send a Proposal [POST]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+            
+    + Body
+            
+            {
+                "proposal": 18
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 0,
+                "name": "Name of order",
+                "description": "Some text",
+                "address": "Minsk, Zacharova street, 21"
+                "start_work": 14562157812,
+                "duration": {
+                    "from": 120,
+                    "to": 240
+                },
+                "location": {GMaps Location Object},
+                "price": {
+                    "value": {
+                        "from": 15,
+                        "to": 20
+                    },
+                    "currency": "BYN"
+                },
+                "bets": [
+                    {
+                        "id": 0,
+                        "user": {
+                            "id": 0,
+                            "given_name": "Ivan",
+                            "family_name": "Ivanov",
+                            "rate": 4.5
+                        },
+                        "price": 18
+                    }
+                ]
+            }
+
+### Get Orders with Proposal Details [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 0,
+                "name": "Name of order",
+                "description": "Some text",
+                "address": "Minsk, Zacharova street, 21"
+                "start_work": 14562157812,
+                "duration": {
+                    "from": 120,
+                    "to": 240
+                },
+                "location": {GMaps Location Object},
+                "price": {
+                    "value": {
+                        "from": 15,
+                        "to": 20
+                    },
+                    "currency": "BYN"
+                },
+                "bets": [
+                    {
+                        "id": 0,
+                        "user": {
+                            "id": 0,
+                            "given_name": "Ivan",
+                            "family_name": "Ivanov",
+                            "rate": 4.5
+                        },
+                        "price": 18
+                    }
+                ]
+            }
+
+### Change a Proposal [PUT]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+            
+    + Body
+            
+            {
+                "proposal": 17
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 0,
+                "name": "Name of order",
+                "description": "Some text",
+                "address": "Minsk, Zacharova street, 21"
+                "start_work": 14562157812,
+                "duration": {
+                    "from": 120,
+                    "to": 240
+                },
+                "location": {GMaps Location Object},
+                "price": {
+                    "value": {
+                        "from": 15,
+                        "to": 20
+                    },
+                    "currency": "BYN"
+                },
+                "bets": [
+                    {
+                        "id": 0,
+                        "user": {
+                            "id": 0,
+                            "given_name": "Ivan",
+                            "family_name": "Ivanov",
+                            "rate": 4.5
+                        },
+                        "price": 18
+                    }
+                ]
+            }
+            
+### Delete a Proposal [DELETE]
+
++ Request 
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "OK"
+            }
+            
+# Group Search Orders
+
+## Cities List [/common_data/cities]
+
+### Get a List of Cities [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+            
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 0,
+                    "name": "Minsk"
+                },
+                {
+                    "id": 1,
+                    "name": "Grodno"
+                }
+            ]
+
+## Search Orders by City [/order?city={city_id}]
+
++ Parameters
+    + city_id (number) - ID of the city in numeric format
+
+### Get a List of Orders [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 0,
+                    "name": "Name of order",
+                    "creator": {
+                        "id":0,
+                        "given_name": "Ivan",
+                        "family_name": "Ivanov",
+                        "rate": 4.5
+                    },
+                    "start_work": 14562157812,
+                    "duration": {
+                        "from": 120,
+                        "to": 240
+                    },
+                    "location": {GMaps Location Object},
+                    "price": {
+                        "value": {
+                            "from": 15,
+                            "to": 20
+                        },
+                        "currency": BYN,
+                        "bets_count": 3
+                    }
+                }
+            ]
+
+## Search Orders by Id [/order/{order_id}]
+
++ Parameters
+    + order_id (number) - ID of the city in numeric format
+
+### Get an Order [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 0,
+                    "name": "Name of order",
+                    "creator": {
+                        "id":0,
+                        "given_name": "Ivan",
+                        "family_name": "Ivanov",
+                        "rate": 4.5
+                    },
+                    "start_work": 14562157812,
+                    "duration": {
+                        "from": 120,
+                        "to": 240
+                    },
+                    "location": {GMaps Location Object},
+                    "price": {
+                        "value": {
+                            "from": 15,
+                            "to": 20
+                        },
+                        "currency": BYN,
+                        "bets_count": 3
+                    }
+                }
+            ]
