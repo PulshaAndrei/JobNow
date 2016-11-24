@@ -708,3 +708,141 @@ Use this request for sending SMS with confirmation code for regitration.
                     }
                 }
             ]
+            
+# Group Users
+
+## User Information [/user/{user_id}]
+
++ Parameters
+    + user_id (number) - ID of the user
+
+### Get User Information [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 0,
+                "given_name": "Ivan",
+                "family_name": "Ivanov",
+                "phone": "+375291234567",
+                "email": "ivanov@mail.com",
+                "communication_method": 0,
+                "basic_info": "Some information about user",
+                "image_url": "{link_to_s3}",
+                "rate": 4.5
+            }
+            
+# Group Reviews
+
+## Users Review [/review/{user_id}]
+
++ Parameters
+    + user_id (number) - ID of the user
+    
+### Get list of review [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 0,
+                    "user": {
+                        "id": 0,
+                        "given_name": "Ivan",
+                        "family_name": "Ivanov"
+                    },
+                    "title": "Title of review",
+                    "text": "Text of review",
+                    "rate": 4.5
+                }
+            ]
+            
+### Create a review [POST]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+    
+    + Body
+            
+            {
+                "title": "Title of review",
+                "text": "Text of review",
+                "rate": 4
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 0,
+                    "user": {
+                        "id": 0,
+                        "given_name": "Ivan",
+                        "family_name": "Ivanov"
+                    },
+                    "title": "Title of review",
+                    "text": "Text of review",
+                    "rate": 4
+                }
+            ]    
+
+# Group Subscriptions
+
+## Subscriptions on cities [/subscription/city]
+
+### Get subscriptions cities [GET]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                    "id": 0,
+                    "city_id": 0 
+                    "count": 20
+                }
+            ]
+
+## Cancel subscription [/subscription/city?city={city_id}]
+
++ Parameters
+    + city_id (number) - ID of the city in numeric format
+
+### Cancel subscription on city [DELETE]
+
++ Request
+    + Headers
+            
+            Authorization: {access_token}
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "message": "OK"
+            }
