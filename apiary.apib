@@ -16,7 +16,7 @@ You must provide the Authorization: {access_token} header in all other requests.
 + Request (application/json)
 
         {
-            "username": "+375291234567",
+            "username": "375291234567",
             "password": "password"
         }
 
@@ -47,7 +47,7 @@ You need to get confirmation code from the request "Phone Confirmation".
 + Request (application/json)
 
         {
-            "phone": "+375291234567",
+            "phone": "375291234567",
             "confirmation_code": "123456",
             "given_name": "Ivan",
             "family_name": "Ivanov",
@@ -87,7 +87,7 @@ You need to get confirmation code from the request "Phone Confirmation".
             {
                 "given_name": "Ivan",
                 "family_name": "Ivanov",
-                "phone": "+375291234567",
+                "phone": "375291234567",
                 "email": "ivanov@mail.com",
                 "communication_method": 0,
                 "basic_info": "Some information about user",
@@ -153,7 +153,7 @@ Use this request for sending SMS with confirmation code for regitration.
 + Request (application/json)
 
         {
-            "phone": "+375291234567"
+            "phone": "375291234567"
         }
 
 + Response 200 (application/json)
@@ -731,7 +731,7 @@ Use this request for sending SMS with confirmation code for regitration.
                 "id": 0,
                 "given_name": "Ivan",
                 "family_name": "Ivanov",
-                "phone": "+375291234567",
+                "phone": "375291234567",
                 "email": "ivanov@mail.com",
                 "communication_method": 0,
                 "basic_info": "Some information about user",
