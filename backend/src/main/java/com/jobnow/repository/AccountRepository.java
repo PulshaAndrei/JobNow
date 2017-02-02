@@ -1,5 +1,6 @@
 package com.jobnow.repository;
 
+import com.jobnow.controller.ExpectedException;
 import com.jobnow.entity.Account;
 import com.jobnow.entity.ConfirmationCode;
 import com.jobnow.entity.DomainObject;
@@ -9,17 +10,17 @@ import com.jobnow.entity.DomainObject;
  */
 public interface AccountRepository<V extends DomainObject> {
 
-    String login(String phone, String password) throws Exception;
+    String login(String phone, String password) throws ExpectedException;
 
-    Account get(long id) throws Exception;
+    Account get(long id) throws ExpectedException;
 
-    String create(Account account) throws Exception;
+    String create(Account account) throws ExpectedException;
 
-    Account update(Account account) throws Exception;
+    Account update(Account account) throws ExpectedException;
 
-    void delete(long id) throws Exception;
+    void delete(long id) throws ExpectedException;
 
-    void phoneConfirmation(String phone) throws Exception;
+    void phoneConfirmation(String phone) throws ExpectedException;
 
-    void activateConfirmationCode(ConfirmationCode confirmationCode) throws Exception;
+    void activateConfirmationCode(ConfirmationCode confirmationCode) throws ExpectedException;
 }

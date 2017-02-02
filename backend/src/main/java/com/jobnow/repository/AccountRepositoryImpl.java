@@ -1,13 +1,17 @@
 package com.jobnow.repository;
 
+import com.jobnow.controller.ExpectedException;
 import com.jobnow.entity.Account;
 import com.jobnow.entity.ConfirmationCode;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import io.jsonwebtoken.JwtBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,8 +19,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Repository;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -30,41 +32,48 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
     @Autowired
     protected JdbcOperations jdbcOperations;
 
-    Properties properties;
+    @Value("${smsServer.username}")
+    private String smsServerUsername;
 
-    public AccountRepositoryImpl() throws IOException {
-        properties = new Properties();
-        properties.load(new FileInputStream("src/main/resources/config.properties"));
-    }
+    @Value("${smsServer.password}")
+    private String smsServerPassword;
+
+    @Value("${token.key}")
+    private String tokenKey;
 
     @Override
-    public String login(String phone, String password) throws Exception {
+    public String login(String phone, String password) throws ExpectedException {
         Account serverAccount = getAccountByPhone(phone);
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (serverAccount == null || !encoder.matches(password, serverAccount.getPassword())) {
-            throw new Exception("Incorrect phone or password.", new Throwable("userDataWrong"));
+            throw new ExpectedException("Incorrect phone or password.", HttpStatus.UNAUTHORIZED);
         }
 
         return getToken(serverAccount);
     }
 
     @Override
-    public void phoneConfirmation(String phone) throws Exception {
+    public void phoneConfirmation(String phone) throws ExpectedException {
         if (!phone.matches("375\\d{9}$")) {
-            throw new Exception("Phone number is invalid or not from Belarus", new Throwable("userDataWrong"));
+            throw new ExpectedException("Phone number is invalid or not from Belarus", HttpStatus.BAD_REQUEST);
         }
 
-        String baseURL = "https://api.rocketsms.by/simple/send?username=" + properties.getProperty("smsServer.username") + "&password=" + properties.getProperty("smsServer.password");
+        String baseURL = "https://api.rocketsms.by/simple/send?username=" + smsServerUsername + "&password=" + smsServerPassword;
 
         Random rNo = new Random();
         final int code = rNo.nextInt((99999 - 10000) + 1) + 10000;
 
         String text = "Your+code+JobNow:+" + code;
 
-        HttpResponse<JsonNode> response = Unirest.post(baseURL + "&phone=" + phone + "&text=" + text + "&priority=true")
-                .header("Accept", "application/json")
-                .asJson();
+        HttpResponse<JsonNode> response = null;
+        try {
+            response = Unirest.post(baseURL + "&phone=" + phone + "&text=" + text + "&priority=true")
+                    .header("Accept", "application/json")
+                    .asJson();
+        } catch (UnirestException e) {
+            throw new ExpectedException("SMS Service couldn't send message.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         if (response.getBody().getObject().get("error") != null) {
             //TODO: uncomment in production
@@ -79,50 +88,50 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
 
     }
 
-    public void activateConfirmationCode(ConfirmationCode confirmationCode) throws Exception {
+    public void activateConfirmationCode(ConfirmationCode confirmationCode) throws ExpectedException {
         try {
             ConfirmationCode serverConfirmationCode = (ConfirmationCode) jdbcOperations.queryForObject("SELECT * FROM phone_confirmations WHERE phone = ?",
                     new Object[]{confirmationCode.getPhone()}, new BeanPropertyRowMapper(ConfirmationCode.class));
 
             if (!serverConfirmationCode.getCode().equalsIgnoreCase(confirmationCode.getCode())) {
-                throw new Exception("Wrong confirmation code.", new Throwable("userDataWrong"));
+                throw new ExpectedException("Wrong confirmation code.", HttpStatus.BAD_REQUEST);
             }
 
             Calendar calendar = Calendar.getInstance();
             if (serverConfirmationCode.getExpirationDate() < calendar.getTimeInMillis()) {
-                throw new Exception("Confirmation code expired date error.", new Throwable("userDataWrong"));
+                throw new ExpectedException("Confirmation code expired date error.", HttpStatus.BAD_REQUEST);
             }
 
             jdbcOperations.update("UPDATE phone_confirmations SET activated = true WHERE phone = ?;",
                     confirmationCode.getPhone());
         }
         catch (EmptyResultDataAccessException e) {
-            throw new Exception("This phone number doesn't exist.", new Throwable("userDataWrong"));
+            throw new ExpectedException("This phone number doesn't exist.", HttpStatus.BAD_REQUEST);
         }
 
     }
 
     @Override
-    public Account get(long id) throws Exception {
+    public Account get(long id) throws ExpectedException {
         try {
             return (Account) jdbcOperations.queryForObject("SELECT id, given_name, family_name, phone, email, communication_method, basic_info, image_url FROM accounts WHERE id = ?",
                     new Object[]{id}, new BeanPropertyRowMapper(Account.class));
         }
         catch (EmptyResultDataAccessException e) {
-            throw new Exception("This account doesn't exist.", new Throwable("userDataWrong"));
+            throw new ExpectedException("This account doesn't exist.", HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
-    public String create(Account account) throws Exception {
+    public String create(Account account) throws ExpectedException {
         if (account.getGivenName() == "" || account.getFamilyName() == "" || account.getPhone() == "" || account.getPassword() == "" || account.getConfirmationCode() == "") {
-            throw new Exception("Fields given name, family name and phone can't be empty.", new Throwable("userDataWrong"));
+            throw new ExpectedException("Fields given name, family name and phone can't be empty.", HttpStatus.BAD_REQUEST);
         }
 
         //TODO check password secure
 
         if (getAccountByPhone(account.getPhone()) != null) {
-            throw new Exception("This phone already exist.", new Throwable("userDataWrong"));
+            throw new ExpectedException("This phone already exist.", HttpStatus.BAD_REQUEST);
         }
 
         ConfirmationCode serverConfirmationCode;
@@ -132,15 +141,15 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
                     new Object[]{account.getPhone()}, new BeanPropertyRowMapper(ConfirmationCode.class));
         }
         catch (EmptyResultDataAccessException e) {
-            throw new Exception("This phone hasn't been approved.", new Throwable("userDataWrong"));
+            throw new ExpectedException("This phone hasn't been approved.", HttpStatus.BAD_REQUEST);
         }
 
         if (!serverConfirmationCode.getCode().equalsIgnoreCase(account.getConfirmationCode())) {
-            throw new Exception("Wrong confirmation code.", new Throwable("userDataWrong"));
+            throw new ExpectedException("Wrong confirmation code.", HttpStatus.BAD_REQUEST);
         }
 
         if (!serverConfirmationCode.isActivated()) {
-            throw new Exception("Confirmation code hasn't been activated.", new Throwable("userDataWrong"));
+            throw new ExpectedException("Confirmation code hasn't been activated.", HttpStatus.BAD_REQUEST);
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -151,9 +160,9 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
     }
 
     @Override
-    public Account update(Account account) throws Exception {
+    public Account update(Account account) throws ExpectedException {
         if (account.getGivenName() == "" || account.getFamilyName() == "" || account.getPhone() == "") {
-            throw new Exception("Fields given name, family name and phone can't be empty.", new Throwable("userDataWrong"));
+            throw new ExpectedException("Fields given name, family name and phone can't be empty.", HttpStatus.BAD_REQUEST);
         }
 
         jdbcOperations.update("UPDATE accounts SET given_name = ?, family_name = ?, email = ?, communication_method = ?, basic_info = ?, image_url = ? WHERE id = ?;",
@@ -163,7 +172,7 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
     }
 
     @Override
-    public void delete(long id) throws Exception {
+    public void delete(long id) throws ExpectedException {
         jdbcOperations.update("DELETE FROM accounts WHERE id = ?", new Object[]{id}, new BeanPropertyRowMapper(Account.class));
     }
 
@@ -187,7 +196,7 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
         JwtBuilder jwtBuilder = Jwts.builder();
         jwtBuilder.setExpiration(calendar.getTime());
         jwtBuilder.setClaims(tokenData);
-        String token = jwtBuilder.signWith(SignatureAlgorithm.HS512, properties.getProperty("token.key")).compact();
+        String token = jwtBuilder.signWith(SignatureAlgorithm.HS512, tokenKey).compact();
         return token;
     }
 
