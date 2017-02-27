@@ -1,5 +1,70 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
-      author: pulsha.andrei
-      changes:
+        id: 1
+        author: andrei.pulsha
+        changes:
+          - createTable:
+              tableName: account
+              columns:
+                - column:
+                    name: id
+                    type: serial
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: given_name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: family_name
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: phone
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: email
+                    type: varchar(50)
+                - сolumn:
+                    name: communicationMethod
+                    type: integer
+                    constraints:
+                      nullable: false
+                - column:
+                    name: basic_info
+                    type: text
+                - column:
+                    name: image_url
+                    type: varchar(200)
+                - column:
+                    name: rate
+                    type: float
+
+  - changeSet:
+        id: 2
+        author: andrei.pulsha
+        changes:
+          - createTable:
+              tableName: phone_confirmations
+              columns:
+                - column:
+                    name: phone
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: code
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: expiration_date
+                    type: integer
+                - column:
+                    name: activated
+                    type: boolean
