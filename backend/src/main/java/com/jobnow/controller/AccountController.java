@@ -49,7 +49,7 @@ public class AccountController {
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> get(@RequestHeader(value="Authorization") String token) throws ExpectedException {
-        long id = getUserId(token);
+        long id = Authorization.getUserId(token);
         Account result = accountRepository.get(id);
         return new ResponseEntity<>(ImmutableMap.of("account", result), HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class AccountController {
     @RequestMapping(value = "/account", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> update(@RequestBody Account account, @RequestHeader(value="Authorization") String token) throws ExpectedException {
-        long id = getUserId(token);
+        long id = Authorization.getUserId(token);
         account.setId(id);
         Account result = accountRepository.update(account);
         return new ResponseEntity<>(ImmutableMap.of("account", result), HttpStatus.OK);
@@ -73,24 +73,7 @@ public class AccountController {
     @RequestMapping(value = "/account", method = RequestMethod.DELETE)
     @ResponseBody
     public void delete(@RequestHeader(value="Authorization") String token) throws ExpectedException {
-        long id = getUserId(token);
+        long id = Authorization.getUserId(token);
         accountRepository.delete(id);
-    }
-
-    public long getUserId(String token) throws ExpectedException {
-        String key = "JobNowKey";
-        Claims claims;
-        try {
-            claims = (Claims) Jwts.parser().setSigningKey(key).parse(token).getBody();
-        } catch (Exception ex) {
-            throw new ExpectedException("Token corrupted", HttpStatus.UNAUTHORIZED);
-        }
-        if (claims.get("token_expiration_date") == null)
-            throw new ExpectedException("Invalid token", HttpStatus.UNAUTHORIZED);
-        Date expiredDate = new Date((long) claims.get("token_expiration_date"));
-        if (expiredDate.after(new Date()))
-            return (Integer) claims.get("userID");
-        else
-            throw new ExpectedException("Token expired date error", HttpStatus.UNAUTHORIZED);
     }
 }
