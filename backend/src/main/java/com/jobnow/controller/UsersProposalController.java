@@ -23,7 +23,7 @@ public class UsersProposalController {
     @ResponseBody
     public ResponseEntity<?> getUsersProposals(@RequestHeader(value="Authorization") String token) throws ExpectedException {
         long id = Authorization.getUserId(token);
-        ArrayList<Order> result = usersProposalRepository.get(id);
+        ArrayList result = usersProposalRepository.get(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

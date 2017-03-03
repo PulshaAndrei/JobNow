@@ -22,7 +22,7 @@ public class UsersOrderController {
     @ResponseBody
     public ResponseEntity<?> getUsersOrder(@RequestHeader(value="Authorization") String token) throws ExpectedException {
         long id = Authorization.getUserId(token);
-        ArrayList<Order> result = usersOrderRepository.get(id);
+        ArrayList result = usersOrderRepository.get(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -35,6 +35,8 @@ public class UsersOrderController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    //TODO: change Documentation
+/*
     @RequestMapping(value = "/users_order/{orderId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> createUsersOrder(@RequestHeader(value="Authorization") String token, @PathVariable long orderId) throws ExpectedException {
@@ -42,7 +44,7 @@ public class UsersOrderController {
         Order result = usersOrderRepository.getDetails(id, orderId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
+*/
     @RequestMapping(value = "/users_order/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> createUsersOrder(@RequestHeader(value="Authorization") String token, @RequestBody Order order, @PathVariable long orderId) throws ExpectedException {
