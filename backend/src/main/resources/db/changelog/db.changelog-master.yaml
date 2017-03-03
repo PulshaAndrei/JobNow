@@ -152,4 +152,39 @@ databaseChangeLog:
                     type: float
                     constraints:
                       nullable: false
-                      
+  - changeSet:
+        id: 5
+        author: andrei.pulsha
+        changes:
+          - createTable:
+              tableName: reviews
+              columns:
+                - column:
+                    name: id
+                    type: serial
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: user_from_id
+                    type: integer
+                    constraints:
+                      nullable: false
+                - column:
+                    name: user_to_id
+                    type: integer
+                    constraints:
+                      nullable: false
+                - column:
+                    name: title
+                    type: varchar(100)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: text
+                    type: text
+                - column:
+                    name: rate
+                    type: integer
+                    constraints:
+                      nullable: false
