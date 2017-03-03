@@ -188,3 +188,44 @@ databaseChangeLog:
                     type: integer
                     constraints:
                       nullable: false
+  - changeSet:
+        id: 6
+        author: andrei.pulsha
+        changes:
+          - createTable:
+              tableName: subscriptions
+              columns:
+                - column:
+                    name: id
+                    type: serial
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: user_id
+                    type: integer
+                    constraints:
+                      nullable: false
+                - column:
+                    name: city_id
+                    type: integer
+                    constraints:
+                      nullable: false
+  - changeSet:
+        id: 7
+        author: andrei.pulsha
+        changes:
+          - createTable:
+              tableName: cities
+              columns:
+                - column:
+                    name: id
+                    type: serial
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: city
+                    type: varchar(50)
+                    constraints:
+                      nullable: false
