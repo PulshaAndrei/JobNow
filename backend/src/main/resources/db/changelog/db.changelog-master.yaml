@@ -68,3 +68,59 @@ databaseChangeLog:
                 - column:
                     name: activated
                     type: boolean
+  - changeSet:
+        id: 3
+        author: andrei.pulsha
+        changes:
+          - createTable:
+              tableName: orders
+              columns:
+                - column:
+                    name: id
+                    type: serial
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: user_id
+                    type: integer
+                    constraints:
+                      nullable: false
+                - column:
+                    name: name
+                    type: varchar(10)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: description
+                    type: text
+                - column:
+                    name: start_work
+                    type: integer
+                - сolumn:
+                    name: end_work
+                    type: integer
+                - column:
+                    name: duration_from
+                    type: integer
+                - сolumn:
+                    name: duration_to
+                    type: integer
+                - column:
+                    name: location_city_id
+                    type: integer
+                - column:
+                    name: location_coord_x
+                    type: float
+                - column:
+                    name: location_coord_y
+                    type: float
+                - column:
+                    name: price_currency
+                    type: varchar(10)
+                - column:
+                    name: price_from
+                    type: float
+                - column:
+                    name: price_to
+                    type: float
