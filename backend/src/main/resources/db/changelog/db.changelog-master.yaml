@@ -124,3 +124,32 @@ databaseChangeLog:
                 - column:
                     name: price_to
                     type: float
+  - changeSet:
+        id: 4
+        author: andrei.pulsha
+        changes:
+          - createTable:
+              tableName: bets
+              columns:
+                - column:
+                    name: id
+                    type: serial
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: user_id
+                    type: integer
+                    constraints:
+                      nullable: false
+                - column:
+                    name: order_id
+                    type: integer
+                    constraints:
+                      nullable: false
+                - column:
+                    name: price
+                    type: float
+                    constraints:
+                      nullable: false
+                      
