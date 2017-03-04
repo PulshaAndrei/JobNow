@@ -11,10 +11,11 @@ public class Order implements DomainObject {
     private Long creatorId;
     private String name = "";
     private String description = "";
-    private Long countryId;
-    private Long cityId;
+    //private Long countryId;
+    private Long locationCityId;
     private String address = "";
-    private Point2D location;
+    private double locationCoordX;
+    private double locationCoordY;
     private Long startWork;
     private Long endWork;
     private Long durationFrom;
@@ -81,14 +82,6 @@ public class Order implements DomainObject {
         this.durationTo = durationTo;
     }
 
-    public Point2D getLocation() {
-        return location;
-    }
-
-    public void setLocation(Point2D location) {
-        this.location = location;
-    }
-
     public Double getPriceFrom() {
         return priceFrom;
     }
@@ -129,19 +122,27 @@ public class Order implements DomainObject {
         this.priceCurrency = priceCurrency;
     }
 
-    public Long getCountryId() {
-        return countryId;
+    public Long getLocationCityId() {
+        return locationCityId;
     }
 
-    public void setCountryId(Long countryId) {
-        this.countryId = countryId;
+    public void setLocationCityId(Long locationCityId) {
+        this.locationCityId = locationCityId;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public double getLocationCoordX() {
+        return locationCoordX;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setLocationCoordX(double locationCoordX) {
+        this.locationCoordX = locationCoordX;
+    }
+
+    public double getLocationCoordY() {
+        return locationCoordY;
+    }
+
+    public void setLocationCoordY(double locationCoordY) {
+        this.locationCoordY = locationCoordY;
     }
 }

@@ -100,15 +100,18 @@ databaseChangeLog:
                     name: description
                     type: text
                 - column:
+                    name: address
+                    type: varchar(100)
+                - column:
                     name: start_work
                     type: bigint
-                - сolumn:
+                - column:
                     name: end_work
                     type: bigint
                 - column:
                     name: duration_from
                     type: integer
-                - сolumn:
+                - column:
                     name: duration_to
                     type: integer
                 - column:

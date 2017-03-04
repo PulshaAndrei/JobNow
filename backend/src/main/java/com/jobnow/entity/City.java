@@ -6,8 +6,8 @@ package com.jobnow.entity;
 public class City implements DomainObject{
 
     private Long id;
-    private String countryName;
-    private String cityName;
+    //private String country;
+    private String city;
 
     public City(){}
 
@@ -19,19 +19,19 @@ public class City implements DomainObject{
         this.id = id;
     }
 
-    public String getCountryName() {
+    /*public String getCountryName() {
         return countryName;
     }
 
     public void setCountryName(String countryName) {
         this.countryName = countryName;
+    }*/
+
+    public String getCity() {
+        return city;
     }
 
-    public String getCityName() {
-        return cityName;
-    }
-
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCity(String city) {
+        this.city = city;
     }
 }
