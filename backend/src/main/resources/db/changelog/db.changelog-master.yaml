@@ -4,13 +4,18 @@ databaseChangeLog:
         author: andrei.pulsha
         changes:
           - createTable:
-              tableName: account
+              tableName: accounts
               columns:
                 - column:
                     name: id
                     type: serial
                     constraints:
                       primaryKey: true
+                      nullable: false
+                - column:
+                    name: password
+                    type: text
+                    constraints:
                       nullable: false
                 - column:
                     name: given_name
@@ -23,6 +28,9 @@ databaseChangeLog:
                     constraints:
                       nullable: false
                 - column:
+                    name: communication_method
+                    type: integer
+                - column:
                     name: phone
                     type: varchar(50)
                     constraints:
@@ -30,11 +38,6 @@ databaseChangeLog:
                 - column:
                     name: email
                     type: varchar(50)
-                - сolumn:
-                    name: communicationMethod
-                    type: integer
-                    constraints:
-                      nullable: false
                 - column:
                     name: basic_info
                     type: text
@@ -44,6 +47,7 @@ databaseChangeLog:
                 - column:
                     name: rate
                     type: float
+                    defaultValue: 0
 
   - changeSet:
         id: 2
@@ -56,15 +60,16 @@ databaseChangeLog:
                     name: phone
                     type: varchar(50)
                     constraints:
+                      primaryKey: true
                       nullable: false
                 - column:
                     name: code
-                    type: varchar(50)
+                    type: integer
                     constraints:
                       nullable: false
                 - column:
                     name: expiration_date
-                    type: integer
+                    type: bigint
                 - column:
                     name: activated
                     type: boolean
@@ -96,10 +101,10 @@ databaseChangeLog:
                     type: text
                 - column:
                     name: start_work
-                    type: integer
+                    type: bigint
                 - сolumn:
                     name: end_work
-                    type: integer
+                    type: bigint
                 - column:
                     name: duration_from
                     type: integer

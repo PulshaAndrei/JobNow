@@ -134,7 +134,8 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
             throw new ExpectedException("This phone already exist.", HttpStatus.BAD_REQUEST);
         }
 
-        ConfirmationCode serverConfirmationCode;
+        //TODO: uncomment in production
+        /*ConfirmationCode serverConfirmationCode;
 
         try {
             serverConfirmationCode = (ConfirmationCode) jdbcOperations.queryForObject("SELECT * FROM phone_confirmations WHERE phone = ?",
@@ -150,12 +151,12 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
 
         if (!serverConfirmationCode.isActivated()) {
             throw new ExpectedException("Confirmation code hasn't been activated.", HttpStatus.BAD_REQUEST);
-        }
+        }*/
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(account.getPassword());
-        jdbcOperations.update("INSERT INTO accounts (password, given_name, family_name, phone, email, communication_method, basic_info, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
-                hashedPassword, account.getGivenName(), account.getFamilyName(), account.getPhone(), account.getEmail(), account.getCommunicationMethod(), account.getBasicInfo(), account.getImageURL());
+        jdbcOperations.update("INSERT INTO accounts (password, given_name, family_name, phone, email, communication_method, basic_info, image_url, rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                hashedPassword, account.getGivenName(), account.getFamilyName(), account.getPhone(), account.getEmail(), account.getCommunicationMethod(), account.getBasicInfo(), account.getImageURL(), account.getRate());
         return login(account.getPhone(), account.getPassword());
     }
 

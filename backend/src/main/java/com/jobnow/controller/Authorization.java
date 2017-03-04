@@ -11,8 +11,7 @@ import java.util.Date;
  */
 public class Authorization {
 
-    public static long getUserId(String token) throws ExpectedException {
-        String key = "JobNowKey";
+    public static long getUserId(String token, String key) throws ExpectedException {
         Claims claims;
         try {
             claims = (Claims) Jwts.parser().setSigningKey(key).parse(token).getBody();
