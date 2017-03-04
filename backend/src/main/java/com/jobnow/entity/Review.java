@@ -1,5 +1,8 @@
 package com.jobnow.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by codex on 06.02.17.
  */
@@ -12,6 +15,8 @@ public class Review implements DomainObject {
 
     public Review(){}
 
+    @JsonIgnore
+    @JsonProperty(value = "review_id")
     public Long getId() {
         return id;
     }
