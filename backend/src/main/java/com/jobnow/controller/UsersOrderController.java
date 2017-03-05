@@ -7,13 +7,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by codex on 06.02.17.
  */
+@CrossOrigin(origins = "*")
+@Controller
 public class UsersOrderController {
     @Value("${token.key}")
     private String tokenKey;
@@ -26,7 +30,7 @@ public class UsersOrderController {
     @ResponseBody
     public ResponseEntity<?> getUsersOrder(@RequestHeader(value="Authorization") String token) throws ExpectedException {
         long id = Authorization.getUserId(token, tokenKey);
-        ArrayList result = usersOrderRepository.get(id);
+        List result = usersOrderRepository.get(id);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -34,7 +38,7 @@ public class UsersOrderController {
     @ResponseBody
     public ResponseEntity<?> createUsersOrder(@RequestHeader(value="Authorization") String token, @RequestBody Order order) throws ExpectedException {
         long id = Authorization.getUserId(token, tokenKey);
-        order.setId(id);
+        order.setUserId(id);
         Order result = usersOrderRepository.create(order);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -51,9 +55,9 @@ public class UsersOrderController {
 */
     @RequestMapping(value = "/users_order/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> createUsersOrder(@RequestHeader(value="Authorization") String token, @RequestBody Order order, @PathVariable long orderId) throws ExpectedException {
+    public ResponseEntity<?> updateUsersOrderDetails(@RequestHeader(value="Authorization") String token, @RequestBody Order order, @PathVariable long orderId) throws ExpectedException {
         long id = Authorization.getUserId(token, tokenKey);
-        order.setCreatorId(id);
+        order.setUserId(id);
         order.setId(orderId);
         Order result = usersOrderRepository.updateDetails(order);
         return new ResponseEntity<>(result, HttpStatus.OK);

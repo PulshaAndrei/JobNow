@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 public class Order implements DomainObject {
 
     private Long id;
-    private Long creatorId;
+    private Long userId;
     private String name = "";
     private String description = "";
     //private Long countryId;
@@ -42,12 +42,12 @@ public class Order implements DomainObject {
         this.name = name;
     }
 
-    public Long getCreatorId() {
-        return creatorId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getStartWork() {
