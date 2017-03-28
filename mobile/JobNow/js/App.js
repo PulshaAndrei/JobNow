@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { View, StatusBar, Text } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Scene, Router, Actions } from 'react-native-router-flux';
+
+import InitialPage from './containers/InitialPage'
+
+import Login from './containers/Login';
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +14,16 @@ class App extends Component {
   render = () => {
     return (
       <View style={{ flex: 1 }}>
-        <Text>JobNow - start page</Text>
+        <StatusBar barStyle="light-content" backgroundColor="#01162b" />
+        <Router /*getSceneStyle={() => ({ backgroundColor: "green" })}*/>
+          <Scene key="root">
+
+            <Scene key="initial" component={InitialPage} hideNavBar type="replace" initial />
+
+            <Scene key="login" component={Login} hideNavBar type="replace" />
+
+          </Scene>
+        </Router>
       </View>
     );
   }
