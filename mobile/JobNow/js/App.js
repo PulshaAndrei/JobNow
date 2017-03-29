@@ -14,8 +14,8 @@ class App extends Component {
   render = () => {
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar barStyle="light-content" backgroundColor="#01162b" />
-        <Router /*getSceneStyle={() => ({ backgroundColor: "green" })}*/>
+        <StatusBar barStyle="light-content" /*backgroundColor="#01162b"*/ />
+        <Router getSceneStyle={() => ({ /*backgroundColor: "#01162b"*/ })}>
           <Scene key="root">
 
             <Scene key="initial" component={InitialPage} hideNavBar type="replace" initial />

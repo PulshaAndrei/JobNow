@@ -7,5 +7,6 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
+    marginTop: (Platform.OS === 'ios') ? 20 : 0, 
   },
 });

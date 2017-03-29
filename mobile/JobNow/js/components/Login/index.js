@@ -13,19 +13,19 @@ export const LoginView = ({ children }) => (
 );
 
 export const BrandView = ({ children }) => (
-  <View style={{ flex: 2 }}>
+  <View style={{ flex: 4, justifyContent: 'center' }}>
     {children}
   </View>
 );
 
 export const InputView = ({ children }) => (
-  <View style={{ flex: 1 }}>
+  <View style={{ flex: 4 }}>
     {children}
   </View>
 );
 
 export const LoginAndSignupView = ({ children }) => (
-  <View style={{ flex: 1 }}>
+  <View style={{ /*flex: 1*/ }}>
     {children}
   </View>
 );
@@ -42,13 +42,38 @@ export const BrandTitle = ({ title }) => (
   </View>
 );
 
-export const PhoneInput = ({ value, setValue }) => (
-  <View>
+export const PhoneInput = ({ value, setValue, onChange }) => (
+  <View style={styles.input}>
+    <View style={styles.textInputView}>
+      <TextInput
+        autoCorrect={false}
+        placeholder="Номер телефона"
+        placeholderTextColor="#9ea5ab"
+        underlineColorAndroid={'transparent'}
+        keyboardType={'phone-pad'}
+        style={styles.textInput}
+        onChangeText={onChange}
+        value={value}
+      />
+    </View>
   </View>
 );
 
-export const PasswordInput = ({ value, setValue }) => (
-  <View>
+export const PasswordInput = ({ value, setValue, onChange }) => (
+  <View style={styles.input}>
+    <View style={styles.textInputView}>
+      <TextInput
+        autoCorrect={false}
+        placeholder="Пароль"
+        placeholderTextColor="#9ea5ab"
+        underlineColorAndroid={'transparent'}
+        secureTextEntry
+        keyboardType={'default'}
+        style={styles.textInput}
+        onChangeText={onChange}
+        value={value}
+      />
+    </View>
   </View>
 );
 

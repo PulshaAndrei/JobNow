@@ -8,16 +8,16 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   loginViewImage: {
-    top: 0,
+    top: -20,
     bottom: 0,
     left: 0,
     right: 0,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    height: Dimensions.get('window').height + 20,
     position: 'absolute',
   },
   loginBackgroundView: {
-    top: 0,
+    top: -20,
     bottom: 0,
     left: 0,
     right: 0,
@@ -27,6 +27,10 @@ export default StyleSheet.create({
   },
   brandTitleText: {
     color: 'white',
+    backgroundColor: 'transparent', //TODO
+    textAlign: 'center',
+    fontSize: 64,
+    fontWeight: '200',
   },
   loginButton: {
     backgroundColor: '#13bdbf',
@@ -51,9 +55,24 @@ export default StyleSheet.create({
   signupButtonLabel: {
     color: 'white',
     marginRight: 10,
+    backgroundColor: 'transparent', //TODO
+  },
+  forgotButtonText: {
+    color: 'white',
+    textAlign: 'center',
   },
   signupButtonRegistration: {
     color: 'white',
     fontWeight: 'bold',
-  }
+  },
+  textInputView: {
+    borderColor: '#364756',
+    borderBottomWidth: 1,
+    marginBottom: 15,
+    paddingHorizontal: 25,
+  },
+  textInput: {
+    height: 40,
+    color: 'white',
+  },
 });
