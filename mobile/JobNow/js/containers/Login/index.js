@@ -18,7 +18,7 @@ class Login extends Component {
         <LoginView>
           <BrandView>
             <BrandIcon />
-            <BrandTitle title="JobNow" /* "Быстрый поиск дополнительного зароботка" /> */ /> 
+            <BrandTitle title="JobNow" />
           </BrandView>
           <InputView>
             <PhoneInput />

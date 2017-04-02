@@ -9,3 +9,7 @@ export const Container = ({ children }) => (
     {children}
   </View>
 );
+
+export const DescriptionTitle = ({ children }) => (
+  <Text style={styles.descriptionTitle}>{children}</Text>
+);

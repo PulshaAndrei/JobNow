@@ -3,20 +3,14 @@ import { StyleSheet, Platform, Dimensions } from 'react-native';
 //import { WHITE, BRIGHTSKYBLUE, AQUAMARINE, GREENBLUE, DARKSEAGREEN, DUSKBLUE, COLOR_BLUE, COLOR_GREEN, COLOR_ORANGE, COLOR_BLUE_LIGHT_BORDER } from '../../styles/variables';
 
 export default StyleSheet.create({
-  loginView: {
+  signupView: {
+    paddingTop: 100,
     flex: 1,
-    justifyContent: 'space-between',
   },
-  loginViewImage: {
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-    position: 'absolute',
+  signupScrollView: {
+    marginTop: 100,
   },
-  loginBackgroundView: {
+  signupBackgroundView: {
     top: 0,
     bottom: 0,
     left: 0,
@@ -25,45 +19,27 @@ export default StyleSheet.create({
     backgroundColor: '#01162b',
     opacity: 0.86,
   },
-  brandTitleText: {
-    color: 'white',
-    backgroundColor: 'transparent', //TODO
-    textAlign: 'center',
-    fontSize: 64,
-    fontWeight: '200',
+  signupViewImage: {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    position: 'absolute',
   },
-  loginButton: {
+  nextButton: {
     backgroundColor: '#13bdbf',
     borderRadius: 15,
     height: 50,
     alignSelf: 'stretch',
     marginHorizontal: 70,
-    marginBottom: 20,
+    marginVertical: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  loginButtonText: {
+  nextButtonText: {
     color: 'white',
-  },
-  signupButton: {
-    flexDirection: 'row',
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 40,
-  },
-  signupButtonLabel: {
-    color: 'white',
-    marginRight: 10,
-    backgroundColor: 'transparent', //TODO
-  },
-  forgotButtonText: {
-    color: 'white',
-    textAlign: 'center',
-  },
-  signupButtonRegistration: {
-    color: 'white',
-    fontWeight: 'bold',
   },
   input: {
     flexDirection: 'row',

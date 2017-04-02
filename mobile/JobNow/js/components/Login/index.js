@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, TouchableHighlight, Text, TextInput } from 'react-native';
-//import IconIonicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './styles';
 
@@ -19,13 +19,13 @@ export const BrandView = ({ children }) => (
 );
 
 export const InputView = ({ children }) => (
-  <View style={{ flex: 4 }}>
+  <View style={{ flex: 3 }}>
     {children}
   </View>
 );
 
 export const LoginAndSignupView = ({ children }) => (
-  <View style={{ /*flex: 1*/ }}>
+  <View style={{ /*flex: 2*/ }}>
     {children}
   </View>
 );
@@ -44,6 +44,7 @@ export const BrandTitle = ({ title }) => (
 
 export const PhoneInput = ({ value, setValue, onChange }) => (
   <View style={styles.input}>
+    <Icon name="ios-person-outline" size={30} color="#9ea5ab" />
     <View style={styles.textInputView}>
       <TextInput
         autoCorrect={false}
@@ -61,6 +62,7 @@ export const PhoneInput = ({ value, setValue, onChange }) => (
 
 export const PasswordInput = ({ value, setValue, onChange }) => (
   <View style={styles.input}>
+    <Icon name="ios-lock-outline" size={30} color="#9ea5ab" />
     <View style={styles.textInputView}>
       <TextInput
         autoCorrect={false}
