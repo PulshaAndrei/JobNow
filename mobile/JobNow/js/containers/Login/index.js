@@ -26,7 +26,7 @@ class Login extends Component {
             <ForgotButton />
           </InputView>
           <LoginAndSignupView>
-            <LoginButton />
+            <LoginButton onPress={Actions.drawer} />
             <SignupButton onPress={Actions.signup} />
           </LoginAndSignupView>
         </LoginView>
