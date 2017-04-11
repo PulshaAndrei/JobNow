@@ -14,7 +14,7 @@ export const SignupView = ({ children }) => (
 );
 
 export const SignupScrollView = ({ children }) => (
-  <View>
+  <View style={{ flex: 1 }}>
     <Image source={require('../../resourses/signup_background.jpg')} style={styles.signupViewImage} />
     <View style={styles.signupBackgroundView} />
     <ScrollView style={styles.signupScrollView} contentContainerStyle={{ paddingBottom: 20 }}>
@@ -96,7 +96,7 @@ export const PickerConnection = ({ value, setValue, onChange }) => (
       borderRadius={0}
       tabsContainerStyle={{ height: 50, borderTopWidth: 1,  borderBottomWidth: 1, borderColor: '#364756' }}
       tabStyle={{ backgroundColor: 'transparent', borderColor: 'transparent' }}
-      tabTextStyle={{ color: '#9ea5ab' }}
+      tabTextStyle={{ color: '#9ea5ab', fontFamily: 'AvenirNextCyr-Regular', fontSize: 14 }}
       activeTabStyle={{ backgroundColor: '#364756', borderColor: '#364756' }}
       />
   </View>

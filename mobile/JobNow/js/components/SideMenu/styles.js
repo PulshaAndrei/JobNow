@@ -27,7 +27,8 @@ export default StyleSheet.create({
     backgroundColor: "#f8f8f8",
   },
   menuButtonText: {
-    fontSize: 14,
-    color: "#1d1d26"
+    fontSize: 20,
+    fontFamily: 'AvenirNextCyr-Light',
+    color: "#1d1d26",
   }
 });

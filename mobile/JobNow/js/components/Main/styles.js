@@ -6,10 +6,11 @@ export default StyleSheet.create({
   },
   mainHeader: {
     height: 240,
-    paddingTop: StatusBar.currentHeight,
     backgroundColor: '#0f334c',
   },
   mainHeaderBackground: {
+    paddingTop: 20,
+    backgroundColor: 'transparent',
     flex: 1,
     resizeMode: 'cover',
     width: Dimensions.get('window').width,
@@ -30,13 +31,14 @@ export default StyleSheet.create({
   },
   headerTitle: {
     color: 'white',
-    fontSize: 18,
+    fontFamily: 'AvenirNextCyr-Light',
+    fontSize: 20,
     marginBottom: 10,
   },
   headerSubTitle: {
     color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontFamily: 'AvenirNextCyr-Medium',
     marginBottom: 10,
   },
   monthControl: {
@@ -52,5 +54,7 @@ export default StyleSheet.create({
   },
   monthControlText: {
     color: 'white',
+    fontFamily: 'AvenirNextCyr-Light',
+    fontSize: 16,
   }
 });

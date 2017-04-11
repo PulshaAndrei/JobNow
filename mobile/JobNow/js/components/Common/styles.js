@@ -7,10 +7,14 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    marginTop: (Platform.OS === 'ios') ? 20 : 0,
+    backgroundColor: 'transparent',
   },
   descriptionTitle: {
     color: 'white',
-    padding: 20,
+    fontFamily: 'AvenirNextCyr-Regular',
+    fontSize: 16,
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
   },
 });

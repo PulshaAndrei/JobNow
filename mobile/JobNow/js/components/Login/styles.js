@@ -27,10 +27,9 @@ export default StyleSheet.create({
   },
   brandTitleText: {
     color: 'white',
-    backgroundColor: 'transparent', //TODO
     textAlign: 'center',
     fontSize: 64,
-    fontWeight: '200',
+    fontFamily: 'AvenirNextCyr-Thin',
   },
   loginButton: {
     backgroundColor: '#13bdbf',
@@ -44,6 +43,8 @@ export default StyleSheet.create({
   },
   loginButtonText: {
     color: 'white',
+    fontFamily: 'AvenirNextCyr-Light',
+    fontSize: 16,
   },
   signupButton: {
     flexDirection: 'row',
@@ -53,17 +54,21 @@ export default StyleSheet.create({
     marginBottom: 40,
   },
   signupButtonLabel: {
-    color: 'white',
+    color: '#a6a9ac',
     marginRight: 10,
-    backgroundColor: 'transparent', //TODO
+    fontFamily: 'AvenirNextCyr-Light',
+    fontSize: 14,
   },
   forgotButtonText: {
     color: 'white',
     textAlign: 'center',
+    fontFamily: 'AvenirNextCyr-Light',
+    fontSize: 14,
   },
   signupButtonRegistration: {
     color: 'white',
-    fontWeight: 'bold',
+    fontFamily: 'AvenirNextCyr-Medium',
+    fontSize: 14,
   },
   input: {
     flexDirection: 'row',
@@ -73,12 +78,15 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
   },
   textInputView: {
-    paddingLeft: 10,
+    paddingLeft: 15,
     flex: 1,
   },
   textInput: {
     height: 40,
     alignSelf: 'stretch',
     color: 'white',
+    fontFamily: 'AvenirNextCyr-Regular',
+    fontSize: 18,
+    paddingBottom: (Platform.OS === 'ios') ? 7 : 12,
   },
 });

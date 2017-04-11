@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { StyleSheet, Platform, Dimensions, StatusBar } from 'react-native';
 
 //import { WHITE, BRIGHTSKYBLUE, AQUAMARINE, GREENBLUE, DARKSEAGREEN, DUSKBLUE, COLOR_BLUE, COLOR_GREEN, COLOR_ORANGE, COLOR_BLUE_LIGHT_BORDER } from '../../styles/variables';
 
@@ -17,6 +17,12 @@ export default StyleSheet.create({
   },
   headerTitle: {
     color: 'white',
-    fontSize: 24,
-  }
+    fontFamily: 'AvenirNextCyr-Thin',
+    fontSize: 32,
+  },
+  leftButton: {
+    width: 45,
+    height: 45,
+    marginLeft: 5,
+  },
 });
