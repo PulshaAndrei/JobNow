@@ -15,7 +15,7 @@ export default class NavigationDrawer extends Component {
         title: "Поиск заказов",
         onPress: async () => {
           this.setState({ currentItem: 0 });
-          await Actions.mainM();
+          await Actions.main();
           Actions.refresh({key:state.key, open: false});
         },
       },
@@ -24,6 +24,30 @@ export default class NavigationDrawer extends Component {
         onPress:  async () => {
           this.setState({ currentItem: 1 });
           await Actions.registrationM();
+          Actions.refresh({key:state.key, open: false});
+        },
+      },
+      {
+        title: "Мои заказы",
+        onPress:  async () => {
+          this.setState({ currentItem: 2 });
+          await Actions.main();
+          Actions.refresh({key:state.key, open: false});
+        },
+      },
+      {
+        title: "Мои отклики",
+        onPress:  async () => {
+          this.setState({ currentItem: 3 });
+          await Actions.main();
+          Actions.refresh({key:state.key, open: false});
+        },
+      },
+      {
+        title: "Настройки",
+        onPress:  async () => {
+          this.setState({ currentItem: 4 });
+          await Actions.main();
           Actions.refresh({key:state.key, open: false});
         },
       }

@@ -5,7 +5,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   mainHeader: {
-    height: 200,
+    height: 240,
     paddingTop: StatusBar.currentHeight,
     backgroundColor: '#0f334c',
   },
@@ -37,6 +37,20 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 10,
   },
+  monthControl: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  monthControlButton: {
+    width: 30,
+    alignItems: 'center',
+  },
+  monthControlText: {
+    color: 'white',
+  }
 });
