@@ -23,15 +23,15 @@ class App extends Component {
   }
   render = () => {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#01162b" }}>
         <StatusBar barStyle="light-content" translucent backgroundColor="rgba(12,29,46,0.5)" />
-        <Router getSceneStyle={() => ({ /*backgroundColor: "#01162b"*/ })}>
-          <Scene key="root">
+        <Router>
+          <Scene key="root" getSceneStyle={() => ({ backgroundColor: "#01162b" })}>
 
             <Scene key="initial" component={InitialPage} hideNavBar type="replace" initial />
 
             <Scene key="login" component={Login} hideNavBar type="replace" />
-            <Scene key="signup" navBar={Header} title="Регистрация">
+            <Scene key="signup" navBar={Header} title="Регистрация" getSceneStyle={() => ({ backgroundColor: "#01162b" })}>
               <Scene key="phoneNumber" component={PhoneNumber} />
               <Scene key="phoneConfirmation" component={PhoneConfirmation} />
               <Scene key="registration" component={Registration} />
