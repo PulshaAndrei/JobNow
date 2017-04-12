@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableHighlight, Text, TextInput, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 
 import styles from './styles';
@@ -11,14 +12,14 @@ export const MainView = ({ children }) => (
   </View>
 );
 
-export const MainHeader = ({ children, onMenu, onPrevMonth, onNextMonth, currentMonth }) => (
+export const MainHeader = ({ children, onMenu, onFilter, onPrevMonth, onNextMonth, currentMonth }) => (
   <View style={styles.mainHeader}>
     <Image source={require('../../resourses/home_background.png')} style={styles.mainHeaderBackground}>
       <View style={styles.headerButtons}>
         <TouchableHighlight style={styles.menuButton} onPress={onMenu}>
           <Icon name="ios-menu-outline" size={30} color="white" />
         </TouchableHighlight>
-        <TouchableHighlight style={styles.menuButton}>
+        <TouchableHighlight style={styles.menuButton} onPress={onFilter}>
           <Icon name="ios-funnel-outline" size={30} color="white" />
         </TouchableHighlight>
       </View>
@@ -36,5 +37,49 @@ export const MainHeader = ({ children, onMenu, onPrevMonth, onNextMonth, current
         </TouchableHighlight>
       </View>
     </Image>
+  </View>
+);
+
+export const JobList = ({ children }) => (
+  <View>
+    {children}
+  </View>
+);
+
+export const JobItem = ({ title }) => (
+  <View>
+    <Text>{title}</Text>
+  </View>
+);
+
+export const MainFilterHeader = ({ onBack }) => (
+  <View style={styles.mainFilterHeader}>
+    <Image source={require('../../resourses/main_filter-background.png')} style={styles.mainFilterHeaderBackground}>
+      <TouchableHighlight style={styles.menuButton} onPress={onBack}>
+        <Icon name="ios-arrow-round-back-outline" size={45} color="white" />
+      </TouchableHighlight>
+      <Text style={styles.headerFilterTitle}>Фильтрация по категориям</Text>
+    </Image>
+  </View>
+);
+
+export const CategoriesScrollView = ({ children }) => (
+  <ScrollView style={styles.categoriesScrollView}>
+    {children}
+  </ScrollView>
+);
+
+export const CategoryRow = ({ children }) => (
+  <View style={styles.categoryRow}>
+    {children}
+  </View>
+);
+
+export const Category = ({ title, icon, color, onPress, isLeft, selected }) => (
+  <View style={[styles.category, isLeft && styles.categoryLeft]}>
+    <View style={[styles.categoryIconView, selected && { borderColor: color, borderWidth: 1 }]}>
+      <MaterialIcon name={icon} size={45} style={[styles.categoryIcon, selected && { color: color}]} />
+    </View>
+    <Text style={styles.categoryTitle}>{title}</Text>
   </View>
 );

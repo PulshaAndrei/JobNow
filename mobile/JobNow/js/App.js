@@ -15,6 +15,7 @@ import PhoneConfirmation from './containers/Signup/PhoneConfirmation';
 import Registration from './containers/Signup/Registration';
 
 import Main from './containers/Main';
+import MainFilter from './containers/Main/MainFilter';
 
 class App extends Component {
   constructor(props) {
@@ -38,8 +39,11 @@ class App extends Component {
             </Scene>
 
             <Scene key="drawer" component={NavigationDrawer} open={false} type="replace" >
-              <Scene key="drawerWrapper" tabs={true} >
-                <Scene key="main" component={Main} hideNavBar />
+              <Scene key="drawerWrapper" tabs={true}>
+                <Scene key="mainNavigationTab" hideNavBar>
+                  <Scene key="main" component={Main} />
+                  <Scene key="mainFilter" component={MainFilter} />
+                </Scene>
                 <Scene key="registrationM" component={Registration} hideNavBar />
               </Scene>
             </Scene>

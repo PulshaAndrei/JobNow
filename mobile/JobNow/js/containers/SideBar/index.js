@@ -15,7 +15,7 @@ export default class NavigationDrawer extends Component {
         title: "Поиск заказов",
         onPress: async () => {
           this.setState({ currentItem: 0 });
-          await Actions.main();
+          await Actions.mainNavigationTab();
           Actions.refresh({key:state.key, open: false});
         },
       },

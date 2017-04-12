@@ -14,7 +14,6 @@ export default StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     width: Dimensions.get('window').width,
-    //height: 200,
   },
   headerButtons: {
     flexDirection: 'row',
@@ -32,12 +31,12 @@ export default StyleSheet.create({
   headerTitle: {
     color: 'white',
     fontFamily: 'AvenirNextCyr-Light',
-    fontSize: 20,
+    fontSize: 32,
     marginBottom: 10,
   },
   headerSubTitle: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 24,
     fontFamily: 'AvenirNextCyr-Medium',
     marginBottom: 10,
   },
@@ -56,5 +55,57 @@ export default StyleSheet.create({
     color: 'white',
     fontFamily: 'AvenirNextCyr-Light',
     fontSize: 16,
-  }
+  },
+  mainFilterHeaderBackground: {
+    paddingTop: 20,
+    backgroundColor: 'transparent',
+    flex: 1,
+    resizeMode: 'cover',
+    width: Dimensions.get('window').width,
+  },
+  mainFilterHeader: {
+    height: 220,
+  },
+  headerFilterTitle: {
+    color: 'white',
+    fontFamily: 'AvenirNextCyr-Light',
+    fontSize: 32,
+    marginBottom: 20,
+    marginHorizontal: 30,
+  },
+  categoryRow: {
+    flex: 1,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: '#f4f4f4',
+  },
+  category: {
+    flex: 1,
+    aspectRatio: 1,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  categoryLeft: {
+    borderRightWidth: 1,
+    borderColor: '#f4f4f4',
+  },
+  categoryTitle: {
+    color: 'black',
+    fontSize: 16,
+    fontFamily: 'AvenirNextCyr-Regular',
+    textAlign: 'center',
+  },
+  categoriesScrollView: {
+    flex: 1,
+  },
+  categoryIcon: {
+    color: '#a8a8aa',
+  },
+  categoryIconView: {
+    marginBottom: 15,
+    backgroundColor: '#f4f4f4',
+    padding: 20,
+    borderRadius: 200,
+  },
 });

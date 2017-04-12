@@ -5,7 +5,8 @@ import moment from 'moment';
 require('moment/locale/ru');
 
 import { Container } from '../../components/Common';
-import { MainView, MainHeader } from '../../components/Main';
+import { MainView, MainHeader, JobList, JobItem } from '../../components/Main';
+
 
 class Main extends Component {
   state = {
@@ -27,6 +28,7 @@ class Main extends Component {
   }
 
   render() {
+    const jobs = [];
     return (
       <Container>
         <MainView>
@@ -37,6 +39,11 @@ class Main extends Component {
             onNextMonth={this.next}
             currentMonth={this.state.currentDate.format('MMMM').toUpperCase()}
           />
+          <JobList>
+            {jobs.map((item, i) => {
+              <JobItem title={item.title} />
+            })}
+          </JobList>
         </MainView>
       </Container>
     );
