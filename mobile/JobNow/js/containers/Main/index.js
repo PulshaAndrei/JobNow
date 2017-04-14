@@ -5,8 +5,7 @@ import moment from 'moment';
 require('moment/locale/ru');
 
 import { Container } from '../../components/Common';
-import { MainView, MainHeader, JobList, JobItem } from '../../components/Main';
-
+import { MainView, MainHeader, JobList, JobItem, SectionHeader } from '../../components/Main';
 
 class Main extends Component {
   state = {
@@ -28,7 +27,34 @@ class Main extends Component {
   }
 
   render() {
-    const jobs = [];
+    const jobs = [
+      {
+        date: moment(),
+        title: "123 dsajf jas fdjsadgh fgasd fhasd gfhsag fhkgasd",
+        address: "Октябрьская 10а",
+        price: 15.5,
+        category: {
+          color: "rgb(84, 132, 237)",
+          icon: "account-balance",
+        },
+      },
+      {
+        date: moment(),
+        title: "123",
+        category: {
+          color: "rgb(84, 132, 237)",
+          icon: "account-balance",
+        },
+      },
+      {
+        date: moment().add(1, 'day'),
+        title: "245",
+        category: {
+          color: "rgb(84, 132, 237)",
+          icon: "account-balance",
+        },
+      }
+    ];
     return (
       <Container>
         <MainView>
@@ -40,9 +66,13 @@ class Main extends Component {
             currentMonth={this.state.currentDate.format('MMMM').toUpperCase()}
           />
           <JobList>
-            {jobs.map((item, i) => {
-              <JobItem title={item.title} />
-            })}
+            {jobs.map((item, i) => (
+              <JobItem
+                key={`item-${i}`}
+                item={item}
+                prevItem={jobs[i-1]}
+              />
+            ))}
           </JobList>
         </MainView>
       </Container>

@@ -41,14 +41,33 @@ export const MainHeader = ({ children, onMenu, onFilter, onPrevMonth, onNextMont
 );
 
 export const JobList = ({ children }) => (
-  <View>
+  <ScrollView>
     {children}
+  </ScrollView>
+);
+
+export const JobItem = ({ item, prevItem }) => (
+  <View>
+    {!(prevItem && prevItem.date.isSame(item.date, 'days')) && <SectionHeader title={item.date.format('dddd, DD MMMM').toUpperCase()} />}
+    <View style={[styles.jobItemView, { borderColor: item.category.color }]}>
+      <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
+      <View style={styles.jobItemInfo}>
+        <View style={styles.jobItemTextRow}>
+          <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.title}</Text>
+          <Text style={styles.jobItemPriceTitle} numberOfLines={1}>{item.price} руб.</Text>
+        </View>
+        <View style={styles.jobItemTextRow}>
+          <Text style={styles.jobItemTextAddress}>{item.address}</Text>
+          <Text>{item.distance} м</Text>
+        </View>
+      </View>
+    </View>
   </View>
 );
 
-export const JobItem = ({ title }) => (
-  <View>
-    <Text>{title}</Text>
+export const SectionHeader = ({ title }) => (
+  <View style={styles.sectionHeader}>
+    <Text style={styles.sectionHeaderText}>{title}</Text>
   </View>
 );
 
