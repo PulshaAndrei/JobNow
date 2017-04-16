@@ -17,6 +17,8 @@ import Registration from './containers/Signup/Registration';
 import Main from './containers/Main';
 import MainFilter from './containers/Main/MainFilter';
 
+import Profile from './containers/Profile';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +46,9 @@ class App extends Component {
                   <Scene key="main" component={Main} />
                   <Scene key="mainFilter" component={MainFilter} />
                 </Scene>
-                <Scene key="registrationM" component={Registration} hideNavBar />
+                <Scene key="profileNavigationTab" hideNavBar>
+                  <Scene key="profile" component={Profile} />
+                </Scene>
               </Scene>
             </Scene>
 

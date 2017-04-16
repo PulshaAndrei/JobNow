@@ -23,7 +23,7 @@ export default class NavigationDrawer extends Component {
         title: "Профиль",
         onPress:  async () => {
           this.setState({ currentItem: 1 });
-          await Actions.registrationM();
+          await Actions.profileNavigationTab();
           Actions.refresh({key:state.key, open: false});
         },
       },
