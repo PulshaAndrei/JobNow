@@ -58,7 +58,7 @@ export const JobItem = ({ item, prevItem }) => (
         </View>
         <View style={styles.jobItemTextRow}>
           <Text style={styles.jobItemTextAddress}>{item.address}</Text>
-          <Text>{item.distance} м</Text>
+          <Text style={styles.jobItemTextDistance}>{item.distance} м</Text>
         </View>
       </View>
     </View>
