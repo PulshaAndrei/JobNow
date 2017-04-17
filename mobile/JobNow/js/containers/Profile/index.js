@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 import { Container } from '../../components/Common';
-import { ProfileView, ProfileHeader } from '../../components/Profile';
+import { ProfileView, ProfileHeader, InputItem, SwitchItem } from '../../components/Profile';
 
 class Profile extends Component {
   render() {
@@ -14,6 +14,11 @@ class Profile extends Component {
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
             onFilter={Actions.mainFilter}
           />
+          <InputItem title="Имя" value="Иван" setValue={() => {}} />
+          <InputItem title="Фамилия" value="Иванов" setValue={() => {}} />
+          <InputItem title="Номер телефона" value="+375 (44) 579 8272" disavled />
+          <SwitchItem title="Телефон виден всем" value={true} setValue={() => {}} />
+          <InputItem title="E-mail" value="ivan@ivanov.by" setValue={() => {}} keyboardType="email-address" />
         </ProfileView>
       </Container>
     );
