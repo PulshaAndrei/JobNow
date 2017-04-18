@@ -19,6 +19,8 @@ import MainFilter from './containers/Main/MainFilter';
 
 import Profile from './containers/Profile';
 
+import Settings from './containers/Settings';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +50,15 @@ class App extends Component {
                 </Scene>
                 <Scene key="profileNavigationTab" hideNavBar>
                   <Scene key="profile" component={Profile} />
+                </Scene>
+                <Scene key="myOrdersNavigationTab" hideNavBar>
+                  <Scene key="orders" component={Profile} />
+                </Scene>
+                <Scene key="myApplicationsNavigationTab" hideNavBar>
+                  <Scene key="applications" component={Profile} />
+                </Scene>
+                <Scene key="settingsNavigationTab" hideNavBar>
+                  <Scene key="settings" component={Settings} />
                 </Scene>
               </Scene>
             </Scene>

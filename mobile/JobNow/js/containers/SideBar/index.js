@@ -31,7 +31,7 @@ export default class NavigationDrawer extends Component {
         title: "Мои заказы",
         onPress:  async () => {
           this.setState({ currentItem: 2 });
-          await Actions.main();
+          await Actions.myOrdersNavigationTab();
           Actions.refresh({key:state.key, open: false});
         },
       },
@@ -39,7 +39,7 @@ export default class NavigationDrawer extends Component {
         title: "Мои отклики",
         onPress:  async () => {
           this.setState({ currentItem: 3 });
-          await Actions.main();
+          await Actions.myApplicationsNavigationTab();
           Actions.refresh({key:state.key, open: false});
         },
       },
@@ -47,7 +47,7 @@ export default class NavigationDrawer extends Component {
         title: "Настройки",
         onPress:  async () => {
           this.setState({ currentItem: 4 });
-          await Actions.main();
+          await Actions.settingsNavigationTab();
           Actions.refresh({key:state.key, open: false});
         },
       }
