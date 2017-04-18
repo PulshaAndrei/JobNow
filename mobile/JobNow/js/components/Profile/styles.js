@@ -31,7 +31,7 @@ export default StyleSheet.create({
   profileHeaderAvatar: {
     width: 110,
     height: 110,
-    borderRadius: 120,
+    borderRadius: 55,
   },
   headerName: {
     color: 'white',

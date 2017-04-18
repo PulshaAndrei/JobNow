@@ -81,7 +81,7 @@ export default StyleSheet.create({
     flex: 0.2,
     aspectRatio: 1,
     //width: 55,
-    borderRadius: 100,
+    borderRadius: (Dimensions.get('window').width - 100) * 0.1,
     marginRight: 10,
   },
   /*jobItemIconView: {
