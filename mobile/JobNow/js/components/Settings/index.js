@@ -12,16 +12,16 @@ export const SettingsView = ({ children }) => (
   </View>
 );
 
-export const SettingsHeader = ({ onMenu, onSave, isSaveEnabled }) => (
+export const SettingsHeader = ({ title, onMenu, onBack }) => (
   <View style={styles.settingsHeader}>
     <Image source={require('../../resourses/background_settings.png')} style={styles.settingsHeaderBackground}>
       <View style={styles.headerButtons}>
-        <TouchableHighlight style={styles.menuButton} onPress={onMenu}>
-          <Icon name="ios-menu-outline" size={30} color="white" />
+        <TouchableHighlight style={styles.menuButton} onPress={onMenu || onBack}>
+          <Icon name={onMenu ? "ios-menu-outline" : "ios-arrow-round-back-outline"} size={30} color="white" />
         </TouchableHighlight>
       </View>
       <View style={styles.headerInfo}>
-        <Text style={styles.headerName}>Настройки</Text>
+        <Text style={styles.headerName}>{title}</Text>
       </View>
     </Image>
   </View>
@@ -40,4 +40,19 @@ export const LogoutButton = ({ onPress }) => (
   <TouchableHighlight style={styles.settingsButton} onPress={onPress}>
     <Text style={styles.settingsButtonTitle}>Выход</Text>
   </TouchableHighlight>
+);
+
+export const SettingsSwitcher = ({ title, value, setValue }) => (
+  <View style={styles.settingsButton}>
+    <View>
+      <Text style={styles.settingsButtonTitle}>{title}</Text>
+    </View>
+    <View style={styles.inputItemSwitchView}>
+      <Switch
+        value={value}
+        onValueChange={setValue}
+        style={styles.inputItemSwitch}
+      />
+    </View>
+  </View>
 );

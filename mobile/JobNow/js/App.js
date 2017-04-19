@@ -20,6 +20,7 @@ import MainFilter from './containers/Main/MainFilter';
 import Profile from './containers/Profile';
 
 import Settings from './containers/Settings';
+import NotificationsSettings from './containers/Settings/NotificationsSettings';
 
 class App extends Component {
   constructor(props) {
@@ -59,6 +60,7 @@ class App extends Component {
                 </Scene>
                 <Scene key="settingsNavigationTab" hideNavBar>
                   <Scene key="settings" component={Settings} />
+                  <Scene key="notificationsSettings" component={NotificationsSettings} />
                 </Scene>
               </Scene>
             </Scene>

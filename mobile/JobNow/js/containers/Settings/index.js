@@ -11,10 +11,11 @@ class Settings extends Component {
       <Container>
         <SettingsView>
           <SettingsHeader
+            title="Настройки"
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
             onFilter={Actions.mainFilter}
           />
-          <SettingButton title="Уведомления" onPress={Actions.notifications}/>
+          <SettingButton title="Уведомления" onPress={Actions.notificationsSettings}/>
           <SettingButton title="Справка и поддержка" onPress={Actions.support}/>
           <SettingButton title="Контакты" onPress={Actions.support}/>
           <LogoutButton onPress={() => {}} />
