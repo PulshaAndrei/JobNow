@@ -33,7 +33,7 @@ export default StyleSheet.create({
     fontFamily: 'AvenirNextCyr-Light',
     fontSize: 32,
     marginBottom: 10,
-    marginLeft: 30,
+    marginHorizontal: 30,
   },
   settingsButton: {
     flexDirection: 'row',
