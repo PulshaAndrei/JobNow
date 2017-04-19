@@ -5,7 +5,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   mainHeader: {
-    height: 240,
+    height: 280,
     backgroundColor: '#0f334c',
   },
   mainHeaderBackground: {

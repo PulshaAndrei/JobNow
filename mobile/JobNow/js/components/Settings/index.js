@@ -17,7 +17,11 @@ export const SettingsHeader = ({ title, onMenu, onBack }) => (
     <Image source={require('../../resourses/background_settings.png')} style={styles.settingsHeaderBackground}>
       <View style={styles.headerButtons}>
         <TouchableHighlight style={styles.menuButton} onPress={onMenu || onBack}>
-          <Icon name={onMenu ? "ios-menu-outline" : "ios-arrow-round-back-outline"} size={30} color="white" />
+          <Icon
+            name={onMenu ? "ios-menu-outline" : "ios-arrow-round-back-outline"}
+            size={onMenu ? 30 : 45}
+            color="white"
+          />
         </TouchableHighlight>
       </View>
       <View style={styles.headerInfo}>
