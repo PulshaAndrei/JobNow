@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { Container } from '../../components/Common';
-import { ProfileView, ProfileHeader, InputItem, SwitchItem } from '../../components/Profile';
+import { Container, SwitchItem } from '../../components/Common';
+import { ProfileView, ProfileHeader, InputItem } from '../../components/Profile';
 
 class Profile extends Component {
   render() {

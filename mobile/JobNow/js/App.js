@@ -19,6 +19,10 @@ import MainFilter from './containers/Main/MainFilter';
 
 import Profile from './containers/Profile';
 
+import MyOrders from './containers/MyOrders';
+
+import MyProposals from './containers/MyProposals';
+
 import Settings from './containers/Settings';
 import NotificationsSettings from './containers/Settings/NotificationsSettings';
 
@@ -53,10 +57,10 @@ class App extends Component {
                   <Scene key="profile" component={Profile} />
                 </Scene>
                 <Scene key="myOrdersNavigationTab" hideNavBar>
-                  <Scene key="orders" component={Profile} />
+                  <Scene key="orders" component={MyOrders} />
                 </Scene>
                 <Scene key="myApplicationsNavigationTab" hideNavBar>
-                  <Scene key="applications" component={Profile} />
+                  <Scene key="applications" component={MyProposals} />
                 </Scene>
                 <Scene key="settingsNavigationTab" hideNavBar>
                   <Scene key="settings" component={Settings} />

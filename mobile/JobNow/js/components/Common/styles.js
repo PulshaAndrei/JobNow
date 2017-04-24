@@ -17,4 +17,32 @@ export default StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 20,
   },
+  inputItem: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: "#e8e8e9",
+    height: 60,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  inputItemTitleText: {
+    color: '#8e8e92',
+    fontFamily: 'AvenirNextCyr-Regular',
+    fontSize: 16,
+  },
+  inputItemTextInputView: {
+    flex: 3,
+  },
+  inputItemTextInput: {
+    alignSelf: 'stretch',
+    textAlign: 'right',
+    color: 'black',
+    fontFamily: 'AvenirNextCyr-Regular',
+    fontSize: 16,
+    paddingBottom: (Platform.OS === 'ios') ? 0 : 5,
+  },
+  inputItemSwitchView: {
+    alignItems: 'flex-end',
+    flex: 1,
+  },
 });

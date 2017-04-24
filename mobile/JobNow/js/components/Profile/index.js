@@ -48,18 +48,3 @@ export const InputItem = ({ title, value, setValue, keyboardType, disabled }) =>
     </View>
   </View>
 );
-
-export const SwitchItem = ({ title, value, setValue }) => (
-  <View style={styles.inputItem}>
-    <View>
-      <Text style={styles.inputItemTitleText}>{title}</Text>
-    </View>
-    <View style={styles.inputItemSwitchView}>
-      <Switch
-        value={value}
-        onValueChange={setValue}
-        style={styles.inputItemSwitch}
-      />
-    </View>
-  </View>
-);
