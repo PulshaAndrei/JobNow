@@ -11,18 +11,3 @@ export const MyProposalsView = ({ children }) => (
     {children}
   </View>
 );
-
-export const MyProposalsHeader = ({ onMenu }) => (
-  <View style={styles.header}>
-    <Image source={require('../../resourses/home_background.png')} style={styles.headerBackground}>
-      <View style={styles.headerButtons}>
-        <TouchableHighlight style={styles.menuButton} onPress={onMenu}>
-          <Icon name="ios-menu-outline" size={30} color="white" />
-        </TouchableHighlight>
-      </View>
-      <View style={styles.headerInfo}>
-        <Text style={styles.headerName}>Мои отклики</Text>
-      </View>
-    </Image>
-  </View>
-);

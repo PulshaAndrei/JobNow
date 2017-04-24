@@ -5,7 +5,8 @@ import moment from 'moment';
 require('moment/locale/ru');
 
 import { Container, SwitchItem } from '../../components/Common';
-import { MyProposalsView, MyProposalsHeader } from '../../components/MyProposals';
+import { HeaderWithMenu } from '../../components/Header';
+import { MyProposalsView } from '../../components/MyProposals';
 import { JobList, JobItem, SectionHeader } from '../../components/Main';
 
 class MyProposals extends Component {
@@ -41,7 +42,11 @@ class MyProposals extends Component {
     return (
       <Container>
         <MyProposalsView>
-          <MyProposalsHeader onMenu={() => Actions.refresh({key: 'drawer', open: true })}/>
+          <HeaderWithMenu
+            imageSource={require('../../resourses/home_background.png')}
+            title="Мои отклики"
+            onMenu={() => Actions.refresh({key: 'drawer', open: true })}
+          />
           <SwitchItem title="Показать завершенные" value={false} setValue={() => {}} />
           <JobList>
             {jobs.map((item, i) => (

@@ -12,21 +12,6 @@ export const MyOrdersView = ({ children }) => (
   </View>
 );
 
-export const MyOrdersHeader = ({ onMenu }) => (
-  <View style={styles.header}>
-    <Image source={require('../../resourses/home_background.png')} style={styles.headerBackground}>
-      <View style={styles.headerButtons}>
-        <TouchableHighlight style={styles.menuButton} onPress={onMenu}>
-          <Icon name="ios-menu-outline" size={30} color="white" />
-        </TouchableHighlight>
-      </View>
-      <View style={styles.headerInfo}>
-        <Text style={styles.headerName}>Мои заказы</Text>
-      </View>
-    </Image>
-  </View>
-);
-
 export const CreateButton = ({ onCreate }) => (
   <TouchableHighlight style={styles.createButton} onPress={onCreate}>
     <Icon name="ios-add" size={40} color="white" />

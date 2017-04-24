@@ -5,7 +5,8 @@ import moment from 'moment';
 require('moment/locale/ru');
 
 import { Container } from '../../components/Common';
-import { MyOrdersView, MyOrdersHeader, JobItemWithProposals, CreateButton } from '../../components/MyOrders';
+import { HeaderWithMenu } from '../../components/Header';
+import { MyOrdersView, JobItemWithProposals, CreateButton } from '../../components/MyOrders';
 import { JobList, SectionHeader } from '../../components/Main';
 
 class MyOrders extends Component {
@@ -41,7 +42,11 @@ class MyOrders extends Component {
     return (
       <Container>
         <MyOrdersView>
-          <MyOrdersHeader onMenu={() => Actions.refresh({key: 'drawer', open: true })}/>
+          <HeaderWithMenu
+            imageSource={require('../../resourses/home_background.png')}
+            title="Мои заказы"
+            onMenu={() => Actions.refresh({key: 'drawer', open: true })}
+          />
           <CreateButton onCreate={Actions.createJob} />
           <JobList>
             <SectionHeader title="Активные" />
