@@ -4,28 +4,11 @@ import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
 require('moment/locale/ru');
 
-import { Container } from '../../components/Common';
-import { MainView, MainHeader, JobList, JobItem, SectionHeader } from '../../components/Main';
+import { Container, SwitchItem } from '../../components/Common';
+import { MyProposalsView, MyProposalsHeader } from '../../components/MyProposals';
+import { JobList, JobItem, SectionHeader } from '../../components/Main';
 
 class MyProposals extends Component {
-  state = {
-    currentDate: moment()
-  }
-
-  prev = () => {
-    const newDate = this.state.currentDate.subtract(1, 'months');
-    if (!newDate.isSameOrAfter(moment(), 'month')) {
-      return;
-    }
-    //this.props.prev(newDate);
-    this.setState({ currentDate: newDate });
-  }
-  next = () => {
-    const newDate = this.state.currentDate.add(1, 'months');
-    //this.props.next(newDate);
-    this.setState({ currentDate: newDate });
-  }
-
   render() {
     const jobs = [
       {
@@ -57,14 +40,9 @@ class MyProposals extends Component {
     ];
     return (
       <Container>
-        <MainView>
-          <MainHeader
-            onMenu={() => Actions.refresh({key: 'drawer', open: true })}
-            onFilter={Actions.mainFilter}
-            onPrevMonth={this.prev}
-            onNextMonth={this.next}
-            currentMonth={this.state.currentDate.format('MMMM').toUpperCase()}
-          />
+        <MyProposalsView>
+          <MyProposalsHeader onMenu={() => Actions.refresh({key: 'drawer', open: true })}/>
+          <SwitchItem title="Показать завершенные" value={false} setValue={() => {}} />
           <JobList>
             {jobs.map((item, i) => (
               <JobItem
@@ -74,7 +52,7 @@ class MyProposals extends Component {
               />
             ))}
           </JobList>
-        </MainView>
+        </MyProposalsView>
       </Container>
     );
   }

@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
 require('moment/locale/ru');
 
-import { Container, SwitchItem } from '../../components/Common';
+import { Container } from '../../components/Common';
 import { MyOrdersView, MyOrdersHeader, JobItemWithProposals, CreateButton } from '../../components/MyOrders';
 import { JobList, SectionHeader } from '../../components/Main';
 
