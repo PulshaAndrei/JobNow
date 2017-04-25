@@ -28,3 +28,39 @@ export const SwitchItem = ({ title, value, setValue }) => (
     </View>
   </View>
 );
+
+export const InputItem = ({ title, value, setValue, keyboardType, disabled }) => (
+  <View style={styles.inputItem}>
+    <View>
+      <Text style={styles.inputItemTitleText}>{title}</Text>
+    </View>
+    <View style={styles.inputItemTextInputView}>
+      <TextInput
+        value={value}
+        onChange={setValue}
+        style={styles.inputItemTextInput}
+        keyboardType={keyboardType}
+        disabled={disabled}
+        underlineColorAndroid={'transparent'}
+      />
+    </View>
+  </View>
+);
+
+export const InputDescriptionItem = ({ title, value, setValue }) => (
+  <View style={styles.inputDescriptionItem}>
+    <View>
+      <Text style={styles.inputItemTitleText}>{title}</Text>
+    </View>
+    <View>
+      <TextInput
+        value={value}
+        onChange={setValue}
+        multiline
+        style={[styles.inputItemTextInput, { textAlign: 'left' }]}
+        numberOfLines={3}
+        underlineColorAndroid={'transparent'}
+      />
+    </View>
+  </View>
+);

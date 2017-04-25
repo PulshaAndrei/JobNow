@@ -39,10 +39,12 @@ export default StyleSheet.create({
   headerButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   menuButton: {
     margin: 20,
-    width: 30,
+    width: 25,
+    alignItems: 'center',
   },
   headerInfo: {
     alignItems: 'flex-start',

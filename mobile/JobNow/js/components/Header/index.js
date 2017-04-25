@@ -29,3 +29,21 @@ export const HeaderWithMenu = ({ onMenu, title, imageSource }) => (
     </Image>
   </View>
 );
+
+export const HeaderWithSave = ({ onBack, onSave, title, imageSource, isSaveEnabled }) => (
+  <View style={styles.headerWithMenu}>
+    <Image source={imageSource} style={styles.headerBackground}>
+      <View style={styles.headerButtons}>
+        <TouchableHighlight style={styles.menuButton} onPress={onBack}>
+          <Icon name="ios-arrow-round-back-outline" size={45} color="white" />
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.menuButton} onPress={onSave}>
+            <Icon name="ios-checkmark-circle-outline" size={30} style={!isSaveEnabled && {opacity: 0.3}} color="white" />
+        </TouchableHighlight>
+      </View>
+      <View style={styles.headerInfo}>
+        <Text style={styles.headerName}>{title}</Text>
+      </View>
+    </Image>
+  </View>
+);

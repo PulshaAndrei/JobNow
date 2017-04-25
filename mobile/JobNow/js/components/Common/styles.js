@@ -25,6 +25,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
+  inputDescriptionItem: {
+    borderBottomWidth: 1,
+    borderColor: "#e8e8e9",
+    //height: 120,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
   inputItemTitleText: {
     color: '#8e8e92',
     fontFamily: 'AvenirNextCyr-Regular',

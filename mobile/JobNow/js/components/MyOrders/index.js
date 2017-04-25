@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableHighlight, Text, TextInput, Image, ScrollView } from 'react-native';
+import { View, TouchableHighlight, Text, TextInput, Image, ScrollView, Switch } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
@@ -14,7 +14,7 @@ export const MyOrdersView = ({ children }) => (
 
 export const CreateButton = ({ onCreate }) => (
   <TouchableHighlight style={styles.createButton} onPress={onCreate}>
-    <Icon name="ios-add" size={40} color="white" />
+    <Icon name="ios-add" size={45} color="white" />
   </TouchableHighlight>
 );
 
@@ -32,4 +32,65 @@ export const JobItemWithProposals = ({ item, prevItem }) => (
       </View>
     </View>
   </View>
+);
+
+export const SelectDateTime = ({ isAllDay, dateFrom, dateTo, setAllDay, setDayFrom, setDayTo }) => (
+  <View style={styles.selectDateTime}>
+    <View style={styles.allDay}>
+      <Text style={styles.inputItemTitleText}>Весь день</Text>
+      <Switch
+        value={isAllDay}
+        onValueChange={setAllDay}
+        style={styles.inputItemSwitch}
+      />
+    </View>
+    {!isAllDay &&
+      <View style={styles.dataRangeView}>
+        <Text style={styles.inputItemTitleText}>C</Text>
+        <View style={styles.dateRange}>
+          <TouchableHighlight style={styles.selectDateButton}>
+            <Text style={styles.selectDateText}>{dateFrom.format('MMMM DD, YYYY')}</Text>
+          </TouchableHighlight>
+          <TouchableHighlight>
+            <Text style={styles.selectDateText}>{dateFrom.format('HH:mm')}</Text>
+          </TouchableHighlight>
+        </View>
+      </View>}
+    {!isAllDay &&
+        <View style={styles.dataRangeView}>
+        <Text style={styles.inputItemTitleText}>До</Text>
+        <View style={styles.dateRange}>
+          <TouchableHighlight style={styles.selectDateButton}>
+            <Text style={styles.selectDateText}>{dateFrom.format('MMMM DD, YYYY')}</Text>
+          </TouchableHighlight>
+          <TouchableHighlight>
+            <Text style={styles.selectDateText}>{dateFrom.format('HH:mm')}</Text>
+          </TouchableHighlight>
+        </View>
+      </View>}
+  </View>
+);
+
+export const InputPrice = ({ value, setValue }) => (
+  <View style={styles.inputItem}>
+    <View>
+      <Text style={styles.inputItemTitleText}>Максимальная цена</Text>
+    </View>
+    <View style={styles.inputItemTextInputView}>
+      <TextInput
+        value={value}
+        onChange={setValue}
+        style={styles.inputItemTextInput}
+        keyboardType="numeric"
+        underlineColorAndroid={'transparent'}
+      />
+      <Text style={styles.inputItemTitleText}> руб.</Text>
+    </View>
+  </View>
+);
+
+export const CreateOrderScrollView = ({ children }) => (
+  <ScrollView>
+    {children}
+  </ScrollView>
 );

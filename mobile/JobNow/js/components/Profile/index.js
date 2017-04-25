@@ -30,21 +30,3 @@ export const ProfileHeader = ({ onMenu, onSave, isSaveEnabled }) => (
     </Image>
   </View>
 );
-
-export const InputItem = ({ title, value, setValue, keyboardType, disabled }) => (
-  <View style={styles.inputItem}>
-    <View>
-      <Text style={styles.inputItemTitleText}>{title}</Text>
-    </View>
-    <View style={styles.inputItemTextInputView}>
-      <TextInput
-        value={value}
-        onChange={setValue}
-        style={styles.inputItemTextInput}
-        keyboardType={keyboardType}
-        disabled={disabled}
-        underlineColorAndroid={'transparent'}
-      />
-    </View>
-  </View>
-);

@@ -47,9 +47,9 @@ class MyOrders extends Component {
             title="Мои заказы"
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
           />
-          <CreateButton onCreate={Actions.createJob} />
+          <CreateButton onCreate={Actions.createOrder} />
           <JobList>
-            <SectionHeader title="Активные" />
+            <SectionHeader title="АКТИВНЫЕ" />
             {jobs.map((item, i) => (
               <JobItemWithProposals
                 key={`item-${i}`}
@@ -57,7 +57,7 @@ class MyOrders extends Component {
                 prevItem={jobs[i-1]}
               />
             ))}
-            <SectionHeader title="Завершенные" />
+            <SectionHeader title="ЗАВЕРШЕННЫЕ" />
             {jobs.map((item, i) => (
               <JobItemWithProposals
                 key={`item-${i}`}

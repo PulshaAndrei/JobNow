@@ -20,6 +20,7 @@ import MainFilter from './containers/Main/MainFilter';
 import Profile from './containers/Profile';
 
 import MyOrders from './containers/MyOrders';
+import CreateOrder from './containers/MyOrders/CreateOrder';
 
 import MyProposals from './containers/MyProposals';
 
@@ -58,6 +59,7 @@ class App extends Component {
                 </Scene>
                 <Scene key="myOrdersNavigationTab" hideNavBar>
                   <Scene key="orders" component={MyOrders} />
+                  <Scene key="createOrder" component={CreateOrder} />
                 </Scene>
                 <Scene key="myApplicationsNavigationTab" hideNavBar>
                   <Scene key="applications" component={MyProposals} />
