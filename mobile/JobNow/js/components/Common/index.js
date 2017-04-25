@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableHighlight, Text, TextInput, Switch, Image } from 'react-native';
 import StarRating from 'react-native-star-rating';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './styles';
 
@@ -93,4 +94,10 @@ export const ProfileItem = ({ name, rating }) => (
       </View>
     </View>
   </View>
+);
+
+export const ApplyButton = ({ onPress }) => (
+  <TouchableHighlight style={styles.applyButton} onPress={onPress}>
+    <Icon name="ios-checkmark" size={45} color="white" />
+  </TouchableHighlight>
 );

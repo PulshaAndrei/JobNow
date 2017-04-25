@@ -71,6 +71,7 @@ class Main extends Component {
                 key={`item-${i}`}
                 item={item}
                 prevItem={jobs[i-1]}
+                onPress={Actions.orderDetails}
               />
             ))}
           </JobList>

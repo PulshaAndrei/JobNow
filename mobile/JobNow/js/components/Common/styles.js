@@ -91,4 +91,16 @@ export default StyleSheet.create({
     marginLeft: 10,
     marginTop: 2,
   },
+  applyButton: {
+    position: 'absolute',
+    top: 190,
+    right: 25,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#13bdbf',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1,
+  },
 });
