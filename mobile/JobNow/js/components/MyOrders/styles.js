@@ -118,6 +118,13 @@ export default StyleSheet.create({
     color: 'black',
     fontFamily: 'AvenirNextCyr-Regular',
     fontSize: 16,
-    paddingBottom: 0,//(Platform.OS === 'ios') ? 0 : 0,
+    paddingBottom: (Platform.OS === 'ios') ? 0 : 0,
+  },
+  myProposalView: {
+    backgroundColor: '#13bcbf',
+    borderRadius: 25,
+    padding: 8,
+    //width: 30,
+    //height: 30,
   },
 });

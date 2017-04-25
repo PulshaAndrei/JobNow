@@ -30,7 +30,7 @@ export default StyleSheet.create({
     borderColor: "#e8e8e9",
     //height: 120,
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   inputItemTitleText: {
     color: '#8e8e92',
@@ -51,5 +51,44 @@ export default StyleSheet.create({
   inputItemSwitchView: {
     alignItems: 'flex-end',
     flex: 1,
+  },
+  selectDateText: {
+    color: 'black',
+    fontFamily: 'AvenirNextCyr-Regular',
+    fontSize: 16,
+    textAlign: 'right',
+  },
+  jobItemAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius:25,
+    marginRight: 15,
+  },
+  jobItemTextTitle: {
+    color: 'black',
+    fontSize: 20,
+    fontFamily: 'AvenirNextCyr-Regular',
+    marginBottom: 5,
+    flex: 8,
+    alignSelf: 'stretch',
+  },
+  profileItem: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: "#e8e8e9",
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+  },
+  starRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  starText: {
+    color: '#c1c1c1',
+    fontSize: 14,
+    fontFamily: 'AvenirNextCyr-Light',
+    marginLeft: 10,
+    marginTop: 2,
   },
 });

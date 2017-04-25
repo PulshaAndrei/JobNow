@@ -53,6 +53,7 @@ class MyProposals extends Component {
               <JobItem
                 key={`item-${i}`}
                 item={item}
+                onPress={Actions.orderDetailsByProposal}
                 prevItem={jobs[i-1]}
               />
             ))}

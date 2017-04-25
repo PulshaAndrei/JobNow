@@ -54,6 +54,7 @@ class MyOrders extends Component {
               <JobItemWithProposals
                 key={`item-${i}`}
                 item={item}
+                onPress={Actions.myOrderDetails}
                 prevItem={jobs[i-1]}
               />
             ))}

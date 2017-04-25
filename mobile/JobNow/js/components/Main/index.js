@@ -46,23 +46,25 @@ export const JobList = ({ children }) => (
   </ScrollView>
 );
 
-export const JobItem = ({ item, prevItem }) => (
-  <View>
-    {!(prevItem && prevItem.date.isSame(item.date, 'days')) && <SectionHeader title={item.date.format('dddd, DD MMMM').toUpperCase()} />}
-    <View style={[styles.jobItemView, { borderColor: item.category.color }]}>
-      <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
-      <View style={styles.jobItemInfo}>
-        <View style={styles.jobItemTextRow}>
-          <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.title}</Text>
-          <Text style={styles.jobItemPriceTitle} numberOfLines={1}>{item.price} руб.</Text>
-        </View>
-        <View style={styles.jobItemTextRow}>
-          <Text style={styles.jobItemTextAddress}>{item.address}</Text>
-          <Text style={styles.jobItemTextDistance}>{item.distance} м</Text>
+export const JobItem = ({ item, prevItem, onPress }) => (
+  <TouchableHighlight onPress={onPress}>
+    <View>
+      {!(prevItem && prevItem.date.isSame(item.date, 'days')) && <SectionHeader title={item.date.format('dddd, DD MMMM').toUpperCase()} />}
+      <View style={[styles.jobItemView, { borderColor: item.category.color }]}>
+        <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
+        <View style={styles.jobItemInfo}>
+          <View style={styles.jobItemTextRow}>
+            <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.title}</Text>
+            <Text style={styles.jobItemPriceTitle} numberOfLines={1}>{item.price} руб.</Text>
+          </View>
+          <View style={styles.jobItemTextRow}>
+            <Text style={styles.jobItemTextAddress}>{item.address}</Text>
+            <Text style={styles.jobItemTextDistance}>{item.distance} м</Text>
+          </View>
         </View>
       </View>
     </View>
-  </View>
+  </TouchableHighlight>
 );
 
 export const SectionHeader = ({ title }) => (

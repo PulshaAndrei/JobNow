@@ -47,3 +47,36 @@ export const HeaderWithSave = ({ onBack, onSave, title, imageSource, isSaveEnabl
     </Image>
   </View>
 );
+
+export const HeaderWithClose = ({ onBack, onClose, title, imageSource }) => (
+  <View style={styles.headerWithMenu}>
+    <Image source={imageSource} style={styles.headerBackground}>
+      <View style={styles.headerButtons}>
+        <TouchableHighlight style={styles.menuButton} onPress={onBack}>
+          <Icon name="ios-arrow-round-back-outline" size={45} color="white" />
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.menuButton} onPress={onClose}>
+            <Icon name="ios-close-circle-outline" size={30} color="white" />
+        </TouchableHighlight>
+      </View>
+      <View style={styles.headerInfo}>
+        <Text style={styles.headerName}>{title}</Text>
+      </View>
+    </Image>
+  </View>
+);
+
+export const HeaderWithBack = ({ onBack, title, imageSource }) => (
+  <View style={styles.headerWithMenu}>
+    <Image source={imageSource} style={styles.headerBackground}>
+      <View style={styles.headerButtons}>
+        <TouchableHighlight style={styles.menuButton} onPress={onBack}>
+          <Icon name="ios-arrow-round-back-outline" size={45} color="white" />
+        </TouchableHighlight>
+      </View>
+      <View style={styles.headerInfo}>
+        <Text style={styles.headerName}>{title}</Text>
+      </View>
+    </Image>
+  </View>
+);

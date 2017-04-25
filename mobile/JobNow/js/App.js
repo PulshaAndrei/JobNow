@@ -21,8 +21,10 @@ import Profile from './containers/Profile';
 
 import MyOrders from './containers/MyOrders';
 import CreateOrder from './containers/MyOrders/CreateOrder';
+import MyOrderDetails from './containers/MyOrders/MyOrderDetails';
 
 import MyProposals from './containers/MyProposals';
+import OrederDetails from './containers/OrderDetails';
 
 import Settings from './containers/Settings';
 import NotificationsSettings from './containers/Settings/NotificationsSettings';
@@ -60,9 +62,11 @@ class App extends Component {
                 <Scene key="myOrdersNavigationTab" hideNavBar>
                   <Scene key="orders" component={MyOrders} />
                   <Scene key="createOrder" component={CreateOrder} />
+                  <Scene key="myOrderDetails" component={MyOrderDetails} />
                 </Scene>
                 <Scene key="myApplicationsNavigationTab" hideNavBar>
                   <Scene key="applications" component={MyProposals} />
+                  <Scene key="orderDetailsByProposal" component={OrederDetails} />
                 </Scene>
                 <Scene key="settingsNavigationTab" hideNavBar>
                   <Scene key="settings" component={Settings} />
