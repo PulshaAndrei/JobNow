@@ -29,7 +29,7 @@ export const NextButton = ({ onPress }) => (
   </TouchableHighlight>
 );
 
-export const TextInputView = ({ title, value, onChange, keyboardType, disabled }) => (
+export const TextInputView = ({ title, value, onChange, keyboardType, disabled, onFocus }) => (
   <View style={styles.textInputView}>
     <TextInput
       autoCorrect={false}
@@ -40,15 +40,16 @@ export const TextInputView = ({ title, value, onChange, keyboardType, disabled }
       style={styles.textInput}
       onChangeText={onChange}
       value={value}
+      onFocus={onFocus}
       disabled
     />
   </View>
 );
 
-export const PhoneInput = ({ value, onChange }) => (
+export const PhoneInput = ({ value, setValue, onFocus }) => (
   <View style={styles.input}>
     <Icon name="ios-call-outline" size={30} color="#9ea5ab" />
-    <TextInputView value={value} onChange={onChange} title="Номер телефона" keyboardType="phone-pad" />
+    <TextInputView value={value} onChange={setValue} onFocus={onFocus} title="Номер телефона" keyboardType="phone-pad" />
   </View>
 );
 

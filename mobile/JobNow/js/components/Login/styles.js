@@ -4,8 +4,9 @@ import { StyleSheet, Platform, Dimensions } from 'react-native';
 
 export default StyleSheet.create({
   loginView: {
-    flex: 1,
+    //flex: 1,
     justifyContent: 'space-between',
+    height: Dimensions.get('window').height,
   },
   loginViewImage: {
     top: 0,

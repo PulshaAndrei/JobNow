@@ -42,7 +42,7 @@ export const BrandTitle = ({ title }) => (
   </View>
 );
 
-export const PhoneInput = ({ value, setValue, onChange }) => (
+export const PhoneInput = ({ value, setValue, onFocus }) => (
   <View style={styles.input}>
     <Icon name="ios-person-outline" size={30} color="#9ea5ab" />
     <View style={styles.textInputView}>
@@ -53,14 +53,15 @@ export const PhoneInput = ({ value, setValue, onChange }) => (
         underlineColorAndroid={'transparent'}
         keyboardType={'phone-pad'}
         style={styles.textInput}
-        onChangeText={onChange}
+        onChangeText={setValue}
         value={value}
+        onFocus={onFocus}
       />
     </View>
   </View>
 );
 
-export const PasswordInput = ({ value, setValue, onChange }) => (
+export const PasswordInput = ({ value, setValue }) => (
   <View style={styles.input}>
     <Icon name="ios-lock-outline" size={30} color="#9ea5ab" />
     <View style={styles.textInputView}>
@@ -72,7 +73,7 @@ export const PasswordInput = ({ value, setValue, onChange }) => (
         secureTextEntry
         keyboardType={'default'}
         style={styles.textInput}
-        onChangeText={onChange}
+        onChangeText={setValue}
         value={value}
       />
     </View>

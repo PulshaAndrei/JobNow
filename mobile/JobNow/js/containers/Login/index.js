@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import { Container } from '../../components/Common';
 import { LoginView, BrandView, InputView, LoginAndSignupView, BrandIcon, BrandTitle , PhoneInput, PasswordInput, ForgotButton, LoginButton, SignupButton } from '../../components/Login';
 
-//import { login } from './state';
+import { login, phoneMask } from '../../modules/user';
 
 class Login extends Component {
   state = {
@@ -13,6 +13,7 @@ class Login extends Component {
     password: '',
   }
   render() {
+    const { login, phoneMask } = this.props;
     return (
       <Container>
         <LoginView>
@@ -21,12 +22,16 @@ class Login extends Component {
             <BrandTitle title="JobNow" />
           </BrandView>
           <InputView>
-            <PhoneInput />
-            <PasswordInput />
+            <PhoneInput
+              value={this.state.phone}
+              setValue={(value) => this.setState({ phone: phoneMask(value) })}
+              onFocus={() => this.setState({ phone: '+375 ' })}
+            />
+            <PasswordInput value={this.state.password} setValue={(value) => this.setState({ password: value })} />
             <ForgotButton />
           </InputView>
           <LoginAndSignupView>
-            <LoginButton onPress={Actions.drawer} />
+            <LoginButton onPress={login(this.state.phone, this.state.password)} />
             <SignupButton onPress={Actions.signup} />
           </LoginAndSignupView>
         </LoginView>
@@ -37,6 +42,6 @@ class Login extends Component {
 
 export default connect(
   state => ({},
-    { /*login*/ }
+    { login, phoneMask }
   )
 )(Login);

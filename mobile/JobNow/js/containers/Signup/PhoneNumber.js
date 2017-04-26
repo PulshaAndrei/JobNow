@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import {Keyboard} from 'react-native';
 
 import { Container, DescriptionTitle } from '../../components/Common';
 import { SignupView, NextButton, PhoneInput } from '../../components/Signup';
-//import { login } from './state';
+import { phoneMask } from '../../modules/user';
 
 class PhoneNumber extends Component {
   state = {
     phone: '',
-    password: '',
+  }
+  sendSms() {
+    Keyboard.dismiss();
+    Actions.phoneConfirmation();
   }
   render() {
     return (
       <Container>
         <SignupView>
           <DescriptionTitle>Введите Ваш номер телефона</DescriptionTitle>
-          <PhoneInput />
-          <NextButton onPress={Actions.phoneConfirmation} />
+          <PhoneInput
+            value={this.state.phone}
+            setValue={(value) => this.setState({ phone: phoneMask(value) })}
+            onFocus={() => this.setState({ phone: '+375 ' })}
+          />
+          <NextButton onPress={() => this.sendSms() } />
         </SignupView>
       </Container>
     );
@@ -26,6 +34,6 @@ class PhoneNumber extends Component {
 
 export default connect(
   state => ({},
-    { /*login*/ }
+    { phoneMask }
   )
 )(PhoneNumber);
