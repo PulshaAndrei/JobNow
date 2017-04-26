@@ -14,15 +14,22 @@ String.prototype.insert = function (index, string) {
 
 const initState = {
   user: {},
+  isLoading: false,
 };
 
 export function reducer(state = initState, action) {
   switch (action.type) {
     case 'SET_USER':
       return { ...state, user: action.payload };
+    case 'SET_LOADING_USER':
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }
+}
+
+export function setIsLoading(value) {
+  return dispatch => dispatch({ type: 'SET_LOADING_USER', payload: value });
 }
 
 export function phoneMask(value) {
@@ -49,16 +56,17 @@ export function getUser() {
 
 export function login(phone, password) {
   return (dispatch) => {
-    //dispatch({ type: 'SET_IS_LOADING', payload: true });
+    console.warn('!!!');
+    dispatch(setIsLoading(true));
     http.post('/auth/login', { username: phone.replace(/\D/g,''), password }).then((resLogin) => {
       store.save('token', resLogin.id)
         //.then(store.save('user_id', resLogin.userId))
         .then(dispatch(setUser(resLogin.user)))
-        //.then(dispatch({ type: 'SET_IS_LOADING', payload: false }))
+        .then(dispatch(setIsLoading(false)))
         .then(() => Actions.drawer())
         .then(dispatch(sendFcmToken()));
     }).catch((e) => {
-      //dispatch({ type: 'SET_IS_LOADING', payload: false });
+      dispatch(setIsLoading(false));
       Alert.alert(
         'Ошибка авторизации',
         e.response.data.message,

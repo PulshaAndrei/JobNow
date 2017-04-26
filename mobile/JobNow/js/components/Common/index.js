@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableHighlight, Text, TextInput, Switch, Image } from 'react-native';
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Spinner from 'react-native-spinkit';
 
 import styles from './styles';
 
@@ -100,4 +101,10 @@ export const ApplyButton = ({ onPress }) => (
   <TouchableHighlight style={styles.applyButton} onPress={onPress}>
     <Icon name="ios-checkmark" size={45} color="white" />
   </TouchableHighlight>
+);
+
+export const LoadingIndiactor = ({ visible }) => (
+  <View style={visible ? styles.loadingIndicatorVisible : null}>
+    <Spinner isVisible={visible} size={100} type="9CubeGrid" color="#FFFFFF" style={styles.spinner} />
+  </View>
 );

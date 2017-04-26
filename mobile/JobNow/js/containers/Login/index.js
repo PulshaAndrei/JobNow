@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { Container } from '../../components/Common';
-import { LoginView, BrandView, InputView, LoginAndSignupView, BrandIcon, BrandTitle , PhoneInput, PasswordInput, ForgotButton, LoginButton, SignupButton } from '../../components/Login';
+import { Container, LoadingIndiactor } from '../../components/Common';
+import { LoginView, BrandView, InputView,
+  LoginAndSignupView, BrandIcon, BrandTitle,
+  PhoneInput, PasswordInput, ForgotButton,
+  LoginButton, SignupButton
+} from '../../components/Login';
 
 import { login, phoneMask } from '../../modules/user';
 
@@ -13,7 +17,7 @@ class Login extends Component {
     password: '',
   }
   render() {
-    const { login, phoneMask } = this.props;
+    const { login, phoneMask, isLoading } = this.props;
     return (
       <Container>
         <LoginView>
@@ -31,17 +35,19 @@ class Login extends Component {
             <ForgotButton />
           </InputView>
           <LoginAndSignupView>
-            <LoginButton onPress={login(this.state.phone, this.state.password)} />
+            <LoginButton onPress={() => login(this.state.phone, this.state.password)} />
             <SignupButton onPress={Actions.signup} />
           </LoginAndSignupView>
         </LoginView>
+        <LoadingIndiactor visible={isLoading} />
       </Container>
     );
   }
 }
 
 export default connect(
-  state => ({},
-    { login, phoneMask }
-  )
+  state => ({
+    isLoading: state.user.isLoading,
+  }),
+  { login, phoneMask }
 )(Login);

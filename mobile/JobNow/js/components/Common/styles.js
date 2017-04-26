@@ -103,4 +103,18 @@ export default StyleSheet.create({
     justifyContent: 'center',
     zIndex: 1,
   },
+  loadingIndicatorVisible: {
+    backgroundColor: 'rgba(0,0,0,0.65)',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  spinner: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
