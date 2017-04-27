@@ -29,7 +29,7 @@ export const NextButton = ({ onPress }) => (
   </TouchableHighlight>
 );
 
-export const TextInputView = ({ title, value, onChange, keyboardType, disabled, onFocus, autoCapitalize }) => (
+export const TextInputView = ({ title, value, onChange, keyboardType, disabled, onFocus, autoCapitalize, secureTextEntry }) => (
   <View style={styles.textInputView}>
     {disabled ? <Text style={styles.textInputDisabled}>{value}</Text> :
       <TextInput
@@ -41,6 +41,7 @@ export const TextInputView = ({ title, value, onChange, keyboardType, disabled, 
         autoCapitalize={autoCapitalize || 'none'}
         style={styles.textInput}
         onChangeText={onChange}
+        secureTextEntry={secureTextEntry}
         value={value}
         onFocus={onFocus}
         disabled={disabled}
@@ -52,6 +53,13 @@ export const PhoneInput = ({ value, setValue, onFocus }) => (
   <View style={styles.input}>
     <Icon name="ios-call-outline" size={30} color="#9ea5ab" />
     <TextInputView value={value} onChange={setValue} onFocus={onFocus} title="Номер телефона" keyboardType="phone-pad" />
+  </View>
+);
+
+export const Password = ({ value, setValue }) => (
+  <View style={styles.input}>
+    <Icon name="ios-lock-outline" size={30} color="#9ea5ab" />
+    <TextInputView value={value} onChange={setValue} title="Пароль" keyboardType="default" secureTextEntry/>
   </View>
 );
 

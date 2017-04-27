@@ -139,6 +139,7 @@ export function confirmActivation(phone, code) {
     })
     .catch((e) => {
       dispatch(setIsLoading(false));
+      dispatch(setConfirmationCode(code));
       Actions.registration();
       // TODO: uncomment in prod
       /*Alert.alert(
@@ -149,22 +150,21 @@ export function confirmActivation(phone, code) {
   }
 }
 
-export function registration(phone, code) {
+export function registration(user) {
   return (dispatch) => {
     dispatch(setIsLoading(true));
-    http.put('/account/phone_confirmation', { phone: phone.replace(/\D/g,''), code })
-    .then(() => {
-      dispatch(setIsLoading(false));
-      Actions.registration();
+    http.post('/account', user)
+    .then((token) => {
+      store.save('token', token)
+      .then(dispatch(setIsLoading(false)))
+      .then(() => Actions.drawer());
     })
     .catch((e) => {
       dispatch(setIsLoading(false));
-      Actions.registration();
-      // TODO: uncomment in prod
-      /*Alert.alert(
+      Alert.alert(
         'Ошибка',
         e.response.data.message,
-        [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);*/
+        [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
     });
   }
 }

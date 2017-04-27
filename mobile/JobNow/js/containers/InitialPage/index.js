@@ -11,7 +11,7 @@ export default class InitialPage extends Component {
       if (!token) {
         Actions.login();
       } else {
-        Actions.main();
+        Actions.drawer();
       }
     });
   }
