@@ -31,7 +31,7 @@ export const SwitchItem = ({ title, value, setValue }) => (
   </View>
 );
 
-export const InputItem = ({ title, value, setValue, keyboardType, disabled }) => (
+export const InputItem = ({ title, value, setValue, keyboardType, disabled, onFocus }) => (
   <View style={styles.inputItem}>
     <View>
       <Text style={styles.inputItemTitleText}>{title}</Text>
@@ -41,11 +41,11 @@ export const InputItem = ({ title, value, setValue, keyboardType, disabled }) =>
         <Text style={styles.selectDateText}>{value}</Text> :
         <TextInput
           value={value}
-          onChange={setValue}
+          onChangeText={setValue}
           style={styles.inputItemTextInput}
           keyboardType={keyboardType}
-          disabled={disabled}
           underlineColorAndroid={'transparent'}
+          onFocus={onFocus}
         />}
     </View>
   </View>

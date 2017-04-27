@@ -47,6 +47,7 @@ export default StyleSheet.create({
     fontFamily: 'AvenirNextCyr-Regular',
     fontSize: 16,
     paddingBottom: (Platform.OS === 'ios') ? 0 : 5,
+    flex: 1,
   },
   inputItemSwitchView: {
     alignItems: 'flex-end',

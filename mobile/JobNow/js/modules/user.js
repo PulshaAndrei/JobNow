@@ -13,7 +13,13 @@ String.prototype.insert = function (index, string) {
 };
 
 const initState = {
-  user: {},
+  user: {
+    givenName: '',
+    familyName: '',
+    phone: '',
+    email: '',
+    communicationMethod: 0,
+  },
   phone: null,
   confirmationCode: null,
   firstName: null,
@@ -81,11 +87,29 @@ export function phoneMask(value) {
 
 export function getUser() {
   return (dispatch) => {
-    http.get('/api/user/me').then((res) => {
-      dispatch({ type: 'SET_USER', payload: res });
-    }, (e) => {
-      console.warn(e);
-    });
+    http.get('/account')
+      .then((response) => {
+        dispatch({ type: 'SET_USER', payload: response.account });
+      })
+      .catch((e) => console.warn(e));
+  };
+}
+
+export function updateUser(user) {
+  return (dispatch) => {
+    dispatch(setIsLoading(true));
+    http.put('/account', user)
+      .then((response) => {
+        dispatch(setIsLoading(false));
+        dispatch({ type: 'SET_USER', payload: response.account });
+      })
+      .catch((e) => {
+        dispatch(setIsLoading(false));
+        Alert.alert(
+          'Ошибка сохранения',
+          e.response.data.message,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      });
   };
 }
 
@@ -93,8 +117,9 @@ export function login(phone, password) {
   return (dispatch) => {
     dispatch(setIsLoading(true));
     http.post('/auth/login', { username: phone.replace(/\D/g,''), password })
-      .then((token) => {
-        store.save('token', token)
+      .then((response) => {
+        store.save('token', response.token)
+          .then(dispatch(getUser()))
           .then(dispatch(setIsLoading(false)))
           .then(() => Actions.drawer());
       })
@@ -153,8 +178,9 @@ export function registration(user) {
   return (dispatch) => {
     dispatch(setIsLoading(true));
     http.post('/account', user)
-    .then((token) => {
-      store.save('token', token)
+    .then((response) => {
+      store.save('token', response.token)
+      .then(dispatch(getUser()))
       .then(dispatch(setIsLoading(false)))
       .then(() => Actions.drawer());
     })

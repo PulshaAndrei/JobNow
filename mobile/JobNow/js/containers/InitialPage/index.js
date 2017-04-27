@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { View,Text } from 'react-native';
+import { connect } from 'react-redux';
 import store from 'react-native-simple-store';
 import { Actions } from 'react-native-router-flux';
 
 import { LoginView } from '../../components/Login';
+import { getUser } from '../../modules/user';
 
-export default class InitialPage extends Component {
+class InitialPage extends Component {
   componentDidMount() {
     store.get('token').then((token) => {
       if (!token) {
         Actions.login();
       } else {
+        this.props.getUser();
         Actions.drawer();
       }
     });
@@ -22,3 +24,8 @@ export default class InitialPage extends Component {
     );
   }
 }
+
+export default connect(
+  state => ({}),
+  { getUser }
+)(InitialPage);

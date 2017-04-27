@@ -34,7 +34,7 @@ class Registration extends Component {
           <DescriptionTitle>Контактные данные</DescriptionTitle>
           <PhoneDisabled value={this.props.phone} />
           <Email value={this.state.email} setValue={(value) => this.setState({ email: value })} />
-          <DescriptionTitle>Предпочитаемый способ связи</DescriptionTitle>
+          <DescriptionTitle>Показывать номер телефона</DescriptionTitle>
           <PickerConnection value={this.state.communicationMethod} setValue={(value) => this.setState({ communicationMethod: value })} />
           <NextButton onPress={() => this.registration()} />
         </SignupScrollView>

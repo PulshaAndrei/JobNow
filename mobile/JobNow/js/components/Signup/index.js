@@ -101,13 +101,13 @@ export const Email = ({ value, setValue }) => (
 export const PickerConnection = ({ value, setValue }) => (
   <View style={styles.pickerConnection}>
     <SegmentedControlTab
-      values={['Телефон', 'Электронная почта']}
+      values={['Всем', 'При подтверждении заказа']}
       selectedIndex={value}
       onTabPress={setValue}
       borderRadius={0}
       tabsContainerStyle={{ height: 50, borderTopWidth: 1,  borderBottomWidth: 1, borderColor: '#364756' }}
       tabStyle={{ backgroundColor: 'transparent', borderColor: 'transparent' }}
-      tabTextStyle={{ color: '#9ea5ab', fontFamily: 'AvenirNextCyr-Regular', fontSize: 14 }}
+      tabTextStyle={{ color: '#9ea5ab', fontFamily: 'AvenirNextCyr-Regular', fontSize: 14, textAlign: 'center', paddingHorizontal: 15 }}
       activeTabStyle={{ backgroundColor: '#364756', borderColor: '#364756' }}
       />
   </View>
