@@ -14,6 +14,12 @@ String.prototype.insert = function (index, string) {
 
 const initState = {
   user: {},
+  phone: null,
+  confirmationCode: null,
+  firstName: null,
+  lastName: null,
+  email: null,
+  communicationMethod: null,
   isLoading: false,
 };
 
@@ -21,6 +27,18 @@ export function reducer(state = initState, action) {
   switch (action.type) {
     case 'SET_USER':
       return { ...state, user: action.payload };
+    case 'SET_PHONE_REGISTRATION':
+      return { ...state, phone: action.payload };
+    case 'SET_CONFIRMATION_CODE_REGISTRATION':
+      return { ...state, confirmationCode: action.payload };
+    case 'SET_FIRSTNAME_REGISTRATION':
+      return { ...state, firstName: action.payload };
+    case 'SET_LASTNAME_REGISTRATION':
+      return { ...state, lastName: action.payload };
+    case 'SET_CONNECTION_REGISTRATION':
+      return { ...state, communicationMethod: action.payload };
+    case 'SET_EMAIL_REGISTRATION':
+      return { ...state, phone: action.payload };
     case 'SET_LOADING_USER':
       return { ...state, isLoading: action.payload };
     default:
@@ -30,6 +48,23 @@ export function reducer(state = initState, action) {
 
 export function setIsLoading(value) {
   return dispatch => dispatch({ type: 'SET_LOADING_USER', payload: value });
+}
+
+export function setPhone(value) {
+  return dispatch => dispatch({ type: 'SET_PHONE_REGISTRATION', payload: value });
+}
+
+export function setConfirmationCode(value) {
+  return dispatch => dispatch({ type: 'SET_CONFIRMATION_CODE_REGISTRATION', payload: value });
+}
+
+export function setRegistrationData(value) {
+  return dispatch => {
+    dispatch({ type: 'SET_FIRSTNAME_REGISTRATION', payload: value.firstName });
+    dispatch({ type: 'SET_LASTNAME_REGISTRATION', payload: value.lastName });
+    dispatch({ type: 'SET_EMAIL_REGISTRATION', payload: value.email });
+    dispatch({ type: 'SET_CONNECTION_REGISTRATION', payload: value.connection });
+  }
 }
 
 export function phoneMask(value) {
@@ -56,7 +91,6 @@ export function getUser() {
 
 export function login(phone, password) {
   return (dispatch) => {
-    console.warn('!!!');
     dispatch(setIsLoading(true));
     http.post('/auth/login', { username: phone.replace(/\D/g,''), password }).then((resLogin) => {
       store.save('token', resLogin.id)
@@ -73,6 +107,66 @@ export function login(phone, password) {
         [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
     });
   };
+}
+
+export function sendSms(phone) {
+  return (dispatch) => {
+    dispatch(setIsLoading(true));
+    http.post('/account/phone_confirmation', { phone: phone.replace(/\D/g,'') })
+    .then(() => {
+      dispatch(setIsLoading(false));
+      dispatch(setPhone(phone));
+      Actions.phoneConfirmation();
+    })
+    .catch((e) => {
+      dispatch(setIsLoading(false));
+      Alert.alert(
+        'Ошибка',
+        e.response.data.message,
+        [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+    });
+  }
+}
+
+export function confirmActivation(phone, code) {
+  return (dispatch) => {
+    dispatch(setIsLoading(true));
+    http.put('/account/phone_confirmation', { phone: phone.replace(/\D/g,''), code })
+    .then(() => {
+      dispatch(setIsLoading(false));
+      dispatch(setConfirmationCode(code));
+      Actions.registration();
+    })
+    .catch((e) => {
+      dispatch(setIsLoading(false));
+      Actions.registration();
+      // TODO: uncomment in prod
+      /*Alert.alert(
+        'Ошибка',
+        e.response.data.message,
+        [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);*/
+    });
+  }
+}
+
+export function registration(phone, code) {
+  return (dispatch) => {
+    dispatch(setIsLoading(true));
+    http.put('/account/phone_confirmation', { phone: phone.replace(/\D/g,''), code })
+    .then(() => {
+      dispatch(setIsLoading(false));
+      Actions.registration();
+    })
+    .catch((e) => {
+      dispatch(setIsLoading(false));
+      Actions.registration();
+      // TODO: uncomment in prod
+      /*Alert.alert(
+        'Ошибка',
+        e.response.data.message,
+        [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);*/
+    });
+  }
 }
 
 export function logout() {

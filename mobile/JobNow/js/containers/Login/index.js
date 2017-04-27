@@ -29,10 +29,10 @@ class Login extends Component {
             <PhoneInput
               value={this.state.phone}
               setValue={(value) => this.setState({ phone: phoneMask(value) })}
-              onFocus={() => this.setState({ phone: '+375 ' })}
+              onFocus={() => this.setState({ phone: this.state.phone || '+375 ' })}
             />
             <PasswordInput value={this.state.password} setValue={(value) => this.setState({ password: value })} />
-            <ForgotButton />
+            {/* <ForgotButton />*/}
           </InputView>
           <LoginAndSignupView>
             <LoginButton onPress={() => login(this.state.phone, this.state.password)} />
@@ -48,6 +48,7 @@ class Login extends Component {
 export default connect(
   state => ({
     isLoading: state.user.isLoading,
+    phoneMask
   }),
-  { login, phoneMask }
+  { login }
 )(Login);

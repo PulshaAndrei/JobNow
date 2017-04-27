@@ -63,4 +63,12 @@ export default StyleSheet.create({
     fontSize: 18,
     paddingBottom: (Platform.OS === 'ios') ? 7 : 12,
   },
+  textInputDisabled: {
+    height: 40,
+    alignSelf: 'stretch',
+    color: 'white',
+    fontFamily: 'AvenirNextCyr-Regular',
+    fontSize: 18,
+    paddingTop: 5,
+  },
 });

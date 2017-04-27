@@ -29,20 +29,22 @@ export const NextButton = ({ onPress }) => (
   </TouchableHighlight>
 );
 
-export const TextInputView = ({ title, value, onChange, keyboardType, disabled, onFocus }) => (
+export const TextInputView = ({ title, value, onChange, keyboardType, disabled, onFocus, autoCapitalize }) => (
   <View style={styles.textInputView}>
-    <TextInput
-      autoCorrect={false}
-      placeholder={title}
-      placeholderTextColor="#9ea5ab"
-      underlineColorAndroid={'transparent'}
-      keyboardType={keyboardType}
-      style={styles.textInput}
-      onChangeText={onChange}
-      value={value}
-      onFocus={onFocus}
-      disabled
-    />
+    {disabled ? <Text style={styles.textInputDisabled}>{value}</Text> :
+      <TextInput
+        autoCorrect={false}
+        placeholder={title}
+        placeholderTextColor="#9ea5ab"
+        underlineColorAndroid={'transparent'}
+        keyboardType={keyboardType}
+        autoCapitalize={autoCapitalize || 'none'}
+        style={styles.textInput}
+        onChangeText={onChange}
+        value={value}
+        onFocus={onFocus}
+        disabled={disabled}
+      />}
   </View>
 );
 
@@ -53,47 +55,47 @@ export const PhoneInput = ({ value, setValue, onFocus }) => (
   </View>
 );
 
-export const ActivationCode = ({ value, setValue, onChange }) => (
+export const ActivationCode = ({ value, setValue }) => (
   <View style={styles.input}>
     <Icon name="ios-checkmark-circle-outline" size={30} color="#9ea5ab" />
-    <TextInputView value={value} onChange={onChange} title="Код активации" keyboardType="numeric" />
+    <TextInputView value={value} onChange={setValue} title="Код активации" keyboardType="numeric" />
   </View>
 );
 
-export const FirstName = ({ value, setValue, onChange }) => (
+export const FirstName = ({ value, setValue }) => (
   <View style={styles.input}>
     <Icon name="ios-person-outline" size={30} color="#9ea5ab" />
-    <TextInputView value={value} onChange={onChange} title="Имя" keyboardType="default" />
+    <TextInputView value={value} onChange={setValue} title="Имя" keyboardType="default" autoCapitalize="words" />
   </View>
 );
 
-export const LastName = ({ value, setValue, onChange }) => (
+export const LastName = ({ value, setValue }) => (
   <View style={styles.input}>
     <Icon name="ios-person-outline" size={30} color="#9ea5ab" />
-    <TextInputView value={value} onChange={onChange} title="Фамилия" keyboardType="default" />
+    <TextInputView value={value} onChange={setValue} title="Фамилия" keyboardType="default" autoCapitalize="words" />
   </View>
 );
 
-export const PhoneDisabled = ({ value, onChange }) => (
+export const PhoneDisabled = ({ value }) => (
   <View style={styles.input}>
     <Icon name="ios-call-outline" size={30} color="#9ea5ab" />
-    <TextInputView value={value} onChange={onChange} title="Номер телефона" keyboardType="phone-pad" disabled/>
+    <TextInputView value={value} disabled />
   </View>
 );
 
-export const Email = ({ value, setValue, onChange }) => (
+export const Email = ({ value, setValue }) => (
   <View style={styles.input}>
     <Icon name="ios-mail-outline" size={30} color="#9ea5ab" />
-    <TextInputView value={value} onChange={onChange} title="Email" keyboardType="email-address" />
+    <TextInputView value={value} onChange={setValue} title="Email" keyboardType="email-address" />
   </View>
 );
 
-export const PickerConnection = ({ value, setValue, onChange }) => (
+export const PickerConnection = ({ value, setValue }) => (
   <View style={styles.pickerConnection}>
     <SegmentedControlTab
       values={['Телефон', 'Электронная почта']}
       selectedIndex={value}
-      onTabPress={onChange}
+      onTabPress={setValue}
       borderRadius={0}
       tabsContainerStyle={{ height: 50, borderTopWidth: 1,  borderBottomWidth: 1, borderColor: '#364756' }}
       tabStyle={{ backgroundColor: 'transparent', borderColor: 'transparent' }}

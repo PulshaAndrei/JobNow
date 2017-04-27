@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import {Keyboard} from 'react-native';
 
-import { Container, DescriptionTitle } from '../../components/Common';
+import { Container, DescriptionTitle, LoadingIndiactor } from '../../components/Common';
 import { SignupView, NextButton, PhoneInput } from '../../components/Signup';
-import { phoneMask } from '../../modules/user';
+import { phoneMask, sendSms } from '../../modules/user';
 
 class PhoneNumber extends Component {
   state = {
@@ -13,7 +13,7 @@ class PhoneNumber extends Component {
   }
   sendSms() {
     Keyboard.dismiss();
-    Actions.phoneConfirmation();
+    this.props.sendSms(this.state.phone);
   }
   render() {
     return (
@@ -23,17 +23,20 @@ class PhoneNumber extends Component {
           <PhoneInput
             value={this.state.phone}
             setValue={(value) => this.setState({ phone: phoneMask(value) })}
-            onFocus={() => this.setState({ phone: '+375 ' })}
+            onFocus={() => this.setState({ phone: this.state.phone || '+375 ' })}
           />
           <NextButton onPress={() => this.sendSms() } />
         </SignupView>
+        <LoadingIndiactor visible={this.props.isLoading} />
       </Container>
     );
   }
 }
 
 export default connect(
-  state => ({},
-    { phoneMask }
-  )
+  state => ({
+    isLoading: state.user.isLoading,
+    phoneMask
+  }),
+  { sendSms }
 )(PhoneNumber);
