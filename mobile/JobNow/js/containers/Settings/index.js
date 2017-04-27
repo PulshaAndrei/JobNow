@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { Container } from '../../components/Common';
 import { SettingsView, SettingsHeader, SettingButton, LogoutButton } from '../../components/Settings';
+import { logout } from '../../modules/user';
 
 class Settings extends Component {
   render() {
@@ -18,7 +19,7 @@ class Settings extends Component {
           <SettingButton title="Уведомления" onPress={Actions.notificationsSettings}/>
           <SettingButton title="Справка и поддержка" onPress={Actions.support}/>
           <SettingButton title="Контакты" onPress={Actions.support}/>
-          <LogoutButton onPress={() => {}} />
+          <LogoutButton onPress={() => this.props.logout()} />
         </SettingsView>
       </Container>
     );
@@ -26,7 +27,6 @@ class Settings extends Component {
 }
 
 export default connect(
-  state => ({},
-    { /*login*/ }
-  )
+  state => ({}),
+  { logout }
 )(Settings);

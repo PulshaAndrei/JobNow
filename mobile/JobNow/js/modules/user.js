@@ -92,20 +92,19 @@ export function getUser() {
 export function login(phone, password) {
   return (dispatch) => {
     dispatch(setIsLoading(true));
-    http.post('/auth/login', { username: phone.replace(/\D/g,''), password }).then((resLogin) => {
-      store.save('token', resLogin.id)
-        //.then(store.save('user_id', resLogin.userId))
-        .then(dispatch(setUser(resLogin.user)))
-        .then(dispatch(setIsLoading(false)))
-        .then(() => Actions.drawer())
-        .then(dispatch(sendFcmToken()));
-    }).catch((e) => {
-      dispatch(setIsLoading(false));
-      Alert.alert(
-        'Ошибка авторизации',
-        e.response.data.message,
-        [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
-    });
+    http.post('/auth/login', { username: phone.replace(/\D/g,''), password })
+      .then((token) => {
+        store.save('token', token)
+          .then(dispatch(setIsLoading(false)))
+          .then(() => Actions.drawer());
+      })
+      .catch((e) => {
+        dispatch(setIsLoading(false));
+        Alert.alert(
+          'Ошибка авторизации',
+          e.response.data.message,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      });
   };
 }
 
