@@ -15,36 +15,7 @@ class MyOrders extends Component {
     this.props.loadJobs();
   }
   render() {
-    /*const jobs = [
-      {
-        date: moment(),
-        title: "123 dsajf jas fdjsadgh fgasd fhasd gfhsag fhkgasd",
-        address: "Октябрьская 10а",
-        price: 15.5,
-        category: {
-          color: "rgb(84, 132, 237)",
-          icon: "account-balance",
-        },
-      },
-      {
-        date: moment(),
-        title: "123",
-        category: {
-          color: "rgb(84, 132, 237)",
-          icon: "account-balance",
-        },
-      },
-      {
-        date: moment().add(1, 'day'),
-        title: "245",
-        category: {
-          color: "rgb(84, 132, 237)",
-          icon: "account-balance",
-        },
-      }
-    ];*/
-    const { jobs, categories } = this.props;
-    console.warn('',jobs);
+    const { jobs, categories, isLoading, loadJobs } = this.props;
     return (
       <Container>
         <MyOrdersView>
@@ -54,9 +25,8 @@ class MyOrders extends Component {
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
           />
           <CreateButton onCreate={Actions.createOrder} />
-          <JobList>
+          <JobList onRefresh={loadJobs} refreshing={isLoading}>
             <SectionHeader title="АКТИВНЫЕ" />
-
             {jobs.map((item, i) => (moment().unix() <= item.endWork &&
               <JobItemWithProposals
                 key={`item-${i}`}
@@ -85,6 +55,7 @@ class MyOrders extends Component {
 
 export default connect(
   state => ({
+    isLoading: state.myorders.isLoading,
     jobs: state.myorders.jobs,
     categories: state.common.categories,
   }),

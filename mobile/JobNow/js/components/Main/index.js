@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableHighlight, Text, TextInput, Image, ScrollView } from 'react-native';
+import { View, TouchableHighlight, Text, TextInput, Image, ScrollView, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
@@ -40,8 +40,18 @@ export const MainHeader = ({ children, onMenu, onFilter, onPrevMonth, onNextMont
   </View>
 );
 
-export const JobList = ({ children }) => (
-  <ScrollView>
+export const JobList = ({ children, onRefresh, refreshing }) => (
+  <ScrollView
+    refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor="#13bcbf"
+          colors={['#13bcbf']}
+          progressBackgroundColor="white"
+        />
+      }
+  >
     {children}
   </ScrollView>
 );
