@@ -5,7 +5,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   mainHeader: {
-    height: 280,
+    height: 260,
     backgroundColor: '#0f334c',
   },
   mainHeaderBackground: {
@@ -25,6 +25,7 @@ export default StyleSheet.create({
   },
   headerTitles: {
     flex: 1,
+    //marginLeft: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },

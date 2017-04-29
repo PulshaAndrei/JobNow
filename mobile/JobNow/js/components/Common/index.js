@@ -61,9 +61,9 @@ export const InputDescriptionItem = ({ title, value, setValue, disabled }) => (
         <Text style={[styles.inputItemTextInput, { textAlign: 'left', marginTop: 10 }]}>{value}</Text>
         : <TextInput
           value={value}
-          onChange={setValue}
+          onChangeText={setValue}
           multiline
-          style={[styles.inputItemTextInput, { textAlign: 'left', marginTop: 10 }]}
+          style={[styles.inputItemTextInput, { textAlign: 'left', marginTop: 10, textAlignVertical: 'top' }]}
           numberOfLines={3}
           underlineColorAndroid={'transparent'}
         />}

@@ -36,7 +36,7 @@ export const JobItemWithProposals = ({ item, prevItem, onPress }) => (
   </TouchableHighlight>
 );
 
-export const SelectDateTime = ({ isAllDay, dateFrom, dateTo, setAllDay, setDayFrom, setDayTo }) => (
+export const SelectDateTime = ({ isAllDay, dateFrom, dateTo, setAllDay, onPressDateFrom, onPress }) => (
   <View style={styles.selectDateTime}>
     <View style={styles.allDay}>
       <Text style={styles.inputItemTitleText}>Весь день</Text>
@@ -46,30 +46,28 @@ export const SelectDateTime = ({ isAllDay, dateFrom, dateTo, setAllDay, setDayFr
         style={styles.inputItemSwitch}
       />
     </View>
-    {!isAllDay &&
-      <View style={styles.dataRangeView}>
-        <Text style={styles.inputItemTitleText}>C</Text>
-        <View style={styles.dateRange}>
-          <TouchableHighlight style={styles.selectDateButton}>
-            <Text style={styles.selectDateText}>{dateFrom.format('MMMM DD, YYYY')}</Text>
-          </TouchableHighlight>
-          <TouchableHighlight>
-            <Text style={styles.selectDateText}>{dateFrom.format('HH:mm')}</Text>
-          </TouchableHighlight>
-        </View>
-      </View>}
-    {!isAllDay &&
-        <View style={styles.dataRangeView}>
-        <Text style={styles.inputItemTitleText}>До</Text>
-        <View style={styles.dateRange}>
-          <TouchableHighlight style={styles.selectDateButton}>
-            <Text style={styles.selectDateText}>{dateTo.format('MMMM DD, YYYY')}</Text>
-          </TouchableHighlight>
-          <TouchableHighlight>
-            <Text style={styles.selectDateText}>{dateTo.format('HH:mm')}</Text>
-          </TouchableHighlight>
-        </View>
-      </View>}
+    <View style={styles.dataRangeView}>
+      <Text style={styles.inputItemTitleText}>C</Text>
+      <View style={styles.dateRange}>
+        <TouchableHighlight onPress={() => onPress('from', 'datetime')}>
+          <Text style={styles.selectDateText}>{dateFrom.format('DD MMMM YYYY')}</Text>
+        </TouchableHighlight>
+        {!isAllDay && <TouchableHighlight style={styles.selectDateButton} onPress={() => onPress('from', 'time')}>
+          <Text style={styles.selectDateText}>{dateFrom.format('HH:mm')}</Text>
+        </TouchableHighlight>}
+      </View>
+    </View>
+    <View style={styles.dataRangeView}>
+      <Text style={styles.inputItemTitleText}>До</Text>
+      <View style={styles.dateRange}>
+        <TouchableHighlight onPress={() => onPress('to', 'datetime')}>
+          <Text style={styles.selectDateText}>{dateTo.format('DD MMMM YYYY')}</Text>
+        </TouchableHighlight>
+        {!isAllDay && <TouchableHighlight style={styles.selectDateButton} onPress={() => onPress('to', 'time')}>
+          <Text style={styles.selectDateText}>{dateTo.format('HH:mm')}</Text>
+        </TouchableHighlight>}
+      </View>
+    </View>
   </View>
 );
 
@@ -83,7 +81,7 @@ export const InputPrice = ({ value, setValue, disabled }) => (
         <Text style={styles.selectDateText}>{value}</Text> :
           <TextInput
           value={value}
-          onChange={setValue}
+          onChangeText={setValue}
           style={styles.inputItemTextInput}
           keyboardType="numeric"
           underlineColorAndroid={'transparent'}
@@ -143,4 +141,18 @@ export const MyProposal = ({ title, value }) => (
       <Text style={styles.inputItemTitleText}> руб.</Text>
     </View>
   </View>
+);
+
+export const CategoryItem = ({ title, value, onPress }) => (
+  <TouchableHighlight onPress={onPress}>
+    <View style={styles.inputItem}>
+      <View>
+        <Text style={styles.inputItemTitleText}>{title}</Text>
+      </View>
+      <View style={styles.inputItemTextInputView}>
+        <Text style={[styles.selectDateText, { marginRight: 15, marginLeft: 25 }]} numberOfLines={1}>{value}</Text>
+        <Icon name="ios-arrow-round-forward-outline" size={30} color="#bbbbbd" />
+      </View>
+    </View>
+  </TouchableHighlight>
 );

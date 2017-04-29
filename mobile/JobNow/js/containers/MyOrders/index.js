@@ -8,10 +8,14 @@ import { Container } from '../../components/Common';
 import { HeaderWithMenu } from '../../components/Header';
 import { MyOrdersView, JobItemWithProposals, CreateButton } from '../../components/MyOrders';
 import { JobList, SectionHeader } from '../../components/Main';
+import { loadJobs } from '../../modules/myorders';
 
 class MyOrders extends Component {
+  componentDidMount() {
+    this.props.loadJobs();
+  }
   render() {
-    const jobs = [
+    /*const jobs = [
       {
         date: moment(),
         title: "123 dsajf jas fdjsadgh fgasd fhasd gfhsag fhkgasd",
@@ -38,7 +42,8 @@ class MyOrders extends Component {
           icon: "account-balance",
         },
       }
-    ];
+    ];*/
+    const { jobs } = this.props;
     return (
       <Container>
         <MyOrdersView>
@@ -58,14 +63,14 @@ class MyOrders extends Component {
                 prevItem={jobs[i-1]}
               />
             ))}
-            <SectionHeader title="ЗАВЕРШЕННЫЕ" />
+            {/* <SectionHeader title="ЗАВЕРШЕННЫЕ" />
             {jobs.map((item, i) => (
               <JobItemWithProposals
                 key={`item-${i}`}
                 item={item}
                 prevItem={jobs[i-1]}
               />
-            ))}
+            ))} */}
           </JobList>
         </MyOrdersView>
       </Container>
@@ -74,7 +79,8 @@ class MyOrders extends Component {
 }
 
 export default connect(
-  state => ({},
-    { /*login*/ }
-  )
+  state => ({
+    jobs: state.myorders.jobs,
+  }),
+  { loadJobs }
 )(MyOrders);

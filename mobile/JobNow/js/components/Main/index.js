@@ -24,8 +24,8 @@ export const MainHeader = ({ children, onMenu, onFilter, onPrevMonth, onNextMont
         </TouchableHighlight>
       </View>
       <View style={styles.headerTitles}>
-        <Text style={styles.headerTitle}>Поиск заказов в</Text>
-        <Text style={styles.headerSubTitle}>г. Минск</Text>
+        <Text style={styles.headerTitle}>Поиск заказов</Text>
+        {/* <Text style={styles.headerSubTitle}>г. Минск</Text> */}
       </View>
       <View style={styles.monthControl}>
         <TouchableHighlight style={styles.monthControlButton} onPress={onPrevMonth}>
@@ -97,10 +97,12 @@ export const CategoryRow = ({ children }) => (
 );
 
 export const Category = ({ title, icon, color, onPress, isLeft, selected }) => (
-  <View style={[styles.category, isLeft && styles.categoryLeft]}>
-    <View style={[styles.categoryIconView, selected && { borderColor: color, borderWidth: 1 }]}>
-      <MaterialIcon name={icon} size={45} style={[styles.categoryIcon, selected && { color: color}]} />
+  <TouchableHighlight onPress={onPress} style={{ flex: 1 }}>
+    <View style={[styles.category, isLeft && styles.categoryLeft]}>
+      <View style={[styles.categoryIconView, selected && { borderColor: color, borderWidth: 1 }]}>
+        <MaterialIcon name={icon} size={45} style={[styles.categoryIcon, selected && { color: color}]} />
+      </View>
+      <Text style={styles.categoryTitle}>{title}</Text>
     </View>
-    <Text style={styles.categoryTitle}>{title}</Text>
-  </View>
+  </TouchableHighlight>
 );

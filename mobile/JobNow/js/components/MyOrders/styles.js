@@ -95,7 +95,7 @@ export default StyleSheet.create({
     fontSize: 16,
   },
   selectDateButton: {
-    marginRight: 25,
+    marginLeft: 25,
   },
   inputItem: {
     flexDirection: 'row',

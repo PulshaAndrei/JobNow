@@ -37,7 +37,7 @@ export const HeaderWithSave = ({ onBack, onSave, title, imageSource, isSaveEnabl
         <TouchableHighlight style={styles.menuButton} onPress={onBack}>
           <Icon name="ios-arrow-round-back-outline" size={45} color="white" />
         </TouchableHighlight>
-        <TouchableHighlight style={styles.menuButton} onPress={onSave}>
+        <TouchableHighlight style={styles.menuButton} onPress={isSaveEnabled ? onSave : null}>
             <Icon name="ios-checkmark-circle-outline" size={30} style={!isSaveEnabled && {opacity: 0.3}} color="white" />
         </TouchableHighlight>
       </View>

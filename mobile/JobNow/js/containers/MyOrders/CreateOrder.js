@@ -1,15 +1,56 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { Keyboard } from 'react-native';
 import moment from 'moment';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 require('moment/locale/ru');
 
 import { Container, InputItem, InputDescriptionItem } from '../../components/Common';
 import { HeaderWithSave } from '../../components/Header';
-import { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView } from '../../components/MyOrders';
+import { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, CategoryItem } from '../../components/MyOrders';
+import { setNewJob, saveJob } from '../../modules/myorders';
 
 class CreateOrder extends Component {
+  state = {
+    isDateTimePickerVisible: false,
+    dateTimePickerMode: 'date',
+    dateTimePickerType: 'from',
+    dateTimePickerInitDate: moment().unix(),
+  }
+  showDateTimePicker = (type, mode) => this.setState({
+    isDateTimePickerVisible: true,
+    dateTimePickerMode: mode,
+    dateTimePickerType: type,
+    dateTimePickerInitDate: type === 'from' ? this.props.newJob.startWork : this.props.newJob.endWork,
+  });
+  hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+  handleDatePicked = (date) => {
+    const { newJob, setNewJob } = this.props;
+    if (date.getTime()) {
+      const dt = moment(date);
+      if (this.state.dateTimePickerType === 'from') {
+        if (this.state.dateTimePickerMode === 'time') {
+          const current = moment.unix(newJob.startWork);
+          dt = dt.date(current.date()).month(current.month()).year(current.year())
+        }
+        setNewJob({ ...newJob, startWork: dt.unix() });
+        if (dt.unix() > newJob.endWork) setNewJob({ ...newJob, startWork: dt.unix(), endWork: dt.unix() });
+      }
+      else {
+        if (this.state.dateTimePickerMode === 'time') {
+          const current = moment.unix(newJob.endWork);
+          dt = dt.date(current.date()).month(current.month()).year(current.year())
+        }
+        setNewJob({ ...newJob, endWork: dt.unix() });
+        if (dt.unix() < newJob.startWork) setNewJob({ ...newJob, endWork: newJob.startWork });
+      }
+    }
+    this.hideDateTimePicker();
+  };
   render() {
+    const { newJob, setNewJob, categories, saveJob } = this.props;
+    const { isDateTimePickerVisible, dateTimePickerType, dateTimePickerMode, dateTimePickerInitDate } = this.state;
     return (
       <Container>
         <MyOrdersView>
@@ -17,15 +58,34 @@ class CreateOrder extends Component {
             imageSource={require('../../resourses/home_background.png')}
             title="Создать заказ"
             onBack={Actions.pop}
-            onSave={() => {}}
+            onSave={() => {
+              Keyboard.dismiss();
+              saveJob();
+            }}
+            isSaveEnabled={ newJob.name && newJob.description && newJob.maxPrice }
           />
           <CreateOrderScrollView>
-            <InputItem title="Название" value="Положить плитку" setValue={() => {}} />
-            <InputDescriptionItem title="Описание" value="Нудно выо аоылл ырад ыдлвра одырф оадлоыф аолы ф" setValue={() => {}} />
-            <InputPrice value="12.5" setValue={() => {}} />
-            <SelectDateTime isAllDay={false} dateFrom={moment()} dateTo={moment()} setDates={() => {}} />
-            <InputItem title="Адрес" value="г. Минск, ул. Октябрьская 10/2" setValue={() => {}} />
+            <InputItem title="Название" value={newJob.name} setValue={name => setNewJob({ ...newJob, name })} />
+            <InputDescriptionItem title="Описание" value={newJob.description} setValue={description => setNewJob({ ...newJob, description })} />
+            <InputPrice value={newJob.maxPrice} setValue={maxPrice => setNewJob({ ...newJob, maxPrice })} />
+            <CategoryItem title="Категория" value={categories[newJob.categoryId].title} onPress={Actions.createOrderCategory}/>
+            <SelectDateTime
+              isAllDay={newJob.isAllDay}
+              dateFrom={moment.unix(newJob.startWork)}
+              dateTo={moment.unix(newJob.endWork)}
+              setAllDay={(isAllDay) => setNewJob({ ...newJob, isAllDay })}
+              onPress={(type, mode) => this.showDateTimePicker(type, mode) }
+            />
+            <InputItem title="Адрес" value={newJob.address} setValue={address => setNewJob({ ...newJob, address })} />
           </CreateOrderScrollView>
+          <DateTimePicker
+            isVisible={isDateTimePickerVisible}
+            mode={(newJob.isAllDay && dateTimePickerMode === 'datetime') ? 'date' : dateTimePickerMode}
+            date={moment.unix(dateTimePickerInitDate).toDate()}
+            minimumDate={dateTimePickerType === 'from' ? new Date() : moment.unix(newJob.startWork).toDate()}
+            onConfirm={(date) => this.handleDatePicked(date)}
+            onCancel={() => this.hideDateTimePicker()}
+          />
         </MyOrdersView>
       </Container>
     );
@@ -33,7 +93,9 @@ class CreateOrder extends Component {
 }
 
 export default connect(
-  state => ({},
-    { /*login*/ }
-  )
+  state => ({
+    newJob: state.myorders.newJob,
+    categories: state.common.categories,
+  }),
+  { setNewJob, saveJob }
 )(CreateOrder);
