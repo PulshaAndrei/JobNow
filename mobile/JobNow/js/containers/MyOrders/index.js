@@ -4,7 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
 require('moment/locale/ru');
 
-import { Container } from '../../components/Common';
+import { Container, NoJobs } from '../../components/Common';
 import { HeaderWithMenu } from '../../components/Header';
 import { MyOrdersView, JobItemWithProposals, CreateButton } from '../../components/MyOrders';
 import { JobList, SectionHeader } from '../../components/Main';
@@ -27,6 +27,7 @@ class MyOrders extends Component {
           <CreateButton onCreate={Actions.createOrder} />
           <JobList onRefresh={loadJobs} refreshing={isLoading}>
             <SectionHeader title="АКТИВНЫЕ" />
+            {(jobs.filter((item) => moment().unix() <= item.endWork).length === 0 && !isLoading) && <NoJobs title="Нет активных заказов" />}
             {jobs.map((item, i) => (moment().unix() <= item.endWork &&
               <JobItemWithProposals
                 key={`item-${i}`}
@@ -37,6 +38,7 @@ class MyOrders extends Component {
               />
             ))}
             <SectionHeader title="ЗАВЕРШЕННЫЕ" />
+            {(jobs.filter((item) => moment().unix() > item.endWork).length === 0 && !isLoading) && <NoJobs title="Нет завершенных заказов" />}
             {jobs.map((item, i) => (moment().unix() > item.endWork &&
               <JobItemWithProposals
                 key={`item-${i}`}

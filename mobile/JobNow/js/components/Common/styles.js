@@ -134,4 +134,11 @@ export default StyleSheet.create({
     fontFamily: 'AvenirNextCyr-Light',
     marginLeft: 20,
   },
+  noJobs: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 40,
+    paddingVertical: 30, 
+  },
 });

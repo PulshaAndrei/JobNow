@@ -117,3 +117,10 @@ export const Category = ({ title, color, selected, onPress }) => (
     </View>
   </TouchableHighlight>
 );
+
+export const NoJobs = ({ title }) => (
+  <View style={styles.noJobs}>
+    <Icon name="ios-briefcase-outline" size={35} color="#bbbbbd" />
+    <Text style={[styles.categoryTitle, { color: "#bbbbbd" }]}>{title}</Text>
+  </View>
+);
