@@ -14,7 +14,7 @@ const initState = {
     address: '',
     startWork: moment().unix(),
     endWork: moment().unix(),
-    maxPrice: '',
+    priceTo: '',
     isAllDay: false,
     categoryId: 0,
   }
@@ -59,18 +59,19 @@ export function loadJobs() {
 export function saveJob() {
   return (dispatch, getState) => {
     dispatch(setIsLoading(true));
-    console.warn('', getState().myorders.newJob);
-    http.post('/users_order', getState().myorders.newJob)
+    const data = getState().myorders.newJob;
+    data.priceTo = parseFloat(data.priceTo);
+    console.warn('', data);
+    http.post('/users_order', data)
       .then((response) => {
         dispatch(setIsLoading(false));
-        dispatch(setNewJob(this.initState.newJob));
+        dispatch(setNewJob(initState.newJob));
         Alert.alert(
           'Поздравляем!',
-          `Заказ ${response.name} успешно создан! \nПолучили уведомления - Х человек.`,
-          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+          `Заказ «${response.name}» успешно создан! \nПолучили уведомления - Х человек.`,
+          [{ text: 'OK', onPress: Actions.pop, style: 'cancel' }]);
       })
       .catch((e) => {
-        console.warn('', e);
         dispatch(setIsLoading(false));
         Alert.alert(
           'Ошибка при создании',

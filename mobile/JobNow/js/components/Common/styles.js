@@ -118,4 +118,20 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  categoryItem: {
+    flexDirection: 'row',
+    paddingHorizontal: 25,
+    paddingVertical: 10,
+    borderLeftWidth: 4,
+    borderColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f3f5',
+    alignItems: 'center',
+  },
+  categoryTitle: {
+    color: '#1d1d27',
+    fontSize: 18,
+    fontFamily: 'AvenirNextCyr-Light',
+    marginLeft: 20,
+  },
 });

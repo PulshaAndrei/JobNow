@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { Container } from '../../components/Common';
+import { Container, Category } from '../../components/Common';
 import { HeaderWithSave } from '../../components/Header';
 import { SettingsView } from '../../components/Settings';
-import { CategoriesScrollView, CategoryRow, Category } from '../../components/Main';
+import { CategoriesScrollView, CategoryRow } from '../../components/Main';
 import { setNewJob } from '../../modules/myorders';
 
 class NewJobCategory extends Component {
@@ -29,26 +29,13 @@ class NewJobCategory extends Component {
           />
           <CategoriesScrollView>
             {categories.map((item, i) =>
-              i % 2 ? null :
-                <CategoryRow key={"row" + i}>
-                  <Category
-                    key={i}
-                    isLeft
-                    selected={i === this.state.categoryId}
-                    title={item.title}
-                    color={item.color}
-                    icon={item.image}
-                    onPress={() => this.setState({ categoryId: i })}
-                  />
-                  {categories[i + 1] && <Category
-                    key={i+1}
-                    selected={i + 1 === this.state.categoryId}
-                    title={categories[i + 1].title}
-                    color={categories[i + 1].color}
-                    icon={categories[i + 1].image}
-                    onPress={() => this.setState({ categoryId: i + 1 })}
-                  />}
-                </CategoryRow>
+              <Category
+                key={i}
+                selected={i === this.state.categoryId}
+                title={item.title}
+                color={item.color}
+                onPress={() => this.setState({ categoryId: i })}
+              />
             )}
           </CategoriesScrollView>
         </SettingsView>

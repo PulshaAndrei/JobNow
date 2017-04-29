@@ -13,9 +13,11 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   jobItemAvatar: {
-    flex: 0.2,
-    aspectRatio: 1,
-    borderRadius: (Dimensions.get('window').width - 100) * 0.1,
+    width: 60,
+    height: 60,
+    //flex: 0.2,
+    //aspectRatio: 1,
+    borderRadius: 30,
     marginRight: 10,
   },
   jobItemInfo: {
@@ -29,6 +31,7 @@ export default StyleSheet.create({
     marginBottom: 5,
     flex: 8,
     alignSelf: 'stretch',
+    textAlignVertical: 'center',
   },
   jobItemPriceTitle: {
     textAlign: 'right',
@@ -123,8 +126,12 @@ export default StyleSheet.create({
   myProposalView: {
     backgroundColor: '#13bcbf',
     borderRadius: 25,
-    padding: 8,
+    padding: 5,
+    paddingHorizontal: 10,
+    marginBottom: 5,
     //width: 30,
-    //height: 30,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

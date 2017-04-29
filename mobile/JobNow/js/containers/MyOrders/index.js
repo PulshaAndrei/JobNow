@@ -43,7 +43,8 @@ class MyOrders extends Component {
         },
       }
     ];*/
-    const { jobs } = this.props;
+    const { jobs, categories } = this.props;
+    console.warn('',jobs);
     return (
       <Container>
         <MyOrdersView>
@@ -55,22 +56,26 @@ class MyOrders extends Component {
           <CreateButton onCreate={Actions.createOrder} />
           <JobList>
             <SectionHeader title="АКТИВНЫЕ" />
-            {jobs.map((item, i) => (
+
+            {jobs.map((item, i) => (moment().unix() <= item.endWork &&
               <JobItemWithProposals
                 key={`item-${i}`}
                 item={item}
+                category={categories[item.categoryId]}
                 onPress={Actions.myOrderDetails}
                 prevItem={jobs[i-1]}
               />
             ))}
-            {/* <SectionHeader title="ЗАВЕРШЕННЫЕ" />
-            {jobs.map((item, i) => (
+            <SectionHeader title="ЗАВЕРШЕННЫЕ" />
+            {jobs.map((item, i) => (moment().unix() > item.endWork &&
               <JobItemWithProposals
                 key={`item-${i}`}
                 item={item}
+                category={categories[item.categoryId]}
                 prevItem={jobs[i-1]}
+                isEnded={true}
               />
-            ))} */}
+            ))}
           </JobList>
         </MyOrdersView>
       </Container>
@@ -81,6 +86,7 @@ class MyOrders extends Component {
 export default connect(
   state => ({
     jobs: state.myorders.jobs,
+    categories: state.common.categories,
   }),
   { loadJobs }
 )(MyOrders);

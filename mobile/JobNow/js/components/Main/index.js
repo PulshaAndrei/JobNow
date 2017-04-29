@@ -55,7 +55,7 @@ export const JobItem = ({ item, prevItem, onPress }) => (
         <View style={styles.jobItemInfo}>
           <View style={styles.jobItemTextRow}>
             <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.title}</Text>
-            <Text style={styles.jobItemPriceTitle} numberOfLines={1}>{item.price} руб.</Text>
+            <Text style={styles.jobItemPriceTitle} numberOfLines={1}>{item.priceTo} руб.</Text>
           </View>
           <View style={styles.jobItemTextRow}>
             <Text style={styles.jobItemTextAddress}>{item.address}</Text>

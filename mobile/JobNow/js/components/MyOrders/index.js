@@ -3,6 +3,7 @@ import { View, TouchableHighlight, Text, TextInput, Image, ScrollView, Switch } 
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
+import moment from 'moment';
 
 import styles from './styles';
 
@@ -18,18 +19,24 @@ export const CreateButton = ({ onCreate }) => (
   </TouchableHighlight>
 );
 
-export const JobItemWithProposals = ({ item, prevItem, onPress }) => (
+export const JobItemWithProposals = ({ item, prevItem, category, onPress, isEnded }) => (
   <TouchableHighlight onPress={onPress}>
-    <View style={[styles.jobItemView, { borderColor: item.category.color }]}>
+    <View style={[styles.jobItemView, category && { borderColor: category.color }]}>
       <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
       <View style={styles.jobItemInfo}>
         <View style={styles.jobItemTextRow}>
-          <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.title}</Text>
-          <Text style={styles.jobItemPriceTitle} numberOfLines={1}>{item.price} руб.</Text>
+          <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.name}</Text>
+          {isEnded
+            ? <View style={styles.myProposalView}>
+              <Text style={[styles.selectDateText, { color: 'white', fontSize: 12 }]}>Завершено</Text>
+            </View>
+            : <View style={[styles.myProposalView, { backgroundColor: '#fbab54'}]}>
+              <Text style={[styles.selectDateText, { color: 'white', fontSize: 12 }]}>от {item.priceTo} руб.</Text>
+            </View>}
         </View>
         <View style={styles.jobItemTextRow}>
-          <Text style={styles.jobItemTextAddress}>{item.address}</Text>
-          <Text style={styles.jobItemTextDistance}>{item.distance} м</Text>
+          <Text style={styles.jobItemTextAddress}>{moment.unix(item.startWork).format('dddd, DD MMMM')}</Text>
+          <Text style={styles.jobItemTextDistance}>{item.bets}12 откликов</Text>
         </View>
       </View>
     </View>

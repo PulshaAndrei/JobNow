@@ -108,3 +108,12 @@ export const LoadingIndiactor = ({ visible }) => (
     <Spinner isVisible={visible} size={100} type="9CubeGrid" color="#FFFFFF" style={styles.spinner} />
   </View>
 );
+
+export const Category = ({ title, color, selected, onPress }) => (
+  <TouchableHighlight onPress={onPress}>
+    <View style={[styles.categoryItem, selected && { backgroundColor: '#f8f8fa', borderColor: color }]}>
+      <Icon name="ios-checkmark-outline" size={50} color={selected ? color : "#bbbbbd"} />
+      <Text style={styles.categoryTitle}>{title}</Text>
+    </View>
+  </TouchableHighlight>
+);

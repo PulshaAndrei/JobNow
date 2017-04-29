@@ -6,7 +6,7 @@ import moment from 'moment';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 require('moment/locale/ru');
 
-import { Container, InputItem, InputDescriptionItem } from '../../components/Common';
+import { Container, InputItem, InputDescriptionItem, LoadingIndiactor } from '../../components/Common';
 import { HeaderWithSave } from '../../components/Header';
 import { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, CategoryItem } from '../../components/MyOrders';
 import { setNewJob, saveJob } from '../../modules/myorders';
@@ -62,12 +62,12 @@ class CreateOrder extends Component {
               Keyboard.dismiss();
               saveJob();
             }}
-            isSaveEnabled={ newJob.name && newJob.description && newJob.maxPrice }
+            isSaveEnabled={ newJob.name && newJob.description && newJob.priceTo }
           />
           <CreateOrderScrollView>
             <InputItem title="Название" value={newJob.name} setValue={name => setNewJob({ ...newJob, name })} />
             <InputDescriptionItem title="Описание" value={newJob.description} setValue={description => setNewJob({ ...newJob, description })} />
-            <InputPrice value={newJob.maxPrice} setValue={maxPrice => setNewJob({ ...newJob, maxPrice })} />
+            <InputPrice value={newJob.priceTo} setValue={priceTo => setNewJob({ ...newJob, priceTo })} />
             <CategoryItem title="Категория" value={categories[newJob.categoryId].title} onPress={Actions.createOrderCategory}/>
             <SelectDateTime
               isAllDay={newJob.isAllDay}
@@ -87,6 +87,7 @@ class CreateOrder extends Component {
             onCancel={() => this.hideDateTimePicker()}
           />
         </MyOrdersView>
+        <LoadingIndiactor visible={this.props.isLoading} />
       </Container>
     );
   }
@@ -94,6 +95,7 @@ class CreateOrder extends Component {
 
 export default connect(
   state => ({
+    isLoading: state.myorders.isLoading,
     newJob: state.myorders.newJob,
     categories: state.common.categories,
   }),
