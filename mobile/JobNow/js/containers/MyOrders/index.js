@@ -8,11 +8,15 @@ import { Container, NoJobs } from '../../components/Common';
 import { HeaderWithMenu } from '../../components/Header';
 import { MyOrdersView, JobItemWithProposals, CreateButton } from '../../components/MyOrders';
 import { JobList, SectionHeader } from '../../components/Main';
-import { loadJobs } from '../../modules/myorders';
+import { loadJobs, setCurrentJob } from '../../modules/myorders';
 
 class MyOrders extends Component {
   componentDidMount() {
     this.props.loadJobs();
+  }
+  goToJob(job, closed) {
+    this.props.setCurrentJob({ ...job, isClosed: closed});
+    Actions.myOrderDetails();
   }
   render() {
     const { jobs, categories, isLoading, loadJobs } = this.props;
@@ -33,7 +37,7 @@ class MyOrders extends Component {
                 key={`item-${i}`}
                 item={item}
                 category={categories[item.categoryId]}
-                onPress={Actions.myOrderDetails}
+                onPress={() => this.goToJob(item)}
                 prevItem={jobs[i-1]}
               />
             ))}
@@ -45,6 +49,7 @@ class MyOrders extends Component {
                 item={item}
                 category={categories[item.categoryId]}
                 prevItem={jobs[i-1]}
+                onPress={() => this.goToJob(item, true)}
                 isEnded={true}
               />
             ))}
@@ -61,5 +66,5 @@ export default connect(
     jobs: state.myorders.jobs,
     categories: state.common.categories,
   }),
-  { loadJobs }
+  { loadJobs, setCurrentJob }
 )(MyOrders);

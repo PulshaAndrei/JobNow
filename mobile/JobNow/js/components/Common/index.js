@@ -109,6 +109,12 @@ export const LoadingIndiactor = ({ visible }) => (
   </View>
 );
 
+export const LoadingView = () => (
+  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <Spinner isVisible={true} size={50} type="FadingCircleAlt" color="#13bcbf" style={styles.spinner} />
+  </View>
+);
+
 export const Category = ({ title, color, selected, onPress }) => (
   <TouchableHighlight onPress={onPress}>
     <View style={[styles.categoryItem, selected && { backgroundColor: '#f8f8fa', borderColor: color }]}>

@@ -8,6 +8,7 @@ import http from '../utils/http';
 const initState = {
   jobs: [],
   isLoading: false,
+  currentJob: {},
   newJob: {
     name: '',
     description: '',
@@ -28,6 +29,8 @@ export function reducer(state = initState, action) {
       return { ...state, isLoading: action.payload };
     case 'SET_NEW_JOB':
       return { ...state, newJob: action.payload };
+    case 'SET_MY_ORDERS_CURRENT_JOB':
+      return { ...state, currentJob: action.payload };
     default:
       return state;
   }
@@ -39,6 +42,10 @@ export function setIsLoading(value) {
 
 export function setNewJob(value) {
   return dispatch => dispatch({ type: 'SET_NEW_JOB', payload: value });
+}
+
+export function setCurrentJob(value) {
+  return dispatch => dispatch({ type: 'SET_MY_ORDERS_CURRENT_JOB', payload: value });
 }
 
 export function loadJobs() {
@@ -66,6 +73,7 @@ export function saveJob() {
       .then((response) => {
         dispatch(setIsLoading(false));
         dispatch(setNewJob(initState.newJob));
+        dispatch(loadJobs());
         Alert.alert(
           'Поздравляем!',
           `Заказ «${response.name}» успешно создан! \nПолучили уведомления - Х человек.`,
@@ -75,6 +83,45 @@ export function saveJob() {
         dispatch(setIsLoading(false));
         Alert.alert(
           'Ошибка при создании',
+          e.response.data.message,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      });
+  };
+}
+
+export function loadCurrentJob() {
+  return (dispatch, getState) => {
+    dispatch(setIsLoading(true));
+    http.get(`/users_order/${getState().myorders.currentJob.id}`)
+      .then((response) => {
+        console.warn(response);
+        dispatch(setIsLoading(false));
+        dispatch(setCurrentJob(response));
+      })
+      .catch((e) => {
+        dispatch(setIsLoading(false));
+        console.warn(e);
+      });
+  };
+}
+
+export function closeJob() {
+  return (dispatch, getState) => {
+    dispatch(setIsLoading(true));
+    const id = getState().myorders.currentJob.id;
+    http.del(`/users_order/${id}`)
+      .then((response) => {
+        dispatch(setIsLoading(false));
+        dispatch(loadJobs());
+        Alert.alert(
+          'Завершено',
+          `Заказ удален успешно.`,
+          [{ text: 'OK', onPress: Actions.pop, style: 'cancel' }]);
+      })
+      .catch((e) => {
+        dispatch(setIsLoading(false));
+        Alert.alert(
+          'Ошибка при удалении',
           e.response.data.message,
           [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
       });

@@ -110,14 +110,14 @@ export const DateRange = ({ dateFrom, dateTo, isAllDay }) => (
       <Text style={styles.inputItemTitleText}>Когда</Text>
     </View>
     <View style={styles.inputItemTextInputView}>
-      <Text style={styles.selectDateText}>
+      <Text style={[styles.selectDateText, { textAlign: 'right' }]}>
         {dateFrom.diff(dateTo, 'days') === 0
           ? (isAllDay
-            ? dateFrom.format('DD MMMM')
-            : (dateFrom.format('HH:mm') + " - " + dateTo.format('HH:mm') + ", " + dateFrom.format('DD MMMM')))
+            ? dateFrom.format('dddd DD MMMM')
+            : (dateFrom.format('HH:mm') + " - " + dateTo.format('HH:mm') + ",\n" + dateFrom.format('dddd DD MMMM')))
           : (isAllDay
-            ? (dateFrom.format('DD MMMM') + " - " + dateTo.format('DD MMMM'))
-            : (dateFrom.format('HH:mm, DD MMMM') + " - " + dateTo.format('HH:mm, DD MMMM')))
+            ? (dateFrom.format('dddd DD MMMM') + " - " + dateTo.format('dddd DD MMMM'))
+            : (dateFrom.format('HH:mm, dddd DD MMMM') + " - \n" + dateTo.format('HH:mm, dddd DD MMMM')))
         }
       </Text>
     </View>
@@ -130,7 +130,9 @@ export const Proposals = ({ title, min, max, disabled }) => (
       <Text style={styles.inputItemTitleText}>{title}</Text>
     </View>
     <View style={styles.inputItemTextInputView}>
-      <Text style={styles.selectDateText}>от {min} до {max} руб.</Text>
+      <View style={[styles.myProposalView, { marginBottom: 0, height: 30, backgroundColor: '#fbab54' }]}>
+        <Text style={[styles.selectDateText, {color: 'white'}]}>от {min} до {max} руб.</Text>
+      </View>
       {!disabled && <Icon name="ios-arrow-round-forward-outline" style={{ marginLeft: 20 }} size={30} color="#bbbbbd" />}
     </View>
   </View>
