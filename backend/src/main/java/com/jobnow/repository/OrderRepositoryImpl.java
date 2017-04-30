@@ -32,7 +32,7 @@ public class OrderRepositoryImpl implements OrderRepository<Order> {
     public Order getById(long id, long orderId) throws ExpectedException {
         try {
             return (Order) jdbcOperations.queryForObject(
-                    "SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to FROM orders WHERE id = ? AND user_id = ?",
+                    "SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to, all_day, category_id FROM orders WHERE id = ? AND user_id = ?",
                     new Object[]{orderId, id},
                     new BeanPropertyRowMapper(Order.class));
         }
@@ -43,7 +43,7 @@ public class OrderRepositoryImpl implements OrderRepository<Order> {
 
     @Override
     public List<Order> getByCityId(long cityId) throws ExpectedException {
-        return jdbcOperations.query("SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to FROM orders WHERE location_city_id = ?",
+        return jdbcOperations.query("SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to, all_day, category_id FROM orders WHERE location_city_id = ?",
                 new Object[]{cityId},
                 new BeanPropertyRowMapper(Order.class));
     }

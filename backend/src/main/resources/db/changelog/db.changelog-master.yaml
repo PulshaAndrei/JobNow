@@ -237,3 +237,46 @@ databaseChangeLog:
                     type: varchar(50)
                     constraints:
                       nullable: false
+  - changeSet:
+        id: 8
+        author: andrei.pulsha
+        changes:
+          - addColumn:
+              tableName: orders
+              columns:
+                - column:
+                    name: category_id
+                    type: integer
+                - column:
+                    name: is_all_day
+                    type: boolean
+  - changeSet:
+        id: 9
+        author: andrei.pulsha
+        changes:
+          - modifyDataType:
+              tableName: orders
+              columnName: name
+              newDataType: text
+  - changeSet:
+        id: 10
+        author: andrei.pulsha
+        changes:
+          - addColumn:
+              tableName: orders
+              columns:
+                - column:
+                    name: all_day
+                    type: boolean
+          - dropColumn:
+              tableName: orders
+              columnName: is_all_day
+  - changeSet:
+        id: 11
+        author: andrei.pulsha
+        changes:
+          - addDefaultValue:
+              tableName: orders
+              columnName: all_day
+              columnDataType: boolean
+              defaultValueBoolean: false

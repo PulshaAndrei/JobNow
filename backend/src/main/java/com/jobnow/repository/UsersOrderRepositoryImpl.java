@@ -25,22 +25,22 @@ public class UsersOrderRepositoryImpl implements UsersOrderRepository<Order> {
 
     @Override
     public List<Order> get(long id) throws ExpectedException {
-        return jdbcOperations.query("SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to FROM orders WHERE user_id = ?",
+        return jdbcOperations.query("SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, address, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to, all_day, category_id FROM orders WHERE user_id = ?",
                 new Object[]{id},
                 new BeanPropertyRowMapper(Order.class));
     }
 
     @Override
     public Order create(Order order) throws ExpectedException {
-        jdbcOperations.update("INSERT INTO orders (user_id, name, description, start_work, end_work, duration_from, duration_to, address, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
-                order.getUserId(), order.getName(), order.getDescription(), order.getStartWork(), order.getEndWork(), order.getDurationFrom(), order.getDurationTo(), order.getAddress(), order.getLocationCityId(), order.getLocationCoordX(), order.getLocationCoordY(), order.getPriceCurrency(), order.getPriceFrom(), order.getPriceTo());
+        jdbcOperations.update("INSERT INTO orders (user_id, name, description, start_work, end_work, duration_from, duration_to, address, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to, all_day, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                order.getUserId(), order.getName(), order.getDescription(), order.getStartWork(), order.getEndWork(), order.getDurationFrom(), order.getDurationTo(), order.getAddress(), order.getLocationCityId(), order.getLocationCoordX(), order.getLocationCoordY(), order.getPriceCurrency(), order.getPriceFrom(), order.getPriceTo(), order.isAllDay(), order.getCategoryId());
         return order;
     }
 
     @Override
     public Order updateDetails(Order order) throws ExpectedException {
-        jdbcOperations.update("UPDATE orders SET user_id = ?, name = ?, description = ?, start_work = ?, end_work = ?, duration_from = ?, duration_to = ?, address = ?, location_city_id = ?, location_coord_x = ?, location_coord_y = ?, price_currency = ?, price_from = ?, price_to = ? WHERE id = ?;",
-                order.getUserId(), order.getName(), order.getDescription(), order.getStartWork(), order.getEndWork(), order.getDurationFrom(), order.getDurationTo(), order.getAddress(), order.getLocationCityId(), order.getLocationCoordX(), order.getLocationCoordY(), order.getPriceCurrency(), order.getPriceFrom(), order.getPriceTo(), order.getId());
+        jdbcOperations.update("UPDATE orders SET user_id = ?, name = ?, description = ?, start_work = ?, end_work = ?, duration_from = ?, duration_to = ?, address = ?, location_city_id = ?, location_coord_x = ?, location_coord_y = ?, price_currency = ?, price_from = ?, price_to = ?, all_day = ?, category_id = ? WHERE id = ?;",
+                order.getUserId(), order.getName(), order.getDescription(), order.getStartWork(), order.getEndWork(), order.getDurationFrom(), order.getDurationTo(), order.getAddress(), order.getLocationCityId(), order.getLocationCoordX(), order.getLocationCoordY(), order.getPriceCurrency(), order.getPriceFrom(), order.getPriceTo(), order.isAllDay(), order.getCategoryId(), order.getId());
         return order;
     }
 

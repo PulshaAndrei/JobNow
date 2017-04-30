@@ -1,7 +1,5 @@
 package com.jobnow.entity;
 
-import java.awt.geom.Point2D;
-
 /**
  * Created by codex on 06.02.17.
  */
@@ -23,8 +21,8 @@ public class Order implements DomainObject {
     private Double priceFrom;
     private Double priceTo;
     private String priceCurrency; //TODO: change to currencyId
-
-    public Order(){}
+    private Long categoryId;
+    private boolean allDay;
 
     public Long getId() {
         return id;
@@ -32,6 +30,22 @@ public class Order implements DomainObject {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 
     public String getName() {
