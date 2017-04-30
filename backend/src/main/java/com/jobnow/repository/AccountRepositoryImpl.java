@@ -47,7 +47,7 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (serverAccount == null || !encoder.matches(password, serverAccount.getPassword())) {
-            throw new ExpectedException("Incorrect phone or password.", HttpStatus.UNAUTHORIZED);
+            throw new ExpectedException("Неверный номер телефона или пароль.", HttpStatus.UNAUTHORIZED);
         }
 
         return getToken(serverAccount);
@@ -56,7 +56,7 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
     @Override
     public void phoneConfirmation(String phone) throws ExpectedException {
         if (!phone.matches("375\\d{9}$")) {
-            throw new ExpectedException("Phone number is invalid or not from Belarus", HttpStatus.BAD_REQUEST);
+            throw new ExpectedException("Неправильный номер телефона. Пожалуйтса, введите телефон в формате +375 (ХХ) ХХХ ХХХХ.", HttpStatus.BAD_REQUEST);
         }
 
         String baseURL = "https://api.rocketsms.by/simple/send?username=" + smsServerUsername + "&password=" + smsServerPassword;
@@ -72,7 +72,7 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
                     .header("Accept", "application/json")
                     .asJson();
         } catch (UnirestException e) {
-            throw new ExpectedException("SMS Service couldn't send message.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ExpectedException("SMS сервис не отправил сообщение. Пожалуйста, попробуйте еще раз через некоторое время.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         if (response.getBody().getObject().get("error") != null) {
@@ -94,19 +94,19 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
                     new Object[]{confirmationCode.getPhone()}, new BeanPropertyRowMapper(ConfirmationCode.class));
 
             if (!serverConfirmationCode.getCode().equalsIgnoreCase(confirmationCode.getCode())) {
-                throw new ExpectedException("Wrong confirmation code.", HttpStatus.BAD_REQUEST);
+                throw new ExpectedException("Неверный смс-код.", HttpStatus.BAD_REQUEST);
             }
 
             Calendar calendar = Calendar.getInstance();
             if (serverConfirmationCode.getExpirationDate() < calendar.getTimeInMillis()) {
-                throw new ExpectedException("Confirmation code expired date error.", HttpStatus.BAD_REQUEST);
+                throw new ExpectedException("Срок действия смс-кода истек.", HttpStatus.BAD_REQUEST);
             }
 
             jdbcOperations.update("UPDATE phone_confirmations SET activated = true WHERE phone = ?;",
                     confirmationCode.getPhone());
         }
         catch (EmptyResultDataAccessException e) {
-            throw new ExpectedException("This phone number doesn't exist.", HttpStatus.BAD_REQUEST);
+            throw new ExpectedException("Такого номера телефона не существует.", HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -118,20 +118,20 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
                     new Object[]{id}, new BeanPropertyRowMapper(Account.class));
         }
         catch (EmptyResultDataAccessException e) {
-            throw new ExpectedException("This account doesn't exist.", HttpStatus.NOT_FOUND);
+            throw new ExpectedException("Аккаунт не существует.", HttpStatus.NOT_FOUND);
         }
     }
 
     @Override
     public String create(Account account) throws ExpectedException {
         if (account.getGivenName() == "" || account.getFamilyName() == "" || account.getPhone() == "" || account.getPassword() == "" || account.getConfirmationCode() == "") {
-            throw new ExpectedException("Fields given name, family name and phone can't be empty.", HttpStatus.BAD_REQUEST);
+            throw new ExpectedException("Поля имя, фамилия и пароль не могут быть пустыми.", HttpStatus.BAD_REQUEST);
         }
 
         //TODO check password secure
 
         if (getAccountByPhone(account.getPhone()) != null) {
-            throw new ExpectedException("This phone already exist.", HttpStatus.BAD_REQUEST);
+            throw new ExpectedException("Такой номер телефона ужу зарегистрирован.", HttpStatus.BAD_REQUEST);
         }
 
         //TODO: uncomment in production
@@ -156,14 +156,14 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(account.getPassword());
         jdbcOperations.update("INSERT INTO accounts (password, given_name, family_name, phone, email, communication_method, basic_info, image_url, rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
-                hashedPassword, account.getGivenName(), account.getFamilyName(), account.getPhone(), account.getEmail(), account.getCommunicationMethod(), account.getBasicInfo(), account.getImageURL(), account);
+                hashedPassword, account.getGivenName(), account.getFamilyName(), account.getPhone(), account.getEmail(), account.getCommunicationMethod(), account.getBasicInfo(), account.getImageURL(), account.getRate());
         return login(account.getPhone(), account.getPassword());
     }
 
     @Override
     public Account update(Account account) throws ExpectedException {
         if (account.getGivenName() == "" || account.getFamilyName() == "" || account.getPhone() == "") {
-            throw new ExpectedException("Fields given name, family name and phone can't be empty.", HttpStatus.BAD_REQUEST);
+            throw new ExpectedException("Поля имя, фамилия и номер телефона не могут быть пустыми.", HttpStatus.BAD_REQUEST);
         }
 
         jdbcOperations.update("UPDATE accounts SET given_name = ?, family_name = ?, email = ?, communication_method = ?, basic_info = ?, image_url = ? WHERE id = ?;",
