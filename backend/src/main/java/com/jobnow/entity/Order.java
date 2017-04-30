@@ -21,8 +21,8 @@ public class Order implements DomainObject {
     private Double priceFrom;
     private Double priceTo;
     private String priceCurrency; //TODO: change to currencyId
-    private Long categoryId;
-    private boolean allDay;
+    private int categoryId = 0;
+    private boolean allDay = false;
 
     public Long getId() {
         return id;
@@ -32,11 +32,11 @@ public class Order implements DomainObject {
         this.id = id;
     }
 
-    public Long getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 
