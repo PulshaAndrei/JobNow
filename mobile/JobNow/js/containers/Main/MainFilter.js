@@ -2,37 +2,39 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { Container } from '../../components/Common';
-import { MainView, MainFilterHeader, CategoriesScrollView, CategoryRow, Category } from '../../components/Main';
+import { Container, Category } from '../../components/Common';
+import { MainView, MainFilterHeader, CategoriesScrollView } from '../../components/Main';
+import { setSelectedCategories, loadJobs } from '../../modules/searchorders';
 
 class MainFilter extends Component {
+  setCategories(value) {
+    const selected = this.props.selectedCategories.slice();
+    const index = selected.indexOf(value);
+    if (index !== -1) {
+      selected.splice(index, 1);
+    } else {
+      selected.push(value);
+    }
+    this.props.setSelectedCategories(selected);
+  }
   render() {
+    const { categories, selectedCategories, loadJobs } = this.props;
     return (
       <Container>
         <MainView>
-          <MainFilterHeader onBack={Actions.pop}/>
+          <MainFilterHeader onBack={() => {
+            loadJobs();
+            Actions.pop();
+          }}/>
           <CategoriesScrollView>
             {categories.map((item, i) =>
-              i % 2 ? null :
-                <CategoryRow key={"row" + i}>
-                  <Category
-                    key={i}
-                    isLeft
-                    selected={item.selected}
-                    title={item.title}
-                    color={item.color}
-                    icon={item.image}
-                    onPress={() => { Actions.mainFilterCategory(item.specialities); }}
-                  />
-                  {categories[i + 1] && <Category
-                    key={i+1}
-                    selected={categories[i + 1].selected}
-                    title={categories[i + 1].title}
-                    color={categories[i + 1].color}
-                    icon={categories[i + 1].image}
-                    onPress={() => { Actions.mainFilterCategory(categories[i + 1].specialities); }}
-                  />}
-                </CategoryRow>
+              <Category
+                key={i}
+                selected={selectedCategories.indexOf(i) !== -1}
+                title={item.title}
+                color={item.color}
+                onPress={() => this.setCategories(i)}
+              />
             )}
           </CategoriesScrollView>
         </MainView>
@@ -42,7 +44,9 @@ class MainFilter extends Component {
 }
 
 export default connect(
-  state => ({},
-    { /*login*/ }
-  )
+  state => ({
+    selectedCategories: state.searchorders.selectedCategories,
+    categories: state.common.categories,
+  }),
+  { setSelectedCategories, loadJobs }
 )(MainFilter);
