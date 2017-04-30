@@ -16,7 +16,7 @@ const initState = {
     startWork: moment().unix(),
     endWork: moment().unix(),
     priceTo: '',
-    isAllDay: false,
+    allDay: false,
     categoryId: 0,
   }
 };

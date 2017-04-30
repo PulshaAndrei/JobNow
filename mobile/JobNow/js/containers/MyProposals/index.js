@@ -4,41 +4,26 @@ import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
 require('moment/locale/ru');
 
-import { Container, SwitchItem } from '../../components/Common';
+import { Container, SwitchItem, NoJobs } from '../../components/Common';
 import { HeaderWithMenu } from '../../components/Header';
 import { MyProposalsView } from '../../components/MyProposals';
 import { JobList, JobItem, SectionHeader } from '../../components/Main';
+import { loadJobs, setCurrentJob } from '../../modules/myproposals';
 
 class MyProposals extends Component {
+  state = {
+    showClosed: false,
+  }
+  componentDidMount() {
+    this.props.loadJobs();
+  }
+  goToJob(job, closed) {
+    this.props.setCurrentJob({ ...job, isClosed: closed});
+    Actions.orderDetailsByProposal();
+  }
   render() {
-    const jobs = [
-      {
-        date: moment(),
-        title: "123 dsajf jas fdjsadgh fgasd fhasd gfhsag fhkgasd",
-        address: "Октябрьская 10а",
-        price: 15.5,
-        category: {
-          color: "rgb(84, 132, 237)",
-          icon: "account-balance",
-        },
-      },
-      {
-        date: moment(),
-        title: "123",
-        category: {
-          color: "rgb(84, 132, 237)",
-          icon: "account-balance",
-        },
-      },
-      {
-        date: moment().add(1, 'day'),
-        title: "245",
-        category: {
-          color: "rgb(84, 132, 237)",
-          icon: "account-balance",
-        },
-      }
-    ];
+    const { showClosed } = this.state;
+    const { jobs, categories, isLoading, loadJobs } = this.props;
     return (
       <Container>
         <MyProposalsView>
@@ -47,13 +32,15 @@ class MyProposals extends Component {
             title="Мои отклики"
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
           />
-          <SwitchItem title="Показать завершенные" value={false} setValue={() => {}} />
-          <JobList>
+          <SwitchItem title="Показать завершенные" value={showClosed} setValue={showClosed => this.setState({ showClosed })} />
+          <JobList onRefresh={loadJobs} refreshing={isLoading}>
+            {(jobs.filter((item) => moment().unix() <= item.endWork).length === 0 && !isLoading) && <NoJobs title="Нет активных откликов" />}
             {jobs.map((item, i) => (
               <JobItem
                 key={`item-${i}`}
                 item={item}
-                onPress={Actions.orderDetailsByProposal}
+                category={categories[item.categoryId]}
+                onPress={() => this.goToJob(item, true)}
                 prevItem={jobs[i-1]}
               />
             ))}
@@ -65,7 +52,10 @@ class MyProposals extends Component {
 }
 
 export default connect(
-  state => ({},
-    { /*login*/ }
-  )
+  state => ({
+    isLoading: state.myproposals.isLoading,
+    jobs: state.myproposals.jobs,
+    categories: state.common.categories,
+  }),
+  { loadJobs, setCurrentJob }
 )(MyProposals);

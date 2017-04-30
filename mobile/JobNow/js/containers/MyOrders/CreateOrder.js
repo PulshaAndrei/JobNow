@@ -70,17 +70,17 @@ class CreateOrder extends Component {
             <InputPrice value={newJob.priceTo} setValue={priceTo => setNewJob({ ...newJob, priceTo })} />
             <CategoryItem title="Категория" value={categories[newJob.categoryId].title} onPress={Actions.createOrderCategory}/>
             <SelectDateTime
-              isAllDay={newJob.isAllDay}
+              isAllDay={newJob.allDay}
               dateFrom={moment.unix(newJob.startWork)}
               dateTo={moment.unix(newJob.endWork)}
-              setAllDay={(isAllDay) => setNewJob({ ...newJob, isAllDay })}
+              setAllDay={(allDay) => setNewJob({ ...newJob, allDay })}
               onPress={(type, mode) => this.showDateTimePicker(type, mode) }
             />
             <InputItem title="Адрес" value={newJob.address} setValue={address => setNewJob({ ...newJob, address })} />
           </CreateOrderScrollView>
           <DateTimePicker
             isVisible={isDateTimePickerVisible}
-            mode={(newJob.isAllDay && dateTimePickerMode === 'datetime') ? 'date' : dateTimePickerMode}
+            mode={(newJob.allDay && dateTimePickerMode === 'datetime') ? 'date' : dateTimePickerMode}
             date={moment.unix(dateTimePickerInitDate).toDate()}
             minimumDate={dateTimePickerType === 'from' ? new Date() : moment.unix(newJob.startWork).toDate()}
             onConfirm={(date) => this.handleDatePicked(date)}
