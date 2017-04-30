@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { LoginView } from '../../components/Login';
 import { getUser } from '../../modules/user';
+import { loadSubscribedCategories } from '../../modules/settings';
 
 class InitialPage extends Component {
   componentDidMount() {
@@ -13,6 +14,7 @@ class InitialPage extends Component {
         Actions.login();
       } else {
         this.props.getUser();
+        this.props.loadSubscribedCategories();
         Actions.drawer();
       }
     });
@@ -27,5 +29,5 @@ class InitialPage extends Component {
 
 export default connect(
   state => ({}),
-  { getUser }
+  { getUser, loadSubscribedCategories }
 )(InitialPage);

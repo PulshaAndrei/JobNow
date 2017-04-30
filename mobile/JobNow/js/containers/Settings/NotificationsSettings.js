@@ -2,127 +2,70 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
-import { Container } from '../../components/Common';
-import { SettingsView, SettingsHeader, SettingsSwitcher } from '../../components/Settings';
-import { CategoriesScrollView, CategoryRow, Category } from '../../components/Main';
-
-
-const categories = [
-  {
-    title: "Торговля / Продажи",
-    color: "rgb(84, 132, 237)",
-    image: "shopping-cart",
-    specialities: [],
-    selected: true,
-  },
-  {
-    title: "Строительство",
-    color: "rgb(164, 189, 252)",
-    image: "account-balance",
-    specialities: [],
-    selected: false,
-  },
-  {
-    title: "Транспорт / Автосервис",
-    color: "rgb(70, 214, 219)",
-    image: "directions-car",
-    specialities: [],
-    selected: false,
-  },
-  {
-    title: "Туризм / Гостиницы",
-    color: "rgb(122, 231, 191)",
-    image: "local-airport",
-    specialities: [],
-    selected: true,
-  },
-  {
-    title: "Красота / Спорт",
-    color: "rgb(81, 183, 73)",
-    image: "color-lens",
-    specialities: [],
-    selected: true,
-  },
-  {
-    title: "Маркетинг / PR",
-    color: "rgb(251, 215, 91)",
-    image: "people",
-    specialities: [],
-    selected: true,
-  },
-  {
-    title: "Домашний персонал",
-    color: "rgb(255, 184, 120)",
-    image: "local-laundry-service",
-    specialities: [],
-    selected: false,
-  },
-  {
-    title: "Жилищное куммунальное хозяйство",
-    color: "rgb(255, 136, 124)",
-    image: "build",
-    specialities: [],
-    selected: true,
-  },
-  {
-    title: "ИТ",
-    color: "rgb(220, 33, 39)",
-    image: "devices",
-    specialities: [],
-    selected: true,
-  },
-  {
-    title: "Бухгалтерия / Аудит",
-    color: "rgb(219, 173, 255)",
-    image: "account-balance-wallet",
-    specialities: [],
-    selected: true,
-  },
-];
+import { Container, Category, LoadingIndiactor } from '../../components/Common';
+import { HeaderWithSave } from '../../components/Header';
+import { SettingsView, SettingsSwitcher } from '../../components/Settings';
+import { CategoriesScrollView } from '../../components/Main';
+import { updateSubscribedCategories } from '../../modules/settings';
 
 class NotificationsSettings extends Component {
+  state = {
+    isEnabled: this.props.subscribedCategories.length !== 0,
+    selected: this.props.subscribedCategories,
+  }
+  setCategories(value) {
+    const selected = this.state.selected.slice();
+    const index = selected.indexOf(value);
+    if (index !== -1) {
+      selected.splice(index, 1);
+    } else {
+      selected.push(value);
+    }
+    this.setState({ isEnabled: selected.length !== 0, selected });
+  }
   render() {
+    const { categories, subscribedCategories, updateSubscribedCategories } = this.props;
     return (
       <Container>
         <SettingsView>
-          <SettingsHeader
+          <HeaderWithSave
+            imageSource={require('../../resourses/background_settings.png')}
             title="Настройки уведомлений"
             onBack={Actions.pop}
-            onFilter={Actions.mainFilter}
+            onSave={() => updateSubscribedCategories(this.state.selected)}
+            isSaveEnabled={true}
           />
-          <SettingsSwitcher title="Уведомления для категорий" />
+          <SettingsSwitcher
+            title="Уведомления для категорий"
+            value={this.state.isEnabled}
+            setValue={(value) => {
+              if (value) this.setState({ isEnabled: value, selected: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]});
+              else this.setState({ isEnabled: value, selected: []});
+            }}
+          />
           <CategoriesScrollView>
             {categories.map((item, i) =>
-              i % 2 ? null :
-                <CategoryRow key={"row" + i}>
-                  <Category
-                    key={i}
-                    isLeft
-                    selected={item.selected}
-                    title={item.title}
-                    color={item.color}
-                    icon={item.image}
-                    onPress={() => { Actions.mainFilterCategory(item.specialities); }}
-                  />
-                  {categories[i + 1] && <Category
-                    key={i+1}
-                    selected={categories[i + 1].selected}
-                    title={categories[i + 1].title}
-                    color={categories[i + 1].color}
-                    icon={categories[i + 1].image}
-                    onPress={() => { Actions.mainFilterCategory(categories[i + 1].specialities); }}
-                  />}
-                </CategoryRow>
+              <Category
+                key={i}
+                selected={this.state.selected.indexOf(i) !== -1}
+                title={item.title}
+                color={item.color}
+                onPress={() => this.setCategories(i)}
+              />
             )}
           </CategoriesScrollView>
         </SettingsView>
+        <LoadingIndiactor visible={this.props.isLoading} />
       </Container>
     );
   }
 }
 
 export default connect(
-  state => ({},
-    { /*login*/ }
-  )
+  state => ({
+    isLoading: state.settings.isLoading,
+    subscribedCategories: state.settings.subscribedCategories,
+    categories: state.common.categories,
+  }),
+  { updateSubscribedCategories }
 )(NotificationsSettings);
