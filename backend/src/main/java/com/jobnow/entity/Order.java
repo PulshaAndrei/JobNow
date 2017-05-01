@@ -10,6 +10,7 @@ public class Order implements DomainObject {
 
     private Long id;
     private Long userId;
+    private Account user;
     private String name = "";
     private String description = "";
     //private Long countryId;
@@ -30,6 +31,14 @@ public class Order implements DomainObject {
 
     public List<Bet> getBets() {
         return bets;
+    }
+
+    public Account getUser() {
+        return user;
+    }
+
+    public void setUser(Account user) {
+        this.user = user;
     }
 
     public void setBets(List<Bet> bets) {

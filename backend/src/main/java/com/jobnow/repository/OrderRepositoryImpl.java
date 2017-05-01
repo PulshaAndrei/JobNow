@@ -5,6 +5,7 @@ import com.jobnow.entity.Bet;
 import com.jobnow.entity.City;
 import com.jobnow.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -24,6 +25,10 @@ public class OrderRepositoryImpl implements OrderRepository<Order> {
     @Autowired
     protected JdbcOperations jdbcOperations;
 
+    @Autowired
+    @Qualifier("userRepository")
+    private UserRepository userRepository;
+
     @Override
     public List<City> getCities() throws ExpectedException {
         return jdbcOperations.query("SELECT * FROM cities ORDER BY id;",
@@ -37,10 +42,17 @@ public class OrderRepositoryImpl implements OrderRepository<Order> {
                     "SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, address, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to, all_day, category_id FROM orders WHERE id = ?",
                     new Object[]{orderId},
                     new BeanPropertyRowMapper(Order.class));
-            order.setBets(jdbcOperations.query(
+            order.setUser(userRepository.get(order.getUserId()));
+            List<Bet> bets = jdbcOperations.query(
                     "SELECT * FROM bets WHERE order_id = ?",
                     new Object[]{orderId},
-                    new BeanPropertyRowMapper(Bet.class)));
+                    new BeanPropertyRowMapper(Bet.class));
+            for (int i = 0; i < bets.size(); i++) {
+                Bet bet = bets.get(i);
+                bet.setUser(userRepository.get(bet.getUserId()));
+                bets.set(i, bet);
+            }
+            order.setBets(bets);
             return order;
         }
         catch (EmptyResultDataAccessException e) {

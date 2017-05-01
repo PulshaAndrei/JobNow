@@ -7,6 +7,7 @@ public class Bet implements DomainObject {
 
     private Long id;
     private Long userId;
+    private Account user;
     private Long orderId;
     private Double price = 0.0;
 
@@ -14,6 +15,14 @@ public class Bet implements DomainObject {
 
     public Long getOrderId() {
         return orderId;
+    }
+
+    public Account getUser() {
+        return user;
+    }
+
+    public void setUser(Account user) {
+        this.user = user;
     }
 
     public void setOrderId(Long orderId) {
