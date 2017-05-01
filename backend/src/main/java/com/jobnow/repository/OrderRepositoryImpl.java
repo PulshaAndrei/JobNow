@@ -34,7 +34,7 @@ public class OrderRepositoryImpl implements OrderRepository<Order> {
     public Order getById(long orderId) throws ExpectedException {
         try {
             Order order = (Order) jdbcOperations.queryForObject(
-                    "SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to, all_day, category_id FROM orders WHERE id = ?",
+                    "SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, address, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to, all_day, category_id FROM orders WHERE id = ?",
                     new Object[]{orderId},
                     new BeanPropertyRowMapper(Order.class));
             order.setBets(jdbcOperations.query(
