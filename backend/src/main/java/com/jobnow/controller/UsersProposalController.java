@@ -40,17 +40,17 @@ public class UsersProposalController {
 
     @RequestMapping(value = "/users_proposal/{orderId}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> createUsersProposal(@RequestHeader(value="Authorization") String token, @RequestBody Map<String, Object> proposal, @PathVariable long orderId) throws ExpectedException {
+    public ResponseEntity<?> createUsersProposal(@RequestHeader(value="Authorization") String token, @RequestBody Map<String, Double> proposal, @PathVariable long orderId) throws ExpectedException {
         long id = Authorization.getUserId(token, tokenKey);
-        Bet result = usersProposalRepository.create(id, orderId, (double) proposal.get("proposal"));
+        Bet result = usersProposalRepository.create(id, orderId, proposal.get("proposal"));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users_proposal/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> updateUsersProposal(@RequestHeader(value="Authorization") String token, @RequestBody Map<String, Object> proposal, @PathVariable long orderId) throws ExpectedException {
+    public ResponseEntity<?> updateUsersProposal(@RequestHeader(value="Authorization") String token, @RequestBody Map<String, Double> proposal, @PathVariable long orderId) throws ExpectedException {
         long id = Authorization.getUserId(token, tokenKey);
-        Bet result = usersProposalRepository.update(id, orderId, (int) proposal.get("proposal"));
+        Bet result = usersProposalRepository.update(id, orderId, proposal.get("proposal"));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
