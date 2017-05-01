@@ -26,8 +26,6 @@ public class Account implements DomainObject {
 
     public Account() {}
 
-    @JsonIgnore
-    @JsonProperty(value = "user_id")
     public long getId() {
         return id;
     }
