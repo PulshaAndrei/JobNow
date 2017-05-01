@@ -23,7 +23,7 @@ class MyOrderProposals extends Component {
           />
           <CreateOrderScrollView>
             {job.bets.map((item, i) => (
-              <Proposal key={i} bet={item} user={users1.find(el => el.id === item.userId)} />
+              <Proposal key={i} bet={item} user={users.find(el => el.id === item.userId)} />
             ))}
           </CreateOrderScrollView>
         </MyOrdersView>
