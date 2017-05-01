@@ -67,11 +67,17 @@ export const JobItem = ({ item, prevItem, category, onPress }) => (
         <View style={styles.jobItemInfo}>
           <View style={styles.jobItemTextRow}>
             <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.name}</Text>
-            <Text style={styles.jobItemPriceTitle} numberOfLines={1}>{item.priceTo} руб.</Text>
+            <View style={styles.jobItemPrice}>
+              <Text style={styles.jobItemPriceTitle}>{item.priceTo} руб.</Text>
+            </View>
           </View>
           <View style={styles.jobItemTextRow}>
-            <Text style={styles.jobItemTextAddress} numberOfLines={1}>{item.description}</Text>
-            <Text style={styles.jobItemTextDistance}>{item.distance}... м</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.jobItemTextAddress} numberOfLines={1}>{item.description}</Text>
+            </View>
+            <View>
+              <Text style={styles.jobItemTextDistance}>{item.distance}250 м</Text>
+            </View>
           </View>
         </View>
       </View>

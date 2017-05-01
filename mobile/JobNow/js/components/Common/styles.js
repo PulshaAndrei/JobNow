@@ -113,6 +113,7 @@ export default StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 100,
   },
   spinner: {
     justifyContent: 'center',
@@ -139,6 +140,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 40,
-    paddingVertical: 30, 
+    paddingVertical: 30,
   },
 });

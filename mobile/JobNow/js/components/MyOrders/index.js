@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, TouchableHighlight, Text, TextInput, Image, ScrollView, Switch } from 'react-native';
+import React, { Component } from 'react';
+import { View, TouchableHighlight, Text, TextInput, Image, ScrollView, Switch, Slider } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
@@ -120,16 +120,16 @@ export const DateRange = ({ dateFrom, dateTo, isAllDay }) => (
             ? dateFrom.format('dddd DD MMMM')
             : (dateFrom.format('HH:mm') + " - " + dateTo.format('HH:mm') + ",\n" + dateFrom.format('dddd DD MMMM')))
           : (isAllDay
-            ? (dateFrom.format('dddd DD MMMM') + " - " + dateTo.format('dddd DD MMMM'))
-            : (dateFrom.format('HH:mm, dddd DD MMMM') + " - \n" + dateTo.format('HH:mm, dddd DD MMMM')))
+            ? (dateFrom.format('dddd DD MMMM') + " -\n" + dateTo.format('dddd DD MMMM'))
+            : (dateFrom.format('HH:mm, dddd DD MMMM') + " -\n" + dateTo.format('HH:mm, dddd DD MMMM')))
         }
       </Text>
     </View>
   </View>
 );
 
-export const Proposals = ({ title, proposals, onPress }) => (
-  <TouchableHighlight onPress={proposals.length !== 0 ? onPress: undefined}>
+export const Proposals = ({ title, proposals, onPress, disabled }) => (
+  <TouchableHighlight onPress={(!disabled && proposals.length !== 0) ? onPress: undefined}>
     <View  style={styles.inputItem}>
       <View>
         <Text style={styles.inputItemTitleText}>{title}</Text>
@@ -142,24 +142,26 @@ export const Proposals = ({ title, proposals, onPress }) => (
               : `от ${Math.min.apply(Math, proposals.map(el => el.price))} до ${Math.max.apply(Math, proposals.map(el => el.price))} руб.`}
           </Text>
         </View>
-        {proposals.length !== 0 && <Icon name="ios-arrow-round-forward-outline" style={{ marginLeft: 20 }} size={30} color="#bbbbbd" />}
+        {(proposals.length !== 0 && !disabled) && <Icon name="ios-arrow-round-forward-outline" style={{ marginLeft: 20 }} size={30} color="#bbbbbd" />}
       </View>
     </View>
   </TouchableHighlight>
 );
 
-export const MyProposal = ({ title, value }) => (
-  <View  style={styles.inputItem}>
-    <View>
-      <Text style={styles.inputItemTitleText}>{title}</Text>
-    </View>
-    <View style={styles.inputItemTextInputView}>
-      <View style={styles.myProposalView}>
-        <Text style={[styles.selectDateText, { color: 'white' }]}>{value}</Text>
+export const MyProposal = ({ title, value, onPress }) => (
+  <TouchableHighlight onPress={onPress}>
+    <View  style={styles.inputItem}>
+      <View>
+        <Text style={styles.inputItemTitleText}>{title}</Text>
       </View>
-      <Text style={styles.inputItemTitleText}> руб.</Text>
+      <View style={styles.inputItemTextInputView}>
+        <View style={[styles.myProposalView, {marginBottom: 0}]}>
+          <Text style={[styles.selectDateText, { color: 'white' }]}>{value}</Text>
+        </View>
+        <Text style={styles.inputItemTitleText}> руб.</Text>
+      </View>
     </View>
-  </View>
+  </TouchableHighlight>
 );
 
 export const CategoryItem = ({ title, value, onPress }) => (
@@ -192,3 +194,69 @@ export const Proposal = ({ bet, user, onPress }) => (
     </View>
   </TouchableHighlight>
 );
+
+export default class PopupView extends Component {
+  state = {
+    value: this.props.currentPrice,
+    inputValue: this.props.currentPrice.toString(),
+  }
+  render() {
+    const { maxPrice, setPrice, onClose, onSend, onChange, onDelete, isChange } = this.props;
+    const { value, inputValue } = this.state;
+    return (
+      <View style={styles.popupView}>
+        <View>
+          <Text style={styles.popupViewTitle}>Предложите свою цену за выбранный заказ</Text>
+        </View>
+        <View>
+          <Slider
+            minimumValue={1}
+            maximumValue={maxPrice}
+            step={0.5}
+            value={value}
+            onValueChange={value => this.setState({ value, inputValue: value.toString() })}
+          />
+          <View style={styles.popupViewPriceView}>
+            <Text>Цена:</Text>
+            <View style={styles.popupViewPrice}>
+              <TextInput
+                value={inputValue}
+                onChangeText={inputValue => this.setState({ inputValue })}
+                onEndEditing={() => this.setState({
+                  inputValue: (inputValue < maxPrice && parseFloat(inputValue).toString()) || value.toString(),
+                  value: (inputValue < maxPrice && parseFloat(inputValue)) || value })}
+                style={styles.inputItemTextInput}
+                keyboardType="numeric"
+                underlineColorAndroid={'transparent'}
+              />
+              <Text style={styles.inputItemTitleText}> руб.</Text>
+            </View>
+          </View>
+        </View>
+        {isChange
+          ? <View>
+              <View style={[styles.bottomButtons, { marginBottom: 15 }]}>
+                <TouchableHighlight onPress={() => onChange(this.state.value)} style={[styles.bottomButton, { backgroundColor: '#13bcbf' }]}>
+                  <Text style={styles.bottomButtonText}>Изменить</Text>
+                </TouchableHighlight>
+              </View>
+              <View style={styles.bottomButtons}>
+                  <TouchableHighlight onPress={onClose} style={[styles.bottomButton, { backgroundColor: '#c8c8ca' }]}>
+                    <Text style={styles.bottomButtonText}>Отмена</Text>
+                  </TouchableHighlight>
+                  <TouchableHighlight onPress={onDelete} style={[styles.bottomButton, { backgroundColor: '#bf1313' }]}>
+                    <Text style={styles.bottomButtonText}>Удалить</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+          : <View style={styles.bottomButtons}>
+              <TouchableHighlight onPress={onClose} style={[styles.bottomButton, { backgroundColor: '#c8c8ca' }]}>
+                <Text style={styles.bottomButtonText}>Отмена</Text>
+              </TouchableHighlight>
+              <TouchableHighlight onPress={() => onSend(this.state.value)} style={[styles.bottomButton, { backgroundColor: '#13bcbf' }]}>
+                <Text style={styles.bottomButtonText}>Подтвердить</Text>
+              </TouchableHighlight>
+            </View>}
+      </View>)
+  }
+};

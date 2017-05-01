@@ -28,11 +28,11 @@ export function reducer(state = initState, action) {
 }
 
 export function setIsLoading(value) {
-  return dispatch => dispatch({ type: 'SET_LOADING_MY_PROPOSALS', payload: value });
+  return dispatch => dispatch({ type: 'SET_LOADING_SEARCH_JOB', payload: value });
 }
 
 export function setCurrentJob(value) {
-  return dispatch => dispatch({ type: 'SET_MY_PROPOSALS_CURRENT_JOB', payload: value });
+  return dispatch => dispatch({ type: 'SET_CURRENT_JOB', payload: value });
 }
 
 export function setSelectedCategories(value) {
@@ -55,9 +55,98 @@ export function loadJobs() {
   };
 }
 
+export function loadJob(id) {
+  return (dispatch) => {
+    dispatch(setIsLoading(true));
+    http.get(`/order/${id}`)
+      .then((response) => {
+        dispatch(setIsLoading(false));
+        dispatch(setCurrentJob(response));
+      })
+      .catch((e) => {
+        dispatch(setIsLoading(false));
+        console.warn(e);
+      });
+  };
+}
+
+
+export function sendProposal(value) {
+  console.warn('!', value);
+  return (dispatch, getState) => {
+    dispatch(setIsLoading(true));
+    const job = getState().searchorders.currentJob;
+    http.post(`/users_proposal/${job.id}`, { proposal: value })
+      .then((response) => {
+        dispatch(setIsLoading(false));
+        dispatch(loadJob(job.id));
+        Alert.alert(
+          'Поздравляем!',
+          `Ваш отклик отправлен.`,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      })
+      .catch((e) => {
+        dispatch(setIsLoading(false));
+        Alert.alert(
+          'Ошибка',
+          e.response.data.message,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      });
+  };
+}
+
+export function changeProposal(value) {
+  return (dispatch, getState) => {
+    dispatch(setIsLoading(true));
+    const job = getState().searchorders.currentJob;
+    http.put(`/users_proposal/${job.id}`, { proposal: value })
+      .then((response) => {
+        dispatch(setIsLoading(false));
+        dispatch(loadJob(job.id));
+        Alert.alert(
+          'Поздравляем!',
+          `Ваш отклик отправлен.`,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      })
+      .catch((e) => {
+        dispatch(setIsLoading(false));
+        Alert.alert(
+          'Ошибка',
+          e.response.data.message,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      });
+  };
+}
+
+export function removeProposal() {
+  return (dispatch, getState) => {
+    dispatch(setIsLoading(true));
+    const job = getState().searchorders.currentJob;
+    http.del(`/users_proposal/${job.id}`)
+      .then((response) => {
+        dispatch(setIsLoading(false));
+        dispatch(loadJob(job.id));
+        Alert.alert(
+          'Завершено',
+          `Ваш отклик удален.`,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      })
+      .catch((e) => {
+        dispatch(setIsLoading(false));
+        Alert.alert(
+          'Ошибка',
+          e.response.data.message,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      });
+  };
+}
+
 export function jobsByMonth(currentMonth) {
   return (dispatch, getState) => {
     const allJobs = getState().searchorders.jobs;
-    return allJobs.filter(item => moment.unix(item.startWork).diff(currentMonth, 'month') === 0);
+    const month = currentMonth.format('YYYY-MM');
+    return allJobs
+      .filter(item => moment.unix(item.startWork).format('YYYY-MM') === month)
+      .sort((a, b) => a.startWork - b.startWork).slice();
   }
 }

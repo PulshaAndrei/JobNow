@@ -79,10 +79,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   jobItemAvatar: {
-    flex: 0.2,
-    aspectRatio: 1,
-    //width: 55,
-    borderRadius: (Dimensions.get('window').width - 100) * 0.1,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     marginRight: 10,
   },
   /*jobItemIconView: {
@@ -96,6 +95,16 @@ export default StyleSheet.create({
   jobItemIcon: {
     color: '#a8a8aa',
   },*/
+  jobItemPrice: {
+    backgroundColor: '#13bcbf',
+    borderRadius: 25,
+    padding: 5,
+    paddingHorizontal: 10,
+    marginBottom: 5,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   jobItemInfo: {
     flex: 1,
     paddingVertical: 5,
@@ -109,11 +118,9 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
   },
   jobItemPriceTitle: {
-    textAlign: 'right',
-    flex: 4,
-    color: 'black',
-    fontSize: 16,
-    fontFamily: 'AvenirNextCyr-Bold',
+    color: 'white',
+    fontSize: 14,
+    fontFamily: 'AvenirNextCyr-Regular',
   },
   jobItemTextAddress: {
     color: '#a8a8aa',

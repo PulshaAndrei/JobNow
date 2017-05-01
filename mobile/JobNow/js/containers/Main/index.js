@@ -26,8 +26,8 @@ class Main extends Component {
   componentDidMount() {
     this.props.loadJobs();
   }
-  goToJob(job, closed) {
-    this.props.setCurrentJob({ ...job, isClosed: closed});
+  goToJob(job) {
+    this.props.setCurrentJob(job);
     Actions.orderDetails();
   }
 
@@ -52,7 +52,7 @@ class Main extends Component {
                 item={item}
                 category={categories[item.categoryId]}
                 prevItem={jobs[i-1]}
-                onPress={Actions.orderDetails}
+                onPress={() => this.goToJob(item)}
               />
             ))}
           </JobList>

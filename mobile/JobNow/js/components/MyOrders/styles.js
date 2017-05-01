@@ -146,4 +146,47 @@ export default StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  popupView: {
+    margin: 20,
+    backgroundColor: 'white',
+    zIndex: 10,
+    flex: 1,
+    justifyContent: 'space-around'
+  },
+  bottomButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginHorizontal: -10,
+  },
+  bottomButton: {
+    flex: 1,
+    marginHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+  bottomButtonText: {
+    color: 'white',
+    fontFamily: 'AvenirNextCyr-Regular',
+    fontSize: 16,
+  },
+  popupViewPrice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  popupViewPriceView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  popupViewTitle: {
+    fontFamily: 'AvenirNextCyr-Regular',
+    fontSize: 20,
+    textAlign: 'center',
+  }
 });
