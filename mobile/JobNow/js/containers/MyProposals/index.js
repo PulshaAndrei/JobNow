@@ -8,7 +8,8 @@ import { Container, SwitchItem, NoJobs } from '../../components/Common';
 import { HeaderWithMenu } from '../../components/Header';
 import { MyProposalsView } from '../../components/MyProposals';
 import { JobList, JobItem, SectionHeader } from '../../components/Main';
-import { loadJobs, setCurrentJob } from '../../modules/myproposals';
+import { loadJobs } from '../../modules/myproposals';
+import { setCurrentJob } from '../../modules/searchorders';
 
 class MyProposals extends Component {
   state = {
@@ -24,6 +25,7 @@ class MyProposals extends Component {
   render() {
     const { showClosed } = this.state;
     const { jobs, categories, isLoading, loadJobs } = this.props;
+    console.warn('', jobs);
     return (
       <Container>
         <MyProposalsView>
@@ -40,7 +42,7 @@ class MyProposals extends Component {
                 key={`item-${i}`}
                 item={item}
                 category={categories[item.categoryId]}
-                onPress={() => this.goToJob(item, true)}
+                onPress={() => this.goToJob(item)}
                 prevItem={jobs[i-1]}
               />
             ))}

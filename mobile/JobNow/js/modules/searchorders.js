@@ -79,6 +79,7 @@ export function sendProposal(value) {
     http.post(`/users_proposal/${job.id}`, { proposal: value })
       .then((response) => {
         dispatch(setIsLoading(false));
+        dispatch(loadJobs());
         dispatch(loadJob(job.id));
         Alert.alert(
           'Поздравляем!',
@@ -102,6 +103,7 @@ export function changeProposal(value) {
     http.put(`/users_proposal/${job.id}`, { proposal: value })
       .then((response) => {
         dispatch(setIsLoading(false));
+        dispatch(loadJobs());
         dispatch(loadJob(job.id));
         Alert.alert(
           'Поздравляем!',
@@ -125,6 +127,7 @@ export function removeProposal() {
     http.del(`/users_proposal/${job.id}`)
       .then((response) => {
         dispatch(setIsLoading(false));
+        dispatch(loadJobs());
         dispatch(loadJob(job.id));
         Alert.alert(
           'Завершено',
@@ -147,6 +150,7 @@ export function jobsByMonth(currentMonth) {
     const month = currentMonth.format('YYYY-MM');
     return allJobs
       .filter(item => moment.unix(item.startWork).format('YYYY-MM') === month)
+      .filter(item => moment.unix(item.startWork).isSameOrAfter(moment()))
       .sort((a, b) => a.startWork - b.startWork).slice();
   }
 }
