@@ -31,12 +31,16 @@ export const JobItemWithProposals = ({ item, prevItem, category, onPress, isEnde
               <Text style={[styles.selectDateText, { color: 'white', fontSize: 12 }]}>Завершено</Text>
             </View>
             : <View style={[styles.myProposalView, { backgroundColor: '#fbab54'}]}>
-              <Text style={[styles.selectDateText, { color: 'white', fontSize: 12 }]}>от {item.priceTo} руб.</Text>
+              <Text style={[styles.selectDateText, { color: 'white', fontSize: 12 }]}>
+                {item.bets.length === 0
+                  ? `${item.priceTo} руб.`
+                  : `от ${Math.min.apply(Math, item.bets.map(el => el.price))} руб.`}
+              </Text>
             </View>}
         </View>
         <View style={styles.jobItemTextRow}>
           <Text style={styles.jobItemTextAddress}>{moment.unix(item.startWork).format('dddd, DD MMMM')}</Text>
-          <Text style={styles.jobItemTextDistance}>{item.bets}12 откликов</Text>
+          <Text style={styles.jobItemTextDistance}>{item.bets.length} откликов</Text>
         </View>
       </View>
     </View>
@@ -124,18 +128,24 @@ export const DateRange = ({ dateFrom, dateTo, isAllDay }) => (
   </View>
 );
 
-export const Proposals = ({ title, min, max, disabled }) => (
-  <View  style={styles.inputItem}>
-    <View>
-      <Text style={styles.inputItemTitleText}>{title}</Text>
-    </View>
-    <View style={styles.inputItemTextInputView}>
-      <View style={[styles.myProposalView, { marginBottom: 0, height: 30, backgroundColor: '#fbab54' }]}>
-        <Text style={[styles.selectDateText, {color: 'white'}]}>от {min} до {max} руб.</Text>
+export const Proposals = ({ title, proposals, onPress }) => (
+  <TouchableHighlight onPress={proposals.length !== 0 ? onPress: undefined}>
+    <View  style={styles.inputItem}>
+      <View>
+        <Text style={styles.inputItemTitleText}>{title}</Text>
       </View>
-      {!disabled && <Icon name="ios-arrow-round-forward-outline" style={{ marginLeft: 20 }} size={30} color="#bbbbbd" />}
+      <View style={styles.inputItemTextInputView}>
+        <View style={[styles.myProposalView, { marginBottom: 0, height: 30, backgroundColor: '#fbab54' }]}>
+          <Text style={[styles.selectDateText, {color: 'white'}]}>
+            {proposals.length === 0
+              ? `Нет откликов`
+              : `от ${Math.min.apply(Math, proposals.map(el => el.price))} до ${Math.max.apply(Math, proposals.map(el => el.price))} руб.`}
+          </Text>
+        </View>
+        {proposals.length !== 0 && <Icon name="ios-arrow-round-forward-outline" style={{ marginLeft: 20 }} size={30} color="#bbbbbd" />}
+      </View>
     </View>
-  </View>
+  </TouchableHighlight>
 );
 
 export const MyProposal = ({ title, value }) => (
@@ -161,6 +171,23 @@ export const CategoryItem = ({ title, value, onPress }) => (
       <View style={styles.inputItemTextInputView}>
         <Text style={[styles.selectDateText, { marginRight: 15, marginLeft: 25 }]} numberOfLines={1}>{value}</Text>
         <Icon name="ios-arrow-round-forward-outline" size={30} color="#bbbbbd" />
+      </View>
+    </View>
+  </TouchableHighlight>
+);
+
+export const Proposal = ({ bet, user, onPress }) => (
+  <TouchableHighlight onPress={onPress}>
+    <View style={styles.inputItem}>
+      <Image source={require('../../resourses/avatar.jpg')} style={styles.proposalAvatar} />
+      <View style={styles.proposalInfo}>
+        <Text style={[styles.inputItemTitleText, {color: 'black', fontSize: 18}]}>{ user ? user.givenName + " " + user.falimyName : "Загрузка..."}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+          <View style={[styles.myProposalView, { marginBottom: 0, marginRight: 10 }]}>
+            <Text style={[styles.selectDateText, { color: 'white' }]}>{bet.price} руб.</Text>
+          </View>
+          <Icon name="ios-arrow-round-forward-outline" size={30} color="#bbbbbd" />
+        </View>
       </View>
     </View>
   </TouchableHighlight>

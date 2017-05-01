@@ -134,4 +134,16 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  proposalAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 15,
+  },
+  proposalInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
+  },
 });

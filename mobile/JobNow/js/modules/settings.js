@@ -34,7 +34,6 @@ export function loadSubscribedCategories() {
     dispatch(setIsLoading(true));
     http.get('/subscription/categories')
       .then((response) => {
-        console.warn('', response);
         dispatch(setIsLoading(false));
         dispatch(setSubscribedCategories(response));
       })
@@ -47,7 +46,6 @@ export function loadSubscribedCategories() {
 
 export function updateSubscribedCategories(categories, withoutAlert) {
   return (dispatch) => {
-    console.warn('updare cat');
     dispatch(setIsLoading(true));
     http.put('/subscription/categories', { categories })
       .then((response) => {

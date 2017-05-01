@@ -22,6 +22,7 @@ import Profile from './containers/Profile';
 import MyOrders from './containers/MyOrders';
 import CreateOrder from './containers/MyOrders/CreateOrder';
 import MyOrderDetails from './containers/MyOrders/MyOrderDetails';
+import MyOrderProposals from './containers/MyOrders/MyOrderProposals';
 import NewJobCategory from './containers/MyOrders/Category';
 
 import MyProposals from './containers/MyProposals';
@@ -65,6 +66,7 @@ class App extends Component {
                   <Scene key="orders" component={MyOrders} />
                   <Scene key="createOrder" component={CreateOrder} />
                   <Scene key="myOrderDetails" component={MyOrderDetails} />
+                  <Scene key="myOrderProposals" component={MyOrderProposals} />
                   <Scene key="createOrderCategory" component={NewJobCategory} />
                 </Scene>
                 <Scene key="myApplicationsNavigationTab" hideNavBar>

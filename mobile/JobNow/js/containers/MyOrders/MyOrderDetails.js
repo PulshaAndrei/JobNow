@@ -8,11 +8,12 @@ require('moment/locale/ru');
 import { Container, InputItem, InputDescriptionItem, LoadingView, LoadingIndiactor } from '../../components/Common';
 import { HeaderWithClose, HeaderWithBack } from '../../components/Header';
 import { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, DateRange, Proposals } from '../../components/MyOrders';
-import { closeJob, loadCurrentJob } from '../../modules/myorders';
+import { closeJob, loadCurrentJob, loadBetUsers } from '../../modules/myorders';
 
 class MyOrderDetails extends Component {
   componentDidMount() {
     // this.props.loadCurrentJob();
+    this.props.loadBetUsers();
   }
   render() {
     const { job, closeJob, isLoading, categories } = this.props;
@@ -36,7 +37,7 @@ class MyOrderDetails extends Component {
                     [{ text: 'Удалить', onPress: closeJob, style: 'destroy' }])}
               />}
             <CreateOrderScrollView>
-              <Proposals title="Отклики" min={12} max={25} />
+              <Proposals title="Отклики" proposals={job.bets} onPress={Actions.myOrderProposals}/>
               <InputDescriptionItem disabled title="Описание" value={job.description} />
               <InputItem disabled title="Категория" value={categories[job.categoryId] && categories[job.categoryId].title} />
               <InputPrice disabled title="Максимальная цена" value={job.priceTo} />
@@ -56,5 +57,5 @@ export default connect(
     job: state.myorders.currentJob,
     categories: state.common.categories,
   }),
-  { closeJob, loadCurrentJob }
+  { closeJob, loadCurrentJob, loadBetUsers }
 )(MyOrderDetails);

@@ -50,6 +50,7 @@ class Main extends Component {
               <JobItem
                 key={`item-${i}`}
                 item={item}
+                category={categories[item.categoryId]}
                 prevItem={jobs[i-1]}
                 onPress={Actions.orderDetails}
               />
@@ -64,6 +65,7 @@ class Main extends Component {
 export default connect(
   state => ({
     isLoading: state.searchorders.isLoading,
+    jobs: state.searchorders.jobs,
     categories: state.common.categories,
   }),
   { loadJobs, setCurrentJob, jobsByMonth }

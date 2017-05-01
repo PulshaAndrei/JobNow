@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableHighlight, Text, TextInput, Image, ScrollView, RefreshControl } from 'react-native';
+import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
@@ -56,20 +57,21 @@ export const JobList = ({ children, onRefresh, refreshing }) => (
   </ScrollView>
 );
 
-export const JobItem = ({ item, prevItem, onPress }) => (
+export const JobItem = ({ item, prevItem, category, onPress }) => (
   <TouchableHighlight onPress={onPress}>
     <View>
-      {!(prevItem && prevItem.date.isSame(item.date, 'days')) && <SectionHeader title={item.date.format('dddd, DD MMMM').toUpperCase()} />}
-      <View style={[styles.jobItemView, { borderColor: item.category.color }]}>
+      {!(prevItem && moment.unix(prevItem.startWork).isSame(moment.unix(item.startWork), 'days')) &&
+        <SectionHeader title={moment.unix(item.startWork).format('dddd, DD MMMM').toUpperCase()} />}
+      <View style={[styles.jobItemView, { borderColor: category.color }]}>
         <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
         <View style={styles.jobItemInfo}>
           <View style={styles.jobItemTextRow}>
-            <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.title}</Text>
+            <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.name}</Text>
             <Text style={styles.jobItemPriceTitle} numberOfLines={1}>{item.priceTo} руб.</Text>
           </View>
           <View style={styles.jobItemTextRow}>
-            <Text style={styles.jobItemTextAddress}>{item.address}</Text>
-            <Text style={styles.jobItemTextDistance}>{item.distance} м</Text>
+            <Text style={styles.jobItemTextAddress} numberOfLines={1}>{item.description}</Text>
+            <Text style={styles.jobItemTextDistance}>{item.distance}... м</Text>
           </View>
         </View>
       </View>
