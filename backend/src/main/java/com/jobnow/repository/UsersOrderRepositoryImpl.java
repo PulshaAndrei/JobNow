@@ -3,6 +3,7 @@ package com.jobnow.repository;
 import com.jobnow.controller.ExpectedException;
 import com.jobnow.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcOperations;
@@ -23,11 +24,19 @@ public class UsersOrderRepositoryImpl implements UsersOrderRepository<Order> {
     @Autowired
     protected JdbcOperations jdbcOperations;
 
+    @Autowired
+    @Qualifier("orderRepository")
+    private OrderRepository orderRepository;
+
     @Override
     public List<Order> get(long id) throws ExpectedException {
-        return jdbcOperations.query("SELECT id, user_id, name, description, start_work, end_work, duration_from, duration_to, address, location_city_id, location_coord_x, location_coord_y, price_currency, price_from, price_to, all_day, category_id FROM orders WHERE user_id = ?",
+        List<Order> orders = jdbcOperations.query("SELECT id FROM orders WHERE user_id = ?",
                 new Object[]{id},
                 new BeanPropertyRowMapper(Order.class));
+        for (int i = 0; i < orders.size(); i++) {
+            orders.set(i, orderRepository.getById(orders.get(i).getId()));
+        }
+        return orders;
     }
 
     @Override

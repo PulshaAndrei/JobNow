@@ -3,6 +3,8 @@ package com.jobnow.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+
 /**
  * Created by Andrei on 11.12.2016.
  */

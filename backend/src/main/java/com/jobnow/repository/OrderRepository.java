@@ -15,7 +15,7 @@ public interface OrderRepository<V extends DomainObject> {
 
     List<City> getCities() throws  ExpectedException;
 
-    Order getById(long id, long orderId) throws ExpectedException;
+    Order getById(long orderId) throws ExpectedException;
 
-    List<Order> getByCityId(long cityId) throws ExpectedException;
+    List<Order> getByCategories(Long userId, int [] categories) throws ExpectedException;
 }

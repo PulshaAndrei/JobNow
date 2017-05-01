@@ -1,5 +1,8 @@
 package com.jobnow.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by codex on 06.02.17.
  */
@@ -23,6 +26,15 @@ public class Order implements DomainObject {
     private String priceCurrency; //TODO: change to currencyId
     private int categoryId = 0;
     private boolean allDay = false;
+    private List<Bet> bets = new ArrayList<>();
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
+    }
 
     public Long getId() {
         return id;

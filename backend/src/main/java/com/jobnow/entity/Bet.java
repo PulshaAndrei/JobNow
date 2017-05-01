@@ -7,9 +7,18 @@ public class Bet implements DomainObject {
 
     private Long id;
     private Long userId;
+    private Long orderId;
     private Double price = 0.0;
 
     public Bet() {}
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
 
     public Long getId() {
         return id;

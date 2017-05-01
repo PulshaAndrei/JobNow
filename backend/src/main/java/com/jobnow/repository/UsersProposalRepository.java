@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface UsersProposalRepository<V extends DomainObject> {
 
-    List<Bet> get(long id) throws ExpectedException;
+    List<Order> get(long id) throws ExpectedException;
 
     Bet create(long id, long orderId, double proposal) throws ExpectedException;
 
