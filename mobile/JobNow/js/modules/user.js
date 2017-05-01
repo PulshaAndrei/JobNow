@@ -5,6 +5,8 @@ import { Alert } from 'react-native';
 
 import http from '../utils/http';
 
+import { updateSubscribedCategories } from './settings';
+
 String.prototype.insert = function (index, string) {
   if (index > 0)
     return this.substring(0, index) + string + this.substring(index, this.length);
@@ -181,6 +183,7 @@ export function registration(user) {
     .then((response) => {
       store.save('token', response.token)
       .then(dispatch(getUser()))
+      .then(dispatch(updateSubscribedCategories([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], true)))
       .then(dispatch(setIsLoading(false)))
       .then(() => Actions.drawer());
     })

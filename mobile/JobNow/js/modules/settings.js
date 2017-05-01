@@ -13,7 +13,7 @@ const initState = {
 export function reducer(state = initState, action) {
   switch (action.type) {
     case 'SET_SUBSCRIBED_CATEGORIES':
-      return { ...state, jobs: action.payload };
+      return { ...state, subscribedCategories: action.payload };
     case 'SET_LOADING_SETTINGS':
       return { ...state, isLoading: action.payload };
     default:
@@ -34,6 +34,7 @@ export function loadSubscribedCategories() {
     dispatch(setIsLoading(true));
     http.get('/subscription/categories')
       .then((response) => {
+        console.warn('', response);
         dispatch(setIsLoading(false));
         dispatch(setSubscribedCategories(response));
       })
@@ -44,21 +45,22 @@ export function loadSubscribedCategories() {
   };
 }
 
-export function updateSubscribedCategories(categories) {
+export function updateSubscribedCategories(categories, withoutAlert) {
   return (dispatch) => {
+    console.warn('updare cat');
     dispatch(setIsLoading(true));
-    http.put('/subscription/categories', categories)
+    http.put('/subscription/categories', { categories })
       .then((response) => {
         dispatch(setIsLoading(false));
         dispatch(loadSubscribedCategories());
-        Alert.alert(
+        if (!withoutAlert) Alert.alert(
           'Завершено успешно',
           `Подписка на получение уведомлений о новых заказах изменена.`,
           [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
       })
       .catch((e) => {
         dispatch(setIsLoading(false));
-        Alert.alert(
+        if (!withoutAlert) Alert.alert(
           'Ошибка при сохранении',
           e.response.data.message,
           [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
