@@ -40,7 +40,7 @@ class MyOrderDetails extends Component {
               <InputDescriptionItem disabled title="Описание" value={job.description} />
               <InputItem disabled title="Категория" value={categories[job.categoryId] && categories[job.categoryId].title} />
               <InputPrice disabled title="Максимальная цена" value={job.priceTo} />
-              <DateRange dateFrom={moment.unix(job.startWork)} dateTo={moment.unix(job.endWork)} isAllDay={job.isAllDay} />
+              <DateRange dateFrom={moment.unix(job.startWork)} dateTo={moment.unix(job.endWork)} isAllDay={job.allDay} />
               <InputItem disabled title="Адрес" value={job.address} />
             </CreateOrderScrollView>
           </MyOrdersView>}

@@ -44,6 +44,7 @@ export const InputItem = ({ title, value, setValue, keyboardType, disabled, onFo
           onChangeText={setValue}
           style={styles.inputItemTextInput}
           keyboardType={keyboardType}
+          autoCapitalize="sentences"
           underlineColorAndroid={'transparent'}
           onFocus={onFocus}
         />}
@@ -65,6 +66,7 @@ export const InputDescriptionItem = ({ title, value, setValue, disabled }) => (
           multiline
           style={[styles.inputItemTextInput, { textAlign: 'left', marginTop: 10, textAlignVertical: 'top' }]}
           numberOfLines={3}
+          autoCapitalize="sentences"
           underlineColorAndroid={'transparent'}
         />}
     </View>
