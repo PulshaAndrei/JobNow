@@ -47,7 +47,10 @@ class OrderDetails extends Component {
               currentPrice={myProposal || job.priceTo}
               isChange={!!myProposal}
               onClose={() => this.popupDialog.dismiss()}
-              onDelete={() => removeProposal()}
+              onDelete={() => {
+                this.popupDialog.dismiss();
+                removeProposal();
+              }}
               onSend={(value) => {
                 this.popupDialog.dismiss();
                 sendProposal(value);
