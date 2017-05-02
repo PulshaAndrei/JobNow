@@ -37,7 +37,10 @@ public class UsersProposalRepositoryImpl implements UsersProposalRepository<Orde
                 new BeanPropertyRowMapper(Bet.class));
         List<Order> orders = new ArrayList<>();
         for (int i = 0; i < bets.size(); i++) {
-            orders.add(orderRepository.getById(bets.get(i).getOrderId()));
+            try {
+                orders.add(orderRepository.getById(bets.get(i).getOrderId()));
+            }
+            catch (ExpectedException e) {}
         }
         return orders;
     }
