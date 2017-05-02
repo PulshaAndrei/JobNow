@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Keyboard } from 'react-native';
+import ReactNative, { Keyboard, Platform } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 require('moment/locale/ru');
 
 import { Container, InputItem, InputDescriptionItem, LoadingIndiactor } from '../../components/Common';
@@ -19,14 +20,14 @@ class CreateOrder extends Component {
     dateTimePickerInitDate: moment().unix(),
     isOpenKeyboard: false,
   }
-  componentWillMount () {
+  /*componentWillMount () {
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this.setState({ isOpenKeyboard: true }));
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this.setState({ isOpenKeyboard: false }));
   }
   componentWillUnmount () {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
-  }
+  }*/
   showDateTimePicker = (type, mode) => this.setState({
     isDateTimePickerVisible: true,
     dateTimePickerMode: mode,
@@ -74,7 +75,7 @@ class CreateOrder extends Component {
             }}
             isSaveEnabled={ newJob.name && newJob.description && newJob.priceTo }
           />
-          <CreateOrderScrollView>
+          <KeyboardAwareScrollView ref='scroll' enableAutoAutomaticScroll={false}>
             <InputItem title="Название" value={newJob.name} setValue={name => setNewJob({ ...newJob, name })} />
             <InputDescriptionItem title="Описание" value={newJob.description} setValue={description => setNewJob({ ...newJob, description })} />
             <InputPrice value={newJob.priceTo} setValue={priceTo => setNewJob({ ...newJob, priceTo })} />
@@ -86,8 +87,16 @@ class CreateOrder extends Component {
               setAllDay={(allDay) => setNewJob({ ...newJob, allDay })}
               onPress={(type, mode) => this.showDateTimePicker(type, mode) }
             />
-            <InputItem title="Адрес" value={newJob.address} setValue={address => setNewJob({ ...newJob, address })} />
-          </CreateOrderScrollView>
+            <InputItem
+              title="Адрес"
+              value={newJob.address}
+              setValue={address => setNewJob({ ...newJob, address })}
+              onFocus={Platform.OS === 'ios' && ((event: Event) => {
+                const UIManager = require('NativeModules').UIManager;
+                const handle = ReactNative.findNodeHandle(event.target);
+                UIManager.measureLayoutRelativeToParent(handle, () => {}, (x, y, w, h) => this.refs.scroll.scrollToPosition(0, h + 315, true))})}
+            />
+          </KeyboardAwareScrollView>
           <DateTimePicker
             isVisible={isDateTimePickerVisible}
             mode={(newJob.allDay && dateTimePickerMode === 'datetime') ? 'date' : dateTimePickerMode}
