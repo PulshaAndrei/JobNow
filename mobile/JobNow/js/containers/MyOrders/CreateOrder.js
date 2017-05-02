@@ -17,6 +17,15 @@ class CreateOrder extends Component {
     dateTimePickerMode: 'date',
     dateTimePickerType: 'from',
     dateTimePickerInitDate: moment().unix(),
+    isOpenKeyboard: false,
+  }
+  componentWillMount () {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this.setState({ isOpenKeyboard: true }));
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this.setState({ isOpenKeyboard: false }));
+  }
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
   showDateTimePicker = (type, mode) => this.setState({
     isDateTimePickerVisible: true,
@@ -55,6 +64,7 @@ class CreateOrder extends Component {
       <Container>
         <MyOrdersView>
           <HeaderWithSave
+            isOpenKeyboard={this.state.isOpenKeyboard}
             imageSource={require('../../resourses/home_background.png')}
             title="Создать заказ"
             onBack={Actions.pop}

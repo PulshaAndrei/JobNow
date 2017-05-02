@@ -9,7 +9,7 @@ export default StyleSheet.create({
     backgroundColor: '#0f334c',
   },
   profileHeaderBackground: {
-    paddingTop: 20,
+    paddingTop: Platform.Version < 21 ? 0 : 20,
     backgroundColor: 'transparent',
     flex: 1,
     resizeMode: 'cover',
@@ -29,9 +29,9 @@ export default StyleSheet.create({
     flex: 1,
   },
   profileHeaderAvatar: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   headerName: {
     color: 'white',

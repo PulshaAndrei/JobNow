@@ -30,8 +30,8 @@ export const HeaderWithMenu = ({ onMenu, title, imageSource }) => (
   </View>
 );
 
-export const HeaderWithSave = ({ onBack, onSave, title, imageSource, isSaveEnabled }) => (
-  <View style={styles.headerWithMenu}>
+export const HeaderWithSave = ({ onBack, onSave, title, imageSource, isSaveEnabled, isOpenKeyboard }) => (
+  <View style={[styles.headerWithMenu, isOpenKeyboard && { height: 160 }]}>
     <Image source={imageSource} style={styles.headerBackground}>
       <View style={styles.headerButtons}>
         <TouchableHighlight style={styles.menuButton} onPress={onBack}>

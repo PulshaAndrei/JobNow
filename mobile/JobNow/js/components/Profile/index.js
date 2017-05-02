@@ -12,8 +12,8 @@ export const ProfileView = ({ children }) => (
   </View>
 );
 
-export const ProfileHeader = ({ onMenu, onSave, name }) => (
-  <View style={styles.profileHeader}>
+export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard }) => (
+  <View style={[styles.profileHeader, isOpenKeyboard && { height: 180 }]}>
     <Image source={require('../../resourses/background_profile.png')} style={styles.profileHeaderBackground}>
       <View style={styles.headerButtons}>
         <TouchableHighlight style={styles.menuButton} onPress={onMenu}>
@@ -24,7 +24,7 @@ export const ProfileHeader = ({ onMenu, onSave, name }) => (
         </TouchableHighlight>
       </View>
       <View style={styles.headerInfo}>
-        <Image source={require('../../resourses/avatar.jpg')} style={styles.profileHeaderAvatar} />
+        {!isOpenKeyboard && <Image source={require('../../resourses/avatar.jpg')} style={styles.profileHeaderAvatar} />}
         <Text style={styles.headerName}>{name}</Text>
       </View>
     </Image>

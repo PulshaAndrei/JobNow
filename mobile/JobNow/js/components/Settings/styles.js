@@ -9,7 +9,7 @@ export default StyleSheet.create({
     backgroundColor: '#0f334c',
   },
   settingsHeaderBackground: {
-    paddingTop: 20,
+    paddingTop: Platform.Version < 21 ? 0 : 20,
     backgroundColor: 'transparent',
     flex: 1,
     resizeMode: 'cover',

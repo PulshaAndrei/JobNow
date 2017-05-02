@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactNative from 'react-native';
+import ReactNative, { Keyboard, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -15,16 +15,28 @@ class Profile extends Component {
     phone: '',
     email: '',
     communicationMethod: 0,
+    isOpenKeyboard: false,
   }
+
   componentDidMount() {
     this.setState(this.props.user);
   }
+  componentWillMount () {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this.setState({ isOpenKeyboard: true }));
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this.setState({ isOpenKeyboard: false }));
+  }
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
   render() {
     const { updateUser, isLoading } = this.props;
     return (
       <Container>
         <ProfileView>
           <ProfileHeader
+            isOpenKeyboard={this.state.isOpenKeyboard}
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
             onSave={() => updateUser(this.state)}
             name={`${this.props.user.givenName} ${this.props.user.familyName}`}
@@ -44,10 +56,10 @@ class Profile extends Component {
               value={this.state.email}
               setValue={(value) => this.setState({ email: value })}
               keyboardType="email-address"
-              onFocus={(event: Event) => {
+              onFocus={Platform.OS === 'ios' && ((event: Event) => {
                 const UIManager = require('NativeModules').UIManager;
                 const handle = ReactNative.findNodeHandle(event.target);
-                UIManager.measureLayoutRelativeToParent(handle, () => {}, (x, y, w, h) => this.refs.scroll.scrollToPosition(0, h + 60, true))}}
+                UIManager.measureLayoutRelativeToParent(handle, () => {}, (x, y, w, h) => this.refs.scroll.scrollToPosition(0, h + 65, true))})}
             />
           </KeyboardAwareScrollView>
         </ProfileView>

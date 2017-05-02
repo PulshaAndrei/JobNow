@@ -46,6 +46,7 @@ export const InputItem = ({ title, value, setValue, keyboardType, disabled, onFo
           keyboardType={keyboardType}
           autoCapitalize="sentences"
           underlineColorAndroid={'transparent'}
+          autoCorrect={false}
           onFocus={onFocus}
         />}
     </View>
