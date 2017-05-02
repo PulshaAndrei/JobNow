@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by codex on 06.02.17.
@@ -25,7 +27,7 @@ public class SubscriptionController {
     @Qualifier("subscriptionRepository")
     private SubscriptionRepository subscriptionRepository;
 
-    @RequestMapping(value = "/subscription/city", method = RequestMethod.GET)
+    @RequestMapping(value = "/subscription/categories", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getSubscriptions(@RequestHeader(value = "Authorization") String token) throws ExpectedException {
         long id = Authorization.getUserId(token, tokenKey);
@@ -33,19 +35,12 @@ public class SubscriptionController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/subscription/city", method = RequestMethod.POST)
+    @RequestMapping(value = "/subscription/categories", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> createSubscriptionForCity(@RequestHeader(value = "Authorization") String token, @RequestParam long cityId) throws ExpectedException {
+    public ResponseEntity<?> createSubscriptionForCity(@RequestHeader(value = "Authorization") String token, @RequestBody Map<String, ArrayList<Integer>> objectMap) throws ExpectedException {
         long id = Authorization.getUserId(token, tokenKey);
-        List result = subscriptionRepository.create(id, cityId);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/subscription/city", method = RequestMethod.DELETE)
-    @ResponseBody
-    public ResponseEntity<?> deleteSubscriptionForCity(@RequestHeader(value = "Authorization") String token, @RequestParam long cityId) throws ExpectedException {
-        long id = Authorization.getUserId(token, tokenKey);
-        List result = subscriptionRepository.delete(id, cityId);
+        ArrayList<Integer> categories = objectMap.get("categories");
+        List result = subscriptionRepository.update(id, categories);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

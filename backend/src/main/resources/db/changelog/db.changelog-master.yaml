@@ -93,7 +93,7 @@ databaseChangeLog:
                       nullable: false
                 - column:
                     name: name
-                    type: varchar(10)
+                    type: text
                     constraints:
                       nullable: false
                 - column:
@@ -132,6 +132,12 @@ databaseChangeLog:
                 - column:
                     name: price_to
                     type: float
+                - column:
+                    name: category_id
+                    type: integer
+                - column:
+                    name: all_day
+                    type: boolean
   - changeSet:
         id: 4
         author: andrei.pulsha
@@ -215,7 +221,7 @@ databaseChangeLog:
                     constraints:
                       nullable: false
                 - column:
-                    name: city_id
+                    name: category_id
                     type: integer
                     constraints:
                       nullable: false

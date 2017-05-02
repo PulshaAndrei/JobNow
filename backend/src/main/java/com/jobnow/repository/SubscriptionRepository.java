@@ -4,6 +4,7 @@ import com.jobnow.controller.ExpectedException;
 import com.jobnow.entity.City;
 import com.jobnow.entity.DomainObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,10 +12,7 @@ import java.util.List;
  */
 public interface SubscriptionRepository<V extends DomainObject> {
 
-    List<City> get(long id) throws ExpectedException;
+    List<Integer> get(long id) throws ExpectedException;
 
-    List<City> create(long id, long cityId) throws ExpectedException;
-
-    List<City> delete(long id, long cityId) throws ExpectedException;
-
+    List<Integer> update(long id, ArrayList<Integer> categories) throws ExpectedException;;
 }

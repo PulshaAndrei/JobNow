@@ -3,6 +3,8 @@ package com.jobnow.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+
 /**
  * Created by Andrei on 11.12.2016.
  */
@@ -24,8 +26,6 @@ public class Account implements DomainObject {
 
     public Account() {}
 
-    @JsonIgnore
-    @JsonProperty(value = "user_id")
     public long getId() {
         return id;
     }

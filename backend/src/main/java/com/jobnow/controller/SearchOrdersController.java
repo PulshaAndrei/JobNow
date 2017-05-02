@@ -37,16 +37,16 @@ public class SearchOrdersController {
     @RequestMapping(value = "/order/{orderId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getOrderById(@RequestHeader(value="Authorization") String token, @PathVariable long orderId) throws ExpectedException {
-        long id = Authorization.getUserId(token, tokenKey);
-        Order result = orderRepository.getById(id, orderId);
+        Authorization.getUserId(token, tokenKey);
+        Order result = orderRepository.getById(orderId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getOrderByCity(@RequestHeader(value="Authorization") String token, @RequestParam long cityId) throws ExpectedException {
-        Authorization.getUserId(token, tokenKey);
-        List result = orderRepository.getByCityId(cityId);
+    public ResponseEntity<?> getOrderByCategories(@RequestHeader(value="Authorization") String token, @RequestParam int[] categories) throws ExpectedException {
+        Long userId = Authorization.getUserId(token, tokenKey);
+        List result = orderRepository.getByCategories(userId, categories);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

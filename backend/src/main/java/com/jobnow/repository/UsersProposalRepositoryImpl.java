@@ -4,6 +4,7 @@ import com.jobnow.controller.ExpectedException;
 import com.jobnow.entity.Bet;
 import com.jobnow.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -24,11 +25,21 @@ public class UsersProposalRepositoryImpl implements UsersProposalRepository<Orde
     @Autowired
     protected JdbcOperations jdbcOperations;
 
+    @Autowired
+    @Qualifier("orderRepository")
+    private OrderRepository orderRepository;
+
+
     @Override
-    public List<Bet> get(long id) throws ExpectedException {
-        return jdbcOperations.query( "SELECT * FROM bets WHERE user_id = ?",
+    public List<Order> get(long id) throws ExpectedException {
+        List<Bet> bets = jdbcOperations.query( "SELECT order_id FROM bets WHERE user_id = ?",
                 new Object[]{id},
                 new BeanPropertyRowMapper(Bet.class));
+        List<Order> orders = new ArrayList<>();
+        for (int i = 0; i < bets.size(); i++) {
+            orders.add(orderRepository.getById(bets.get(i).getOrderId()));
+        }
+        return orders;
     }
 
     private Bet getById(long userId, long orderId) throws ExpectedException {
