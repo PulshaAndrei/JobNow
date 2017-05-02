@@ -8,12 +8,11 @@ require('moment/locale/ru');
 import { Container, InputItem, InputDescriptionItem, LoadingView, LoadingIndiactor } from '../../components/Common';
 import { HeaderWithClose, HeaderWithBack } from '../../components/Header';
 import { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, DateRange, Proposals } from '../../components/MyOrders';
-import { closeJob, loadCurrentJob, loadBetUsers } from '../../modules/myorders';
+import { closeJob, loadCurrentJob } from '../../modules/myorders';
 
 class MyOrderDetails extends Component {
   componentDidMount() {
     // this.props.loadCurrentJob();
-    this.props.loadBetUsers();
   }
   render() {
     const { job, closeJob, isLoading, categories } = this.props;
@@ -57,5 +56,5 @@ export default connect(
     job: state.myorders.currentJob,
     categories: state.common.categories,
   }),
-  { closeJob, loadCurrentJob, loadBetUsers }
+  { closeJob, loadCurrentJob }
 )(MyOrderDetails);

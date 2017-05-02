@@ -8,11 +8,10 @@ require('moment/locale/ru');
 import { Container } from '../../components/Common';
 import { HeaderWithClose, HeaderWithBack } from '../../components/Header';
 import { MyOrdersView, CreateOrderScrollView, Proposal } from '../../components/MyOrders';
-import { loadBetUsers } from '../../modules/myorders';
 
 class MyOrderProposals extends Component {
   render() {
-    const { job, users } = this.props;
+    const { job } = this.props;
     return (
       <Container>
         <MyOrdersView>
@@ -23,7 +22,7 @@ class MyOrderProposals extends Component {
           />
           <CreateOrderScrollView>
             {job.bets.map((item, i) => (
-              <Proposal key={i} bet={item} user={users.find(el => el.id === item.userId)} />
+              <Proposal key={i} bet={item} user={item.user} />
             ))}
           </CreateOrderScrollView>
         </MyOrdersView>
@@ -35,7 +34,6 @@ class MyOrderProposals extends Component {
 export default connect(
   state => ({
     job: state.myorders.currentJob,
-    users: state.myorders.users,
   }),
-  { loadBetUsers }
+  { }
 )(MyOrderProposals);
