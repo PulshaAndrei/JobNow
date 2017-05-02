@@ -24,7 +24,7 @@ class MyProposals extends Component {
   }
   render() {
     const { showClosed } = this.state;
-    const { jobs, categories, isLoading, loadJobs } = this.props;
+    const { jobs, categories, isLoading, loadJobs, currentUser } = this.props;
     console.warn('', jobs);
     return (
       <Container>
@@ -43,7 +43,7 @@ class MyProposals extends Component {
                 item={item}
                 category={categories[item.categoryId]}
                 onPress={() => this.goToJob(item)}
-                myProposal={job.bets.find(item => item.userId === currentUser.id).price}
+                myProposal={item.bets.find(el => el.userId === currentUser.id).price}
                 prevItem={jobs[i-1]}
               />
             ))}
@@ -59,6 +59,7 @@ export default connect(
     isLoading: state.myproposals.isLoading,
     jobs: state.myproposals.jobs,
     categories: state.common.categories,
+    currentUser: state.user.user,
   }),
   { loadJobs, setCurrentJob }
 )(MyProposals);

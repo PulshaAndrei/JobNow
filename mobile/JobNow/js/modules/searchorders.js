@@ -5,6 +5,8 @@ import moment from 'moment';
 
 import http from '../utils/http';
 
+import { loadJobs as myProposalsLoadJobs } from './myproposals';
+
 const initState = {
   jobs: [],
   isLoading: false,
@@ -79,8 +81,9 @@ export function sendProposal(value) {
     http.post(`/users_proposal/${job.id}`, { proposal: value })
       .then((response) => {
         dispatch(setIsLoading(false));
-        dispatch(loadJobs());
         dispatch(loadJob(job.id));
+        dispatch(loadJobs());
+        dispatch(myProposalsLoadJobs());
         Alert.alert(
           'Поздравляем!',
           `Ваш отклик отправлен.`,
@@ -103,8 +106,9 @@ export function changeProposal(value) {
     http.put(`/users_proposal/${job.id}`, { proposal: value })
       .then((response) => {
         dispatch(setIsLoading(false));
-        dispatch(loadJobs());
         dispatch(loadJob(job.id));
+        dispatch(loadJobs());
+        dispatch(myProposalsLoadJobs());
         Alert.alert(
           'Поздравляем!',
           `Ваш отклик отправлен.`,
@@ -127,8 +131,9 @@ export function removeProposal() {
     http.del(`/users_proposal/${job.id}`)
       .then((response) => {
         dispatch(setIsLoading(false));
-        dispatch(loadJobs());
         dispatch(loadJob(job.id));
+        dispatch(loadJobs());
+        dispatch(myProposalsLoadJobs());
         Alert.alert(
           'Завершено',
           `Ваш отклик удален.`,
