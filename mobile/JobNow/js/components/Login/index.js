@@ -19,7 +19,7 @@ export const BrandView = ({ children }) => (
 );
 
 export const InputView = ({ children }) => (
-  <View style={{ flex: 3 }}>
+  <View style={{ flex: 3, marginBottom: 25 }}>
     {children}
   </View>
 );
