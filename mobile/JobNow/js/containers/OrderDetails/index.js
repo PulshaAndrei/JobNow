@@ -12,6 +12,9 @@ import PopupView, { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollV
 import { sendProposal, changeProposal, removeProposal } from '../../modules/searchorders';
 
 class OrderDetails extends Component {
+  state = {
+    isOpenPopup: false,
+  }
   componentDidMount() {
     // this.props.loadCurrentJob();
   }
@@ -38,29 +41,38 @@ class OrderDetails extends Component {
           </CreateOrderScrollView>
           <PopupDialog
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+            onShowed={() => this.setState({ isOpenPopup: true })}
+            onDismissed={() => this.setState({ isOpenPopup: false })}
             width={Dimensions.get('window').width - 40}
-            dialogAnimation = { new SlideAnimation({ slideFrom: 'bottom' }) }
-            dialogStyle={{ zIndex: 10}}
           >
             <PopupView
               maxPrice={job.priceTo}
               currentPrice={myProposal || job.priceTo}
               isChange={!!myProposal}
-              onClose={() => this.popupDialog.dismiss()}
+              onClose={() => {
+                this.popupDialog.dismiss();
+                this.setState({ isOpenPopup: false });
+              }}
               onDelete={() => {
                 this.popupDialog.dismiss();
+                this.setState({ isOpenPopup: false });
                 removeProposal();
               }}
               onSend={(value) => {
                 this.popupDialog.dismiss();
+                this.setState({ isOpenPopup: false });
                 sendProposal(value);
               }}
               onChange={(value) => {
                 this.popupDialog.dismiss();
+                this.setState({ isOpenPopup: false });
                 changeProposal(value);
               }}/>
           </PopupDialog>
-          {!myProposal && <ApplyButton onPress={() => this.popupDialog.show()} />}
+          {(!myProposal && !this.state.isOpenPopup) && <ApplyButton onPress={() => {
+            this.setState({ isOpenPopup: true });
+            this.popupDialog.show();
+          }} />}
         </MyOrdersView>
         <LoadingIndiactor visible={isLoading} />
       </Container>

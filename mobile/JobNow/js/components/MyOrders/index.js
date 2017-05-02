@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableHighlight, Text, TextInput, Image, ScrollView, Switch, Slider } from 'react-native';
+import { View, TouchableHighlight, Text, TextInput, Image, ScrollView, Switch, Slider, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
@@ -229,7 +229,8 @@ export default class PopupView extends Component {
                   inputValue: (inputValue < maxPrice && parseFloat(inputValue).toString()) || value.toString(),
                   value: (inputValue < maxPrice && parseFloat(inputValue)) || value })}
                 style={styles.inputItemTextInput}
-                keyboardType="numeric"
+                keyboardType={Platform.OS === 'ios' ? "numbers-and-punctuation" : "numeric" }
+                autoCorrect={false}
                 underlineColorAndroid={'transparent'}
               />
               <Text style={styles.inputItemTitleText}> руб.</Text>
