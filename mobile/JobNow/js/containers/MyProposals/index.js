@@ -43,6 +43,7 @@ class MyProposals extends Component {
                 item={item}
                 category={categories[item.categoryId]}
                 onPress={() => this.goToJob(item)}
+                myProposal={job.bets.find(item => item.userId === currentUser.id).price}
                 prevItem={jobs[i-1]}
               />
             ))}

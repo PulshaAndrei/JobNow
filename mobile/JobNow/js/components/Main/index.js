@@ -57,7 +57,7 @@ export const JobList = ({ children, onRefresh, refreshing }) => (
   </ScrollView>
 );
 
-export const JobItem = ({ item, prevItem, category, onPress }) => (
+export const JobItem = ({ item, prevItem, category, onPress, myProposal }) => (
   <TouchableHighlight onPress={onPress}>
     <View>
       {!(prevItem && moment.unix(prevItem.startWork).isSame(moment.unix(item.startWork), 'days')) &&
@@ -68,7 +68,7 @@ export const JobItem = ({ item, prevItem, category, onPress }) => (
           <View style={styles.jobItemTextRow}>
             <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.name}</Text>
             <View style={styles.jobItemPrice}>
-              <Text style={styles.jobItemPriceTitle}>{item.priceTo} руб.</Text>
+              <Text style={styles.jobItemPriceTitle}>{myProposal ? myProposal : item.priceTo} руб.</Text>
             </View>
           </View>
           <View style={styles.jobItemTextRow}>

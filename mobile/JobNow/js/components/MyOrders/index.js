@@ -139,7 +139,10 @@ export const Proposals = ({ title, proposals, onPress, disabled }) => (
           <Text style={[styles.selectDateText, {color: 'white'}]}>
             {proposals.length === 0
               ? `Нет откликов`
-              : `от ${Math.min.apply(Math, proposals.map(el => el.price))} до ${Math.max.apply(Math, proposals.map(el => el.price))} руб.`}
+              : (Math.min.apply(Math, proposals.map(el => el.price)) === Math.max.apply(Math, proposals.map(el => el.price))
+                ? `${Math.min.apply(Math, proposals.map(el => el.price))} руб.`
+                : `от ${Math.min.apply(Math, proposals.map(el => el.price))} до ${Math.max.apply(Math, proposals.map(el => el.price))} руб.`
+              )}
           </Text>
         </View>
         {(proposals.length !== 0 && !disabled) && <Icon name="ios-arrow-round-forward-outline" style={{ marginLeft: 20 }} size={30} color="#bbbbbd" />}
