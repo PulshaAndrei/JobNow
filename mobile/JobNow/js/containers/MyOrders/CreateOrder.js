@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import ReactNative, { Keyboard, Platform } from 'react-native';
+import ReactNative, { Keyboard, Platform, Animated } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -19,15 +19,22 @@ class CreateOrder extends Component {
     dateTimePickerType: 'from',
     dateTimePickerInitDate: moment().unix(),
     isOpenKeyboard: false,
+    animationHeight: new Animated.Value(220),
   }
-  /*componentWillMount () {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this.setState({ isOpenKeyboard: true }));
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this.setState({ isOpenKeyboard: false }));
+  componentWillMount () {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ isOpenKeyboard: true });
+      Animated.timing(this.state.animationHeight, { toValue: 160, duration: 100 }).start();
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ isOpenKeyboard: false });
+      Animated.timing(this.state.animationHeight, { toValue: 220 }).start();
+    });
   }
   componentWillUnmount () {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
-  }*/
+  }
   showDateTimePicker = (type, mode) => this.setState({
     isDateTimePickerVisible: true,
     dateTimePickerMode: mode,
@@ -66,6 +73,7 @@ class CreateOrder extends Component {
         <MyOrdersView>
           <HeaderWithSave
             isOpenKeyboard={this.state.isOpenKeyboard}
+            animationHeight={this.state.animationHeight}
             imageSource={require('../../resourses/home_background.png')}
             title="Создать заказ"
             onBack={Actions.pop}
@@ -75,10 +83,18 @@ class CreateOrder extends Component {
             }}
             isSaveEnabled={ newJob.name && newJob.description && newJob.priceTo }
           />
-          <KeyboardAwareScrollView ref='scroll' enableAutoAutomaticScroll={false}>
+          <KeyboardAwareScrollView ref='scrollView'>
             <InputItem title="Название" value={newJob.name} setValue={name => setNewJob({ ...newJob, name })} />
             <InputDescriptionItem title="Описание" value={newJob.description} setValue={description => setNewJob({ ...newJob, description })} />
-            <InputPrice value={newJob.priceTo} setValue={priceTo => setNewJob({ ...newJob, priceTo })} />
+            <InputPrice
+              value={newJob.priceTo}
+              setValue={priceTo => setNewJob({ ...newJob, priceTo })}
+              onFocus={Platform.OS === 'ios' && ((event: Event) => {
+                let scrollResponder = this.refs.scrollView.getScrollResponder();
+                let handle = ReactNative.findNodeHandle(event.target);
+                setTimeout(() => scrollResponder.scrollResponderScrollNativeHandleToKeyboard(handle, 180, true), 300);
+              })}
+            />
             <CategoryItem title="Категория" value={categories[newJob.categoryId].title} onPress={Actions.createOrderCategory}/>
             <SelectDateTime
               isAllDay={newJob.allDay}
@@ -92,9 +108,10 @@ class CreateOrder extends Component {
               value={newJob.address}
               setValue={address => setNewJob({ ...newJob, address })}
               onFocus={Platform.OS === 'ios' && ((event: Event) => {
-                const UIManager = require('NativeModules').UIManager;
-                const handle = ReactNative.findNodeHandle(event.target);
-                UIManager.measureLayoutRelativeToParent(handle, () => {}, (x, y, w, h) => this.refs.scroll.scrollToPosition(0, h + 315, true))})}
+                let scrollResponder = this.refs.scrollView.getScrollResponder();
+                let handle = ReactNative.findNodeHandle(event.target);
+                setTimeout(() => scrollResponder.scrollResponderScrollNativeHandleToKeyboard(handle, 170, true), 300);
+              })}
             />
           </KeyboardAwareScrollView>
           <DateTimePicker

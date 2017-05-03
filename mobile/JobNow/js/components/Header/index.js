@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableHighlight, Text, TextInput, Image } from 'react-native';
+import { View, TouchableHighlight, Text, TextInput, Image, Animated } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -30,8 +30,8 @@ export const HeaderWithMenu = ({ onMenu, title, imageSource }) => (
   </View>
 );
 
-export const HeaderWithSave = ({ onBack, onSave, title, imageSource, isSaveEnabled, isOpenKeyboard }) => (
-  <View style={[styles.headerWithMenu, isOpenKeyboard && { height: 160 }]}>
+export const HeaderWithSave = ({ onBack, onSave, title, imageSource, isSaveEnabled, isOpenKeyboard, animationHeight }) => (
+  <Animated.View style={[styles.headerWithMenu, animationHeight && { height: animationHeight }]}>
     <Image source={imageSource} style={styles.headerBackground}>
       <View style={styles.headerButtons}>
         <TouchableHighlight style={styles.menuButton} onPress={onBack}>
@@ -45,7 +45,7 @@ export const HeaderWithSave = ({ onBack, onSave, title, imageSource, isSaveEnabl
         <Text style={styles.headerName}>{title}</Text>
       </View>
     </Image>
-  </View>
+  </Animated.View>
 );
 
 export const HeaderWithClose = ({ onBack, onClose, title, imageSource }) => (

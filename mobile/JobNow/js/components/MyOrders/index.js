@@ -82,7 +82,7 @@ export const SelectDateTime = ({ isAllDay, dateFrom, dateTo, setAllDay, onPressD
   </View>
 );
 
-export const InputPrice = ({ value, setValue, disabled }) => (
+export const InputPrice = ({ value, setValue, disabled, onFocus }) => (
   <View style={styles.inputItem}>
     <View>
       <Text style={styles.inputItemTitleText}>Максимальная цена</Text>
@@ -91,12 +91,13 @@ export const InputPrice = ({ value, setValue, disabled }) => (
       {disabled ?
         <Text style={styles.selectDateText}>{value}</Text> :
           <TextInput
-          value={value}
-          onChangeText={setValue}
-          style={styles.inputItemTextInput}
-          keyboardType="numeric"
-          underlineColorAndroid={'transparent'}
-        />}
+            value={value}
+            onChangeText={setValue}
+            style={styles.inputItemTextInput}
+            keyboardType="numeric"
+            underlineColorAndroid={'transparent'}
+            onFocus={onFocus}
+          />}
       <Text style={styles.inputItemTitleText}> руб.</Text>
     </View>
   </View>

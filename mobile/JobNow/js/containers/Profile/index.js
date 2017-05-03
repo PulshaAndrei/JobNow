@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactNative, { Keyboard, Platform } from 'react-native';
+import ReactNative, { Keyboard, Platform, Animated, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -16,14 +16,21 @@ class Profile extends Component {
     email: '',
     communicationMethod: 0,
     isOpenKeyboard: false,
+    animationHeight: new Animated.Value(290),
   }
 
   componentDidMount() {
     this.setState(this.props.user);
   }
   componentWillMount () {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this.setState({ isOpenKeyboard: true }));
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this.setState({ isOpenKeyboard: false }));
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ isOpenKeyboard: true });
+      Animated.timing(this.state.animationHeight, { toValue: 160, duration: 100 }).start();
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ isOpenKeyboard: false });
+      Animated.timing(this.state.animationHeight, { toValue: 290 }).start();
+    });
   }
   componentWillUnmount () {
     this.keyboardDidShowListener.remove();
@@ -32,16 +39,18 @@ class Profile extends Component {
 
   render() {
     const { updateUser, isLoading } = this.props;
+    //console.warn('', this.state.animationHeight);
     return (
       <Container>
         <ProfileView>
           <ProfileHeader
             isOpenKeyboard={this.state.isOpenKeyboard}
+            animationHeight={this.state.animationHeight}
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
             onSave={() => updateUser(this.state)}
             name={`${this.props.user.givenName} ${this.props.user.familyName}`}
           />
-          <KeyboardAwareScrollView ref='scroll' enableAutoAutomaticScroll={false}>
+          <KeyboardAwareScrollView ref='scrollView'>
             <InputItem
               title="Имя"
               value={this.state.givenName}
@@ -57,9 +66,10 @@ class Profile extends Component {
               setValue={(value) => this.setState({ email: value })}
               keyboardType="email-address"
               onFocus={Platform.OS === 'ios' && ((event: Event) => {
-                const UIManager = require('NativeModules').UIManager;
-                const handle = ReactNative.findNodeHandle(event.target);
-                UIManager.measureLayoutRelativeToParent(handle, () => {}, (x, y, w, h) => this.refs.scroll.scrollToPosition(0, h + 65, true))})}
+                let scrollResponder = this.refs.scrollView.getScrollResponder();
+                let handle = ReactNative.findNodeHandle(event.target);
+                setTimeout(() => scrollResponder.scrollResponderScrollNativeHandleToKeyboard(handle, 160, true), 300);
+              })}
             />
           </KeyboardAwareScrollView>
         </ProfileView>
