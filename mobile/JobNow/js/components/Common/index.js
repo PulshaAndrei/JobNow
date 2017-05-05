@@ -74,30 +74,32 @@ export const InputDescriptionItem = ({ title, value, setValue, disabled }) => (
   </View>
 );
 
-export const ProfileItem = ({ name, rating }) => (
-  <View style={styles.profileItem}>
-    <View>
-      <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
-    </View>
-    <View>
-      <Text style={styles.jobItemTextTitle}>{name}</Text>
-      <View style={styles.starRow}>
-        <StarRating
-          disabled
-          maxStars={5}
-          rating={rating}
-          iconSet="Ionicons"
-          emptyStar="ios-star-outline"
-          fullStar="ios-star"
-          halfStar="ios-star-half"
-          starSize={15}
-          buttonStyle={{width: 15, marginRight: 0, marginLeft: 0}}
-          starColor="#fcaa54"
-        />
-        <Text style={styles.starText}>5 отзывов</Text>
+export const ProfileItem = ({ name, rating, onPress }) => (
+  <TouchableHighlight onPress={onPress}>
+    <View style={styles.profileItem}>
+      <View>
+        <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
+      </View>
+      <View>
+        <Text style={styles.jobItemTextTitle}>{name}</Text>
+        <View style={styles.starRow}>
+          <StarRating
+            disabled
+            maxStars={5}
+            rating={rating}
+            iconSet="Ionicons"
+            emptyStar="ios-star-outline"
+            fullStar="ios-star"
+            halfStar="ios-star-half"
+            starSize={15}
+            buttonStyle={{width: 15, marginRight: 0, marginLeft: 0}}
+            starColor="#fcaa54"
+          />
+          <Text style={styles.starText}>5 отзывов</Text>
+        </View>
       </View>
     </View>
-  </View>
+  </TouchableHighlight>
 );
 
 export const ApplyButton = ({ onPress }) => (

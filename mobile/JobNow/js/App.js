@@ -27,6 +27,8 @@ import NewJobCategory from './containers/MyOrders/Category';
 
 import MyProposals from './containers/MyProposals';
 import OrderDetails from './containers/OrderDetails';
+import UserProfile from './containers/UserProfile';
+import CreateReview from './containers/UserProfile/CreateReview';
 
 import Settings from './containers/Settings';
 import NotificationsSettings from './containers/Settings/NotificationsSettings';
@@ -58,6 +60,8 @@ class App extends Component {
                   <Scene key="main" component={Main} />
                   <Scene key="mainFilter" component={MainFilter} />
                   <Scene key="orderDetails" component={OrderDetails} />
+                  <Scene key="userDetailsByMain" component={UserProfile} />
+                  <Scene key="userReviewByMain" component={CreateReview} />
                 </Scene>
                 <Scene key="profileNavigationTab" hideNavBar>
                   <Scene key="profile" component={Profile} />
@@ -67,11 +71,13 @@ class App extends Component {
                   <Scene key="createOrder" component={CreateOrder} />
                   <Scene key="myOrderDetails" component={MyOrderDetails} />
                   <Scene key="myOrderProposals" component={MyOrderProposals} />
+                  <Scene key="userDetailsByMyOrdersApplications" component={UserProfile} />
                   <Scene key="createOrderCategory" component={NewJobCategory} />
                 </Scene>
                 <Scene key="myApplicationsNavigationTab" hideNavBar>
                   <Scene key="applications" component={MyProposals} />
                   <Scene key="orderDetailsByProposal" component={OrderDetails} />
+                  <Scene key="userDetailsByMyApplication" component={UserProfile} />
                 </Scene>
                 <Scene key="settingsNavigationTab" hideNavBar>
                   <Scene key="settings" component={Settings} />

@@ -31,7 +31,7 @@ class OrderDetails extends Component {
             onBack={Actions.pop}
           />
           <CreateOrderScrollView>
-            <ProfileItem name={job.user.givenName + " " + job.user.familyName} rating={4.5/*job.user.raiting*/} />
+            <ProfileItem name={job.user.givenName + " " + job.user.familyName} rating={4.5/*job.user.raiting*/} onPress={Actions.userDetailsByMain} />
             {myProposal && <MyProposal title="Мой отклик" value={myProposal} onPress={() => this.popupDialog.show()} />}
             <InputDescriptionItem disabled title="Описание" value={job.description} />
             <InputPrice disabled title="Максимальная цена" value={job.priceTo} />
