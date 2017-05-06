@@ -53,7 +53,7 @@ export const InputItem = ({ title, value, setValue, keyboardType, disabled, onFo
   </View>
 );
 
-export const InputDescriptionItem = ({ title, value, setValue, disabled }) => (
+export const InputDescriptionItem = ({ title, value, setValue, disabled, isReviewDescription }) => (
   <View style={styles.inputDescriptionItem}>
     <View>
       <Text style={styles.inputItemTitleText}>{title}</Text>
@@ -65,7 +65,9 @@ export const InputDescriptionItem = ({ title, value, setValue, disabled }) => (
           value={value}
           onChangeText={setValue}
           multiline
-          style={[styles.inputItemTextInput, { textAlign: 'left', marginTop: 10, textAlignVertical: 'top', height: 65 }]}
+          style={[
+            styles.inputItemTextInput,
+            { textAlign: 'left', marginTop: 10, textAlignVertical: 'top', height: /*isReviewDescription ? 85 :*/ 65 }]}
           autoCapitalize="sentences"
           autoCorrect={false}
           underlineColorAndroid={'transparent'}

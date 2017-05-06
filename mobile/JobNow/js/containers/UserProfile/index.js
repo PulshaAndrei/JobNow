@@ -10,30 +10,38 @@ import { phoneMask } from '../../modules/user';
 
 class UserProfile extends Component {
   render() {
-    const { user, currentJob } = this.props;
+    const { user, reviews, isLoading, myUserId } = this.props;
+    console.warn('', reviews);
     return (
       <Container>
-        <ProfileView>
-          <ProfileHeaderWithBack
-            onBack={Actions.pop}
-            name={`${user.givenName} ${user.familyName}`}
-          />
-          <ScrollView>
-            {!user.communicationMethod && <PhoneWithButtons
-              title="Номер телефона"
-              value={phoneMask(user.phone)}
-              onCall={() => Communications.phonecall(phoneMask(user.phone), true)}
-              onMessage={() => Communications.text(phoneMask(user.phone))}
-            />}
-            <EmailWithButton
-              title="E-mail"
-              value={user.email}
-              onMessage={() => Communications.email([user.email], null, null, `JobNow - Заказ "${currentJob.name}`, '')}
+        {isLoading ? <LoadingIndiactor visible /> :
+          <ProfileView>
+            <ProfileHeaderWithBack
+              onBack={Actions.pop}
+              name={`${user.givenName} ${user.familyName}`}
             />
-            <Reviews onCreate={Actions.userReviewByMain} reviews={user.reviews} rate={4.5/*user.rate*/} />
-          </ScrollView>
-        </ProfileView>
-        {/* <LoadingIndiactor visible={isLoading} /> */}
+            <ScrollView>
+              {!user.communicationMethod && <PhoneWithButtons
+                title="Номер телефона"
+                value={phoneMask(user.phone)}
+                onCall={() => Communications.phonecall(phoneMask(user.phone), true)}
+                onMessage={() => Communications.text(phoneMask(user.phone))}
+              />}
+              {user.email !== '' &&
+                <EmailWithButton
+                  title="E-mail"
+                  value={user.email}
+                  onMessage={() => Communications.email([user.email], null, null, 'JobNow', '')}
+                />}
+              <Reviews
+                onCreate={Actions.userReviewByMain}
+                reviews={reviews}
+                rate={user.rate}
+                reviewCount={user.reviewCount}
+                hasMyReview={reviews.indexOf(item => myUserId === item.userId) !== -1}
+              />
+            </ScrollView>
+          </ProfileView>}
       </Container>
     );
   }
@@ -41,9 +49,10 @@ class UserProfile extends Component {
 
 export default connect(
   state => ({
-    currentJob: state.searchorders.currentJob,
-    user: state.searchorders.currentJob.user,
+    myUserId: state.user.user.id,
+    user: state.userprofile.user,
+    reviews: state.userprofile.reviews,
+    isLoading: state.userprofile.isLoading,
     phoneMask
-  }),
-  { }
+  })
 )(UserProfile);

@@ -136,4 +136,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     zIndex: 1,
   },
+  rateView: {
+    marginTop: 15,
+  },
 });

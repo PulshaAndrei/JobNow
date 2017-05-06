@@ -8,7 +8,7 @@ import Communications from 'react-native-communications';
 import { Container, InputDescriptionItem, LoadingIndiactor } from '../../components/Common';
 import { HeaderWithSave } from '../../components/Header';
 import { ProfileView, InputRate } from '../../components/Profile';
-import { phoneMask } from '../../modules/user';
+import { createReview } from '../../modules/userprofile';
 
 class CreateReview extends Component {
   state = {
@@ -45,7 +45,7 @@ class CreateReview extends Component {
             onBack={Actions.pop}
             onSave={() => {
               Keyboard.dismiss();
-              //createReview();
+              createReview(rate, text);
             }}
             isSaveEnabled={ rate !== 0 && text !== '' }
           />
@@ -55,6 +55,7 @@ class CreateReview extends Component {
               title="Отзыв"
               value={text}
               setValue={text => this.setState({ text })}
+              isReviewDescription
               onFocus={Platform.OS === 'ios' && ((event: Event) => {
                 let scrollResponder = this.refs.scrollView.getScrollResponder();
                 let handle = ReactNative.findNodeHandle(event.target);
@@ -74,5 +75,5 @@ export default connect(
     currentJob: state.searchorders.currentJob,
     user: state.searchorders.currentJob.user,
   }),
-  { /*createReview*/ }
+  { createReview }
 )(CreateReview);

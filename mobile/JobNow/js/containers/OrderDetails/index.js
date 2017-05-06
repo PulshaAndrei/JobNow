@@ -10,13 +10,15 @@ import { Container, InputItem, InputDescriptionItem, ProfileItem, ApplyButton, L
 import { HeaderWithBack } from '../../components/Header';
 import PopupView, { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, DateRange, Proposals, MyProposal } from '../../components/MyOrders';
 import { sendProposal, changeProposal, removeProposal } from '../../modules/searchorders';
+import { loadUser } from '../../modules/userprofile';
 
 class OrderDetails extends Component {
   state = {
     isOpenPopup: false,
   }
-  componentDidMount() {
-    // this.props.loadCurrentJob();
+  goToUserProfile(userId) {
+    this.props.loadUser(userId);
+    Actions.userDetailsByMain();
   }
   render() {
     const { job, proposePrice, isLoading, categories, sendProposal, currentUser, changeProposal, removeProposal } = this.props;
@@ -31,7 +33,11 @@ class OrderDetails extends Component {
             onBack={Actions.pop}
           />
           <CreateOrderScrollView>
-            <ProfileItem name={job.user.givenName + " " + job.user.familyName} rating={4.5/*job.user.raiting*/} onPress={Actions.userDetailsByMain} />
+            <ProfileItem
+              name={job.user.givenName + " " + job.user.familyName}
+              rating={job.user.raiting}
+              onPress={() => this.goToUserProfile(job.user.id)}
+            />
             {myProposal && <MyProposal title="Мой отклик" value={myProposal} onPress={() => this.popupDialog.show()} />}
             <InputDescriptionItem disabled title="Описание" value={job.description} />
             <InputPrice disabled title="Максимальная цена" value={job.priceTo} />
@@ -88,5 +94,5 @@ export default connect(
     categories: state.common.categories,
     currentUser: state.user.user,
   }),
-  { sendProposal, changeProposal, removeProposal }
+  { sendProposal, changeProposal, removeProposal, loadUser }
 )(OrderDetails);

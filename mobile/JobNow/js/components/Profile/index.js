@@ -87,7 +87,7 @@ export const EmailWithButton = ({ title, value, onMessage }) => (
   </View>
 );
 
-export const Reviews = ({ reviews, rate, onCreate }) => (
+export const Reviews = ({ reviews, rate, reviewCount, hasMyReview, onCreate }) => (
   <View>
     <View style={styles.inputItem}>
       <View>
@@ -107,23 +107,23 @@ export const Reviews = ({ reviews, rate, onCreate }) => (
             buttonStyle={{width: 15, marginRight: 0, marginLeft: 0}}
             starColor="#fcaa54"
           />
-          <Text style={styles.starText}>5 отзывов</Text>
+          <Text style={styles.starText}>{reviewCount} отзывов</Text>
         </View>
       </View>
     </View>
-    {[1,2].map((item, i) => (
-      <View style={styles.inputItem}>
+    {reviews.map((item, i) => (
+      <View style={styles.inputItem} key={i}>
         <View style={styles.reviewHeader}>
           <View>
             <Image source={require('../../resourses/avatar.jpg')} style={styles.reviewAvatar} />
           </View>
           <View>
-            <Text style={styles.reviewsTitle}>Ivanov Ican</Text>
+            <Text style={styles.reviewsTitle}>{item.userId}</Text>
             <View style={styles.starRow}>
               <StarRating
                 disabled
                 maxStars={5}
-                rating={4}
+                rating={item.rate}
                 iconSet="Ionicons"
                 emptyStar="ios-star-outline"
                 fullStar="ios-star"
@@ -136,18 +136,36 @@ export const Reviews = ({ reviews, rate, onCreate }) => (
           </View>
         </View>
         <View>
-          <Text style={styles.inputItemTitleText}>Jnpsd ,jkmijq ntjfask jkdsga fhgsadjkgfvsadghf ghsad asgdhjgds fags fashfgvs</Text>
+          <Text style={styles.inputItemTitleText}>{item.text}</Text>
         </View>
       </View>
     ))}
-    <TouchableHighlight onPress={onCreate} style={styles.createReviewButton}>
-      <Icon name="ios-add" size={45} color="white" />
-    </TouchableHighlight>
+    {!hasMyReview &&
+      <TouchableHighlight onPress={onCreate} style={[styles.createReviewButton, reviewCount && { top: 12 }]}>
+        <Icon name="ios-add" size={45} color="white" />
+      </TouchableHighlight>}
   </View>
 );
 
 export const InputRate = ({ value, setValue, title }) => (
-  <View>
-    
+  <View style={styles.inputItem}>
+    <View>
+      <Text style={styles.inputItemTitleText}>Поставьте оценку</Text>
+    </View>
+    <View style={styles.rateView}>
+      <StarRating
+        maxStars={5}
+        disabled={false}
+        rating={value}
+        selectedStar={rating => setValue(rating)}
+        iconSet="Ionicons"
+        emptyStar="ios-star-outline"
+        fullStar="ios-star"
+        halfStar="ios-star-half"
+        starSize={35}
+        buttonStyle={{width: 35, marginRight: 0, marginLeft: 0}}
+        starColor="#fcaa54"
+      />
+    </View>
   </View>
 );
