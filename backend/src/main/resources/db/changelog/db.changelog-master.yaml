@@ -48,7 +48,10 @@ databaseChangeLog:
                     name: rate
                     type: float
                     defaultValue: 0
-
+                - column:
+                    name: review_count
+                    type: integer
+                    defaultValue: 0
   - changeSet:
         id: 2
         author: andrei.pulsha
@@ -243,13 +246,3 @@ databaseChangeLog:
                     type: varchar(50)
                     constraints:
                       nullable: false
-  - changeSet:
-        id: 8
-        author: andrei.pulsha
-        changes:
-          - addColumn:
-              tableName: accounts
-              columns:
-                - column:
-                    name: review_count
-                    type: integer

@@ -155,8 +155,8 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(account.getPassword());
-        jdbcOperations.update("INSERT INTO accounts (password, given_name, family_name, phone, email, communication_method, basic_info, image_url, rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
-                hashedPassword, account.getGivenName(), account.getFamilyName(), account.getPhone(), account.getEmail(), account.getCommunicationMethod(), account.getBasicInfo(), account.getImageURL(), account.getRate());
+        jdbcOperations.update("INSERT INTO accounts (password, given_name, family_name, phone, email, communication_method, basic_info, image_url, rate, review_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                hashedPassword, account.getGivenName(), account.getFamilyName(), account.getPhone(), account.getEmail(), account.getCommunicationMethod(), account.getBasicInfo(), account.getImageURL(), 0, 0);
         return login(account.getPhone(), account.getPassword());
     }
 
