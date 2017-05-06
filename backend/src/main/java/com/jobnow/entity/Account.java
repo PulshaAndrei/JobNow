@@ -23,6 +23,7 @@ public class Account implements DomainObject {
     private String imageData = ""; //TODO
     private String confirmationCode = "";
     private double rate = 0;
+    private int reviewCount = 0;
 
     public Account() {}
 
@@ -126,5 +127,13 @@ public class Account implements DomainObject {
 
     public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
     }
 }
