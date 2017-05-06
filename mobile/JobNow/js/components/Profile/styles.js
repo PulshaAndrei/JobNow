@@ -97,7 +97,7 @@ export default StyleSheet.create({
   reviewsTitle: {
     color: 'black',
     fontFamily: 'AvenirNextCyr-Regular',
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 5,
   },
   reviewsInfo: {

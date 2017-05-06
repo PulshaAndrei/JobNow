@@ -11,7 +11,6 @@ import { phoneMask } from '../../modules/user';
 class UserProfile extends Component {
   render() {
     const { user, reviews, isLoading, myUserId } = this.props;
-    console.warn('', reviews);
     return (
       <Container>
         {isLoading ? <LoadingIndiactor visible /> :
@@ -38,7 +37,7 @@ class UserProfile extends Component {
                 reviews={reviews}
                 rate={user.rate}
                 reviewCount={user.reviewCount}
-                hasMyReview={reviews.indexOf(item => myUserId === item.userId) !== -1}
+                hasMyReview={reviews.map(item => item.userFromId).indexOf(myUserId) !== -1}
               />
             </ScrollView>
           </ProfileView>}

@@ -24,6 +24,7 @@ class OrderDetails extends Component {
     const { job, proposePrice, isLoading, categories, sendProposal, currentUser, changeProposal, removeProposal } = this.props;
     var myProposal = job.bets.find(item => item.userId === currentUser.id);
     myProposal = myProposal ? myProposal.price : null;
+    console.warn('', job.user);
     return (
       <Container>
         <MyOrdersView>
@@ -35,7 +36,8 @@ class OrderDetails extends Component {
           <CreateOrderScrollView>
             <ProfileItem
               name={job.user.givenName + " " + job.user.familyName}
-              rating={job.user.raiting}
+              rating={job.user.rate}
+              reviewCount={job.user.reviewCount}
               onPress={() => this.goToUserProfile(job.user.id)}
             />
             {myProposal && <MyProposal title="Мой отклик" value={myProposal} onPress={() => this.popupDialog.show()} />}

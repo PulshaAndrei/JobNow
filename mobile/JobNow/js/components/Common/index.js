@@ -76,7 +76,7 @@ export const InputDescriptionItem = ({ title, value, setValue, disabled, isRevie
   </View>
 );
 
-export const ProfileItem = ({ name, rating, onPress }) => (
+export const ProfileItem = ({ name, rating, reviewCount, onPress }) => (
   <TouchableHighlight onPress={onPress}>
     <View style={styles.profileItem}>
       <View>
@@ -97,7 +97,7 @@ export const ProfileItem = ({ name, rating, onPress }) => (
             buttonStyle={{width: 15, marginRight: 0, marginLeft: 0}}
             starColor="#fcaa54"
           />
-          <Text style={styles.starText}>5 отзывов</Text>
+          <Text style={styles.starText}>{reviewCount} отзывов</Text>
         </View>
       </View>
     </View>

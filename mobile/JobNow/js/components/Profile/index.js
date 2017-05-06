@@ -118,7 +118,7 @@ export const Reviews = ({ reviews, rate, reviewCount, hasMyReview, onCreate }) =
             <Image source={require('../../resourses/avatar.jpg')} style={styles.reviewAvatar} />
           </View>
           <View>
-            <Text style={styles.reviewsTitle}>{item.userId}</Text>
+            <Text style={styles.reviewsTitle}>{item.user.givenName} {item.user.familyName}</Text>
             <View style={styles.starRow}>
               <StarRating
                 disabled
