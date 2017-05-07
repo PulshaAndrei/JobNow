@@ -114,7 +114,7 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
     @Override
     public Account get(long id) throws ExpectedException {
         try {
-            return (Account) jdbcOperations.queryForObject("SELECT id, given_name, family_name, phone, email, communication_method, basic_info, image_url FROM accounts WHERE id = ?",
+            return (Account) jdbcOperations.queryForObject("SELECT id, given_name, family_name, phone, email, communication_method, basic_info, image_url, rate, review_count FROM accounts WHERE id = ?",
                     new Object[]{id}, new BeanPropertyRowMapper(Account.class));
         }
         catch (EmptyResultDataAccessException e) {
