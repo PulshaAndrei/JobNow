@@ -5,8 +5,9 @@ import { Actions } from 'react-native-router-flux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Container, SwitchItem, InputItem, LoadingIndiactor } from '../../components/Common';
-import { ProfileView, ProfileHeader, ProfileScrollView } from '../../components/Profile';
+import { ProfileView, ProfileHeader, ProfileScrollView, Reviews } from '../../components/Profile';
 import { phoneMask, updateUser } from '../../modules/user';
+import { setCurrentUser, loadReviews } from '../../modules/userprofile';
 
 class Profile extends Component {
   state = {
@@ -21,6 +22,8 @@ class Profile extends Component {
 
   componentDidMount() {
     this.setState(this.props.user);
+    this.props.setCurrentUser(this.props.user);
+    this.props.loadReviews();
   }
   componentWillMount () {
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -38,7 +41,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { updateUser, isLoading } = this.props;
+    const { updateUser, isLoading, reviews, user } = this.props;
     //console.warn('', this.state.animationHeight);
     return (
       <Container>
@@ -71,6 +74,12 @@ class Profile extends Component {
                 setTimeout(() => scrollResponder.scrollResponderScrollNativeHandleToKeyboard(handle, 160, true), 300);
               })}
             />
+            <Reviews
+              reviews={reviews}
+              rate={user.rate}
+              reviewCount={user.reviewCount}
+              hasMyReview={true}
+            />
           </KeyboardAwareScrollView>
         </ProfileView>
         <LoadingIndiactor visible={isLoading} />
@@ -81,9 +90,10 @@ class Profile extends Component {
 
 export default connect(
   state => ({
-    isLoading: state.user.isLoading,
+    isLoading: state.user.isLoading || state.userprofile.isLoading,
+    reviews: state.userprofile.reviews,
     user: state.user.user,
     phoneMask
   }),
-  { updateUser }
+  { updateUser, setCurrentUser, loadReviews }
 )(Profile);

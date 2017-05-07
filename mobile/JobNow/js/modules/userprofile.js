@@ -66,6 +66,7 @@ export function loadReviews() {
     const userId = getState().userprofile.user.id;
     http.get(`/review/${userId}`)
       .then((response) => {
+        console.warn('reviews: ', response);
         dispatch(setReviews(response));
         dispatch(setIsLoading(false));
       })
