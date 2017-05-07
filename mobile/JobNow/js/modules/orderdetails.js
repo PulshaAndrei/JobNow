@@ -4,6 +4,8 @@ import { Alert } from 'react-native';
 import moment from 'moment';
 
 import http from '../utils/http';
+import { loadJobs } from './searchorders';
+import { loadJobs as myProposalsLoadJobs } from './myproposals';
 
 const initState = {
   job: {},
@@ -36,10 +38,10 @@ export function setFromScreen(value) {
   return dispatch => dispatch({ type: 'SET_ORDER_DETAILS_FROM_SCREEN', payload: value });
 }
 
-export function loadJob(jobId, profileAction) {
+export function loadJob(jobId) {
   return (dispatch) => {
     dispatch(setIsLoading(true));
-    http.get(`/order/${id}`)
+    http.get(`/order/${jobId}`)
       .then((response) => {
         dispatch(setIsLoading(false));
         dispatch(setJob(response));
@@ -92,6 +94,7 @@ export function changeProposal(value) {
           [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
       })
       .catch((e) => {
+        console.warn(e);
         dispatch(setIsLoading(false));
         Alert.alert(
           'Ошибка',
@@ -108,7 +111,7 @@ export function removeProposal() {
     http.del(`/users_proposal/${jobId}`)
       .then((response) => {
         dispatch(setIsLoading(false));
-        dispatch(loadJob(job.id));
+        dispatch(loadJob(jobId));
         dispatch(loadJobs());
         dispatch(myProposalsLoadJobs());
         Alert.alert(

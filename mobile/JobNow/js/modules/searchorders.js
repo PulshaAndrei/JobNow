@@ -5,8 +5,6 @@ import moment from 'moment';
 
 import http from '../utils/http';
 
-import { loadJobs as myProposalsLoadJobs } from './myproposals';
-
 const initState = {
   jobs: [],
   isLoading: false,

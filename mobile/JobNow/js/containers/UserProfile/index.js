@@ -21,7 +21,7 @@ class UserProfile extends Component {
               name={`${user.givenName} ${user.familyName}`}
             />
             <ScrollView>
-              {!user.communicationMethod && <PhoneWithButtons
+              {user.phone !== '' && <PhoneWithButtons
                 title="Номер телефона"
                 value={phoneMask(user.phone)}
                 onCall={() => Communications.phonecall(phoneMask(user.phone), true)}
