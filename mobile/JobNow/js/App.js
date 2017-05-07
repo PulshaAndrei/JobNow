@@ -72,12 +72,14 @@ class App extends Component {
                   <Scene key="myOrderDetails" component={MyOrderDetails} />
                   <Scene key="myOrderProposals" component={MyOrderProposals} />
                   <Scene key="userDetailsByMyOrdersApplications" component={UserProfile} />
+                  <Scene key="userReviewByMyOrdersApplications" component={CreateReview} />
                   <Scene key="createOrderCategory" component={NewJobCategory} />
                 </Scene>
                 <Scene key="myApplicationsNavigationTab" hideNavBar>
                   <Scene key="applications" component={MyProposals} />
                   <Scene key="orderDetailsByProposal" component={OrderDetails} />
                   <Scene key="userDetailsByMyApplication" component={UserProfile} />
+                  <Scene key="userReviewByMyApplication" component={CreateReview} />
                 </Scene>
                 <Scene key="settingsNavigationTab" hideNavBar>
                   <Scene key="settings" component={Settings} />

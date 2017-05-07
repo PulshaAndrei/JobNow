@@ -75,7 +75,7 @@ export const HeaderWithBack = ({ onBack, title, imageSource }) => (
         </TouchableHighlight>
       </View>
       <View style={styles.headerInfo}>
-        <Text style={styles.headerName}>{title}</Text>
+        <Text style={styles.headerName} numberOfLines={2}>{title}</Text>
       </View>
     </Image>
   </View>

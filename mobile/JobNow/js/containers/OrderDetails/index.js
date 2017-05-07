@@ -9,7 +9,7 @@ require('moment/locale/ru');
 import { Container, InputItem, InputDescriptionItem, ProfileItem, ApplyButton, LoadingIndiactor } from '../../components/Common';
 import { HeaderWithBack } from '../../components/Header';
 import PopupView, { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, DateRange, Proposals, MyProposal } from '../../components/MyOrders';
-import { sendProposal, changeProposal, removeProposal } from '../../modules/searchorders';
+import { sendProposal, changeProposal, removeProposal } from '../../modules/orderdetails';
 import { loadUser } from '../../modules/userprofile';
 
 class OrderDetails extends Component {
@@ -17,8 +17,14 @@ class OrderDetails extends Component {
     isOpenPopup: false,
   }
   goToUserProfile(userId) {
-    this.props.loadUser(userId);
-    Actions.userDetailsByMain();
+    if (this.props.fromScreen === 'main') {
+      this.props.loadUser(userId, 'userReviewByMain');
+      Actions.userDetailsByMain();
+    }
+    else if (this.props.fromScreen === 'myproposals') {
+      this.props.loadUser(userId, 'userReviewByMyApplication');
+      Actions.userDetailsByMyApplication();
+    }
   }
   render() {
     const { job, proposePrice, isLoading, categories, sendProposal, currentUser, changeProposal, removeProposal } = this.props;
@@ -91,8 +97,9 @@ class OrderDetails extends Component {
 
 export default connect(
   state => ({
-    isLoading: state.searchorders.isLoading,
-    job: state.searchorders.currentJob,
+    isLoading: state.orderdetails.isLoading,
+    job: state.orderdetails.job,
+    fromScreen: state.orderdetails.fromScreen,
     categories: state.common.categories,
     currentUser: state.user.user,
   }),

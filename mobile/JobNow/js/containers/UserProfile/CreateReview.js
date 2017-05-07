@@ -32,7 +32,7 @@ class CreateReview extends Component {
     this.keyboardDidHideListener.remove();
   }
   render() {
-    const { user, currentJob, createReview, isLoading } = this.props;
+    const { user, createReview, isLoading } = this.props;
     const { rate, text } = this.state;
     return (
       <Container>
@@ -72,8 +72,7 @@ class CreateReview extends Component {
 
 export default connect(
   state => ({
-    currentJob: state.searchorders.currentJob,
-    user: state.searchorders.currentJob.user,
+    user: state.userprofile.user,
   }),
   { createReview }
 )(CreateReview);

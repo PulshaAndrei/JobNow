@@ -9,6 +9,7 @@ const initState = {
   user: {},
   reviews: [],
   isLoading: false,
+  createAction: '',
 };
 
 export function reducer(state = initState, action) {
@@ -19,6 +20,8 @@ export function reducer(state = initState, action) {
       return { ...state, isLoading: action.payload };
     case 'SET_REVIEWS_USER_PROFILE':
       return { ...state, reviews: action.payload };
+    case 'SET_REVIEWS_CREATE_ACTION':
+      return { ...state, createAction: action.payload };
     default:
       return state;
   }
@@ -36,12 +39,17 @@ export function setReviews(value) {
   return dispatch => dispatch({ type: 'SET_REVIEWS_USER_PROFILE', payload: value });
 }
 
-export function loadUser(userId) {
+export function setCreateAction(value) {
+  return dispatch => dispatch({ type: 'SET_REVIEWS_CREATE_ACTION', payload: value });
+}
+
+export function loadUser(userId, createAction) {
   return (dispatch) => {
     dispatch(setIsLoading(true));
     http.get(`/user/${userId}`)
       .then((response) => {
         dispatch(setCurrentUser(response));
+        dispatch(setCreateAction(createAction));
         dispatch(loadReviews());
         dispatch(setIsLoading(false));
       })

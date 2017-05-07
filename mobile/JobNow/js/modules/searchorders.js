@@ -10,7 +10,6 @@ import { loadJobs as myProposalsLoadJobs } from './myproposals';
 const initState = {
   jobs: [],
   isLoading: false,
-  currentJob: {},
   selectedCategories: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
 };
 
@@ -20,8 +19,6 @@ export function reducer(state = initState, action) {
       return { ...state, jobs: action.payload };
     case 'SET_LOADING_SEARCH_JOB':
       return { ...state, isLoading: action.payload };
-    case 'SET_CURRENT_JOB':
-      return { ...state, currentJob: action.payload };
     case 'SET_SELECTED_CATEGORIES':
       return { ...state, selectedCategories: action.payload };
     default:
@@ -31,10 +28,6 @@ export function reducer(state = initState, action) {
 
 export function setIsLoading(value) {
   return dispatch => dispatch({ type: 'SET_LOADING_SEARCH_JOB', payload: value });
-}
-
-export function setCurrentJob(value) {
-  return dispatch => dispatch({ type: 'SET_CURRENT_JOB', payload: value });
 }
 
 export function setSelectedCategories(value) {
@@ -53,98 +46,6 @@ export function loadJobs() {
       .catch((e) => {
         dispatch(setIsLoading(false));
         console.warn(e);
-      });
-  };
-}
-
-export function loadJob(id) {
-  return (dispatch) => {
-    dispatch(setIsLoading(true));
-    http.get(`/order/${id}`)
-      .then((response) => {
-        dispatch(setIsLoading(false));
-        dispatch(setCurrentJob(response));
-      })
-      .catch((e) => {
-        dispatch(setIsLoading(false));
-        console.warn(e);
-      });
-  };
-}
-
-
-export function sendProposal(value) {
-  console.warn('!', value);
-  return (dispatch, getState) => {
-    dispatch(setIsLoading(true));
-    const job = getState().searchorders.currentJob;
-    http.post(`/users_proposal/${job.id}`, { proposal: value })
-      .then((response) => {
-        dispatch(setIsLoading(false));
-        dispatch(loadJob(job.id));
-        dispatch(loadJobs());
-        dispatch(myProposalsLoadJobs());
-        Alert.alert(
-          'Поздравляем!',
-          `Ваш отклик отправлен.`,
-          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
-      })
-      .catch((e) => {
-        dispatch(setIsLoading(false));
-        Alert.alert(
-          'Ошибка',
-          e.response.data.message,
-          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
-      });
-  };
-}
-
-export function changeProposal(value) {
-  return (dispatch, getState) => {
-    dispatch(setIsLoading(true));
-    const job = getState().searchorders.currentJob;
-    http.put(`/users_proposal/${job.id}`, { proposal: value })
-      .then((response) => {
-        dispatch(setIsLoading(false));
-        dispatch(loadJob(job.id));
-        dispatch(loadJobs());
-        dispatch(myProposalsLoadJobs());
-        Alert.alert(
-          'Поздравляем!',
-          `Ваш отклик отправлен.`,
-          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
-      })
-      .catch((e) => {
-        dispatch(setIsLoading(false));
-        Alert.alert(
-          'Ошибка',
-          e.response.data.message,
-          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
-      });
-  };
-}
-
-export function removeProposal() {
-  return (dispatch, getState) => {
-    dispatch(setIsLoading(true));
-    const job = getState().searchorders.currentJob;
-    http.del(`/users_proposal/${job.id}`)
-      .then((response) => {
-        dispatch(setIsLoading(false));
-        dispatch(loadJob(job.id));
-        dispatch(loadJobs());
-        dispatch(myProposalsLoadJobs());
-        Alert.alert(
-          'Завершено',
-          `Ваш отклик удален.`,
-          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
-      })
-      .catch((e) => {
-        dispatch(setIsLoading(false));
-        Alert.alert(
-          'Ошибка',
-          e.response.data.message,
-          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
       });
   };
 }

@@ -6,7 +6,8 @@ require('moment/locale/ru');
 
 import { Container, NoJobs } from '../../components/Common';
 import { MainView, MainHeader, JobList, JobItem, SectionHeader } from '../../components/Main';
-import { loadJobs, setCurrentJob, jobsByMonth } from '../../modules/searchorders';
+import { loadJobs, jobsByMonth } from '../../modules/searchorders';
+import { setJob, setFromScreen } from '../../modules/orderdetails';
 
 class Main extends Component {
   state = {
@@ -27,7 +28,8 @@ class Main extends Component {
     this.props.loadJobs();
   }
   goToJob(job) {
-    this.props.setCurrentJob(job);
+    this.props.setJob(job);
+    this.props.setFromScreen('main');
     Actions.orderDetails();
   }
 
@@ -68,5 +70,5 @@ export default connect(
     jobs: state.searchorders.jobs,
     categories: state.common.categories,
   }),
-  { loadJobs, setCurrentJob, jobsByMonth }
+  { loadJobs, setJob, setFromScreen, jobsByMonth }
 )(Main);

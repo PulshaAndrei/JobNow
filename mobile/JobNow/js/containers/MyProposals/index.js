@@ -9,7 +9,7 @@ import { HeaderWithMenu } from '../../components/Header';
 import { MyProposalsView } from '../../components/MyProposals';
 import { JobList, JobItem, SectionHeader } from '../../components/Main';
 import { loadJobs } from '../../modules/myproposals';
-import { setCurrentJob } from '../../modules/searchorders';
+import { setJob, setFromScreen } from '../../modules/orderdetails';
 
 class MyProposals extends Component {
   state = {
@@ -18,8 +18,9 @@ class MyProposals extends Component {
   componentDidMount() {
     this.props.loadJobs();
   }
-  goToJob(job, closed) {
-    this.props.setCurrentJob({ ...job, isClosed: closed});
+  goToJob(job) {
+    this.props.setJob(job);
+    this.props.setFromScreen('myproposals');
     Actions.orderDetailsByProposal();
   }
   render() {
@@ -61,5 +62,5 @@ export default connect(
     categories: state.common.categories,
     currentUser: state.user.user,
   }),
-  { loadJobs, setCurrentJob }
+  { loadJobs, setJob, setFromScreen }
 )(MyProposals);

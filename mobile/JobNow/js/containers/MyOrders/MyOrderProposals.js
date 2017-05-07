@@ -8,8 +8,13 @@ require('moment/locale/ru');
 import { Container } from '../../components/Common';
 import { HeaderWithClose, HeaderWithBack } from '../../components/Header';
 import { MyOrdersView, CreateOrderScrollView, Proposal } from '../../components/MyOrders';
+import { loadUser } from '../../modules/userprofile';
 
 class MyOrderProposals extends Component {
+  goToUserProfile(userId) {
+    this.props.loadUser(userId, 'userReviewByMyOrdersApplications');
+    Actions.userDetailsByMyOrdersApplications();
+  }
   render() {
     const { job } = this.props;
     return (
@@ -22,7 +27,12 @@ class MyOrderProposals extends Component {
           />
           <CreateOrderScrollView>
             {job.bets.map((item, i) => (
-              <Proposal key={i} bet={item} user={item.user} />
+              <Proposal
+                key={i}
+                bet={item}
+                user={item.user}
+                onPress={() => this.goToUserProfile(item.user.id)}
+              />
             ))}
           </CreateOrderScrollView>
         </MyOrdersView>
@@ -35,5 +45,5 @@ export default connect(
   state => ({
     job: state.myorders.currentJob,
   }),
-  { }
+  { loadUser }
 )(MyOrderProposals);

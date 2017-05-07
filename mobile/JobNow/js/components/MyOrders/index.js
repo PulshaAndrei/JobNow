@@ -187,7 +187,11 @@ export const Proposal = ({ bet, user, onPress }) => (
     <View style={styles.inputItem}>
       <Image source={require('../../resourses/avatar.jpg')} style={styles.proposalAvatar} />
       <View style={styles.proposalInfo}>
-        <Text style={[styles.inputItemTitleText, {color: 'black', fontSize: 18}]}>{ user ? user.givenName + " " + user.familyName : "Загрузка..."}</Text>
+        <View style={{ flex: 1, marginRight: 10 }}>
+          <Text style={[styles.inputItemTitleText, {color: 'black', fontSize: 18, flex: 1, textAlignVertical: 'center'}]}>
+            {user.givenName} {user.familyName}
+          </Text>
+        </View>
         <View style={{ flexDirection: 'row', alignItems: 'center'}}>
           <View style={[styles.myProposalView, { marginBottom: 0, marginRight: 10 }]}>
             <Text style={[styles.selectDateText, { color: 'white' }]}>{bet.price} руб.</Text>

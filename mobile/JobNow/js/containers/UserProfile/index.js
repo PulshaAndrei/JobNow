@@ -10,7 +10,8 @@ import { phoneMask } from '../../modules/user';
 
 class UserProfile extends Component {
   render() {
-    const { user, reviews, isLoading, myUserId } = this.props;
+    const { user, reviews, isLoading, myUserId, createAction } = this.props;
+    console.warn('', user);
     return (
       <Container>
         {isLoading ? <LoadingIndiactor visible /> :
@@ -33,7 +34,7 @@ class UserProfile extends Component {
                   onMessage={() => Communications.email([user.email], null, null, 'JobNow', '')}
                 />}
               <Reviews
-                onCreate={Actions.userReviewByMain}
+                onCreate={Actions[createAction]}
                 reviews={reviews}
                 rate={user.rate}
                 reviewCount={user.reviewCount}
@@ -52,6 +53,7 @@ export default connect(
     user: state.userprofile.user,
     reviews: state.userprofile.reviews,
     isLoading: state.userprofile.isLoading,
+    createAction: state.userprofile.createAction,
     phoneMask
   })
 )(UserProfile);

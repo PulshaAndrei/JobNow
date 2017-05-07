@@ -141,7 +141,7 @@ export const Reviews = ({ reviews, rate, reviewCount, hasMyReview, onCreate }) =
       </View>
     ))}
     {!hasMyReview &&
-      <TouchableHighlight onPress={onCreate} style={[styles.createReviewButton, reviewCount && { top: 12 }]}>
+      <TouchableHighlight onPress={onCreate} style={[styles.createReviewButton, reviewCount === 0 && { top: 12 }]}>
         <Icon name="ios-add" size={45} color="white" />
       </TouchableHighlight>}
   </View>
