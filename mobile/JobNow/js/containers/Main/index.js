@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
+import haversine from 'haversine';
 require('moment/locale/ru');
 
 import { Container, NoJobs } from '../../components/Common';
@@ -11,7 +12,8 @@ import { setJob, setFromScreen } from '../../modules/orderdetails';
 
 class Main extends Component {
   state = {
-    currentDate: moment()
+    currentDate: moment(),
+    currentLocation: null,
   }
 
   prev = () => {
@@ -26,6 +28,14 @@ class Main extends Component {
 
   componentDidMount() {
     this.props.loadJobs();
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.warn('current position: ', position);
+        this.setState({ currentLocation: position.coords });
+      },
+      (error) => console.warn(JSON.stringify(error)),
+      {enableHighAccuracy: true/*, timeout: 20000, maximumAge: 1000 */}
+    );
   }
   goToJob(job) {
     this.props.setJob(job);
@@ -36,6 +46,15 @@ class Main extends Component {
   render() {
     const { categories, isLoading, loadJobs, jobsByMonth } = this.props;
     const jobs = jobsByMonth(this.state.currentDate);
+    const start = {
+  latitude: 30.849635,
+  longitude: -83.24559
+}
+
+const end = {
+  latitude: 27.950575,
+  longitude: -82.457178
+}
     return (
       <Container>
         <MainView>
@@ -54,6 +73,9 @@ class Main extends Component {
                 item={item}
                 category={categories[item.categoryId]}
                 prevItem={jobs[i-1]}
+                distance={!!(item.locationCoordX && item.locationCoordY && this.state.currentLocation)
+                  ? haversine(this.state.currentLocation, { latitude: item.locationCoordX, longitude: item.locationCoordY}).toFixed(1)
+                  : null}
                 onPress={() => this.goToJob(item)}
               />
             ))}

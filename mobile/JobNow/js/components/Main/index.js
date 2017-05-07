@@ -57,7 +57,7 @@ export const JobList = ({ children, onRefresh, refreshing }) => (
   </ScrollView>
 );
 
-export const JobItem = ({ item, prevItem, category, onPress, myProposal }) => (
+export const JobItem = ({ item, prevItem, category, onPress, myProposal, distance }) => (
   <TouchableHighlight onPress={onPress}>
     <View>
       {!(prevItem && moment.unix(prevItem.startWork).isSame(moment.unix(item.startWork), 'days')) &&
@@ -72,12 +72,12 @@ export const JobItem = ({ item, prevItem, category, onPress, myProposal }) => (
             </View>
           </View>
           <View style={styles.jobItemTextRow}>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, marginRight: 10 }}>
               <Text style={styles.jobItemTextAddress} numberOfLines={1}>{item.description}</Text>
             </View>
-            <View>
-              <Text style={styles.jobItemTextDistance}>{item.distance}250 м</Text>
-            </View>
+            {distance && <View>
+              <Text style={styles.jobItemTextDistance}>{distance} км</Text>
+            </View>}
           </View>
         </View>
       </View>

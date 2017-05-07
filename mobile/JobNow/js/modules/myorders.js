@@ -18,6 +18,9 @@ const initState = {
     priceTo: '',
     allDay: false,
     categoryId: 0,
+    locationCoordX: null,
+    locationCoordY: null,
+    isEnabledGeolocation: true,
   }
 };
 
@@ -68,6 +71,10 @@ export function saveJob() {
     dispatch(setIsLoading(true));
     const data = getState().myorders.newJob;
     data.priceTo = parseFloat(data.priceTo);
+    if (!data.isEnabledGeolocation) {
+      data.locationCoordX = null;
+      data.locationCoordY = null;
+    }
     console.warn('', data);
     http.post('/users_order', data)
       .then((response) => {

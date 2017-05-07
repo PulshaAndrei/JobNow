@@ -142,4 +142,23 @@ export default StyleSheet.create({
     paddingHorizontal: 40,
     paddingVertical: 30,
   },
+  mapItem: {
+    height: 280,
+  },
+  mapNote: {
+    position: 'absolute',
+    bottom: 15,
+    left: 60,
+    right: 60,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    borderRadius: 25,
+    backgroundColor: 'rgba(0,0,0,0.45)'
+  },
+  mapNoteText: {
+    color: 'white',
+    fontSize: 14,
+    fontFamily: 'AvenirNextCyr-Light',
+    textAlign: 'center',
+  },
 });

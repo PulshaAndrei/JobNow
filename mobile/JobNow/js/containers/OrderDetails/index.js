@@ -6,7 +6,7 @@ import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dia
 import moment from 'moment';
 require('moment/locale/ru');
 
-import { Container, InputItem, InputDescriptionItem, ProfileItem, ApplyButton, LoadingIndiactor } from '../../components/Common';
+import { Container, InputItem, InputDescriptionItem, ProfileItem, ApplyButton, LoadingIndiactor, MapItemDisabled } from '../../components/Common';
 import { HeaderWithBack } from '../../components/Header';
 import PopupView, { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, DateRange, Proposals, MyProposal } from '../../components/MyOrders';
 import { sendProposal, changeProposal, removeProposal } from '../../modules/orderdetails';
@@ -52,6 +52,8 @@ class OrderDetails extends Component {
             <Proposals title="Отклики" proposals={job.bets} disabled />
             <DateRange dateFrom={moment.unix(job.startWork)} dateTo={moment(job.endWork)} isAllDay={job.allDay} />
             <InputItem disabled title="Адрес" value={job.address} />
+            {!!(job.locationCoordX && job.locationCoordY) &&
+              <MapItemDisabled latitude={job.locationCoordX} longitude={job.locationCoordY} />}
           </CreateOrderScrollView>
           <PopupDialog
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}

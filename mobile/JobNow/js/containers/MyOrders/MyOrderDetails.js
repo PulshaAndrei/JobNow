@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import moment from 'moment';
 require('moment/locale/ru');
 
-import { Container, InputItem, InputDescriptionItem, LoadingView, LoadingIndiactor } from '../../components/Common';
+import { Container, InputItem, InputDescriptionItem, LoadingView, LoadingIndiactor, MapItemDisabled } from '../../components/Common';
 import { HeaderWithClose, HeaderWithBack } from '../../components/Header';
 import { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, DateRange, Proposals } from '../../components/MyOrders';
 import { closeJob, loadCurrentJob } from '../../modules/myorders';
@@ -42,6 +42,8 @@ class MyOrderDetails extends Component {
               <InputPrice disabled title="Максимальная цена" value={job.priceTo} />
               <DateRange dateFrom={moment.unix(job.startWork)} dateTo={moment.unix(job.endWork)} isAllDay={job.allDay} />
               <InputItem disabled title="Адрес" value={job.address} />
+              {!!(job.locationCoordX && job.locationCoordY) &&
+                <MapItemDisabled latitude={job.locationCoordX} longitude={job.locationCoordY} />}
             </CreateOrderScrollView>
           </MyOrdersView>}
           <LoadingIndiactor visible={isLoading} />

@@ -3,6 +3,7 @@ import { View, TouchableHighlight, Text, TextInput, Switch, Image } from 'react-
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spinner from 'react-native-spinkit';
+import MapView from 'react-native-maps';
 
 import styles from './styles';
 
@@ -135,5 +136,51 @@ export const NoJobs = ({ title }) => (
   <View style={styles.noJobs}>
     <Icon name="ios-briefcase-outline" size={35} color="#bbbbbd" />
     <Text style={[styles.categoryTitle, { color: "#bbbbbd" }]}>{title}</Text>
+  </View>
+);
+
+export const MapItem = ({ latitude, longitude, setCoords }) => (
+  <View style={styles.mapItem}>
+    <MapView
+      style={{ flex: 1 }}
+      showsUserLocation
+      followsUserLocation
+      showsMyLocationButton
+      initialRegion={{
+        latitude: latitude || 53.903966,
+        longitude: longitude || 27.553377,
+        latitudeDelta: 0.03,
+        longitudeDelta: 0.03,
+      }}
+    >
+      {(latitude && longitude) &&
+        <MapView.Marker draggable
+          coordinate={{latitude, longitude}}
+          onDragEnd={(e) => setCoords(e.nativeEvent.coordinate)}
+        />}
+    </MapView>
+    <View style={styles.mapNote}>
+      <Text style={styles.mapNoteText}>Нажмите и удерживайте маркер, чтобы переместить</Text>
+    </View>
+  </View>
+);
+
+export const MapItemDisabled = ({ latitude, longitude }) => (
+  <View style={styles.mapItem}>
+    <MapView
+      style={{ flex: 1 }}
+      showsUserLocation
+      showsMyLocationButton
+      initialRegion={{
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 0.02,
+        longitudeDelta: 0.02,
+      }}
+    >
+      <MapView.Marker
+        coordinate={{latitude, longitude}}
+      />
+    </MapView>
   </View>
 );

@@ -7,7 +7,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 require('moment/locale/ru');
 
-import { Container, InputItem, InputDescriptionItem, LoadingIndiactor } from '../../components/Common';
+import { Container, InputItem, InputDescriptionItem, LoadingIndiactor, SwitchItem, MapItem } from '../../components/Common';
 import { HeaderWithSave } from '../../components/Header';
 import { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, CategoryItem } from '../../components/MyOrders';
 import { setNewJob, saveJob } from '../../modules/myorders';
@@ -64,7 +64,17 @@ class CreateOrder extends Component {
       }
     }
     this.hideDateTimePicker();
-  };
+  }
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.warn('current position: ', position);
+        this.props.setNewJob({ ...this.props.newJob, locationCoordX: position.coords.latitude, locationCoordY: position.coords.longitude });
+      },
+      (error) => console.warn(JSON.stringify(error)),
+      {enableHighAccuracy: true/*, timeout: 20000, maximumAge: 1000 */}
+    );
+  }
   render() {
     const { newJob, setNewJob, categories, saveJob } = this.props;
     const { isDateTimePickerVisible, dateTimePickerType, dateTimePickerMode, dateTimePickerInitDate } = this.state;
@@ -113,6 +123,17 @@ class CreateOrder extends Component {
                 setTimeout(() => scrollResponder.scrollResponderScrollNativeHandleToKeyboard(handle, 170, true), 300);
               })}
             />
+            <SwitchItem
+              title="Местоположение на карте"
+              value={newJob.isEnabledGeolocation}
+              setValue={isEnabledGeolocation => setNewJob({ ...newJob, isEnabledGeolocation })}
+            />
+            {newJob.isEnabledGeolocation &&
+              <MapItem
+                latitude={newJob.locationCoordX}
+                longitude={newJob.locationCoordY}
+                setCoords={coords => setNewJob({ ...newJob, locationCoordX: coords.latitude, locationCoordY: coords.longitude })}
+              />}
           </KeyboardAwareScrollView>
           <DateTimePicker
             isVisible={isDateTimePickerVisible}
