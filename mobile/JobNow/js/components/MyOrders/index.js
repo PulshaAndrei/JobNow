@@ -22,7 +22,7 @@ export const CreateButton = ({ onCreate }) => (
 export const JobItemWithProposals = ({ item, prevItem, category, onPress, isEnded }) => (
   <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={[styles.jobItemView, category && { borderColor: category.color }]}>
-      <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
+      <Image source={require('../../resourses/avatar.png')} style={styles.jobItemAvatar} />
       <View style={styles.jobItemInfo}>
         <View style={styles.jobItemTextRow}>
           <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.name}</Text>
@@ -185,7 +185,7 @@ export const CategoryItem = ({ title, value, onPress }) => (
 export const Proposal = ({ bet, user, onPress }) => (
   <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={styles.inputItem}>
-      <Image source={require('../../resourses/avatar.jpg')} style={styles.proposalAvatar} />
+      <Image source={require('../../resourses/avatar.png')} style={styles.proposalAvatar} />
       <View style={styles.proposalInfo}>
         <View style={{ flex: 1, marginRight: 10 }}>
           <Text style={[styles.inputItemTitleText, {color: 'black', fontSize: 18, flex: 1, textAlignVertical: 'center'}]}>

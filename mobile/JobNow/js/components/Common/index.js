@@ -81,7 +81,7 @@ export const ProfileItem = ({ name, rating, reviewCount, onPress }) => (
   <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={styles.profileItem}>
       <View>
-        <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
+        <Image source={require('../../resourses/avatar.png')} style={styles.jobItemAvatar} />
       </View>
       <View>
         <Text style={styles.jobItemTextTitle}>{name}</Text>

@@ -25,7 +25,7 @@ export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard, animationH
         </TouchableHighlight>
       </View>
       <View style={styles.headerInfo}>
-        {!isOpenKeyboard && <Image source={require('../../resourses/avatar.jpg')} style={styles.profileHeaderAvatar} />}
+        {!isOpenKeyboard && <Image source={require('../../resourses/avatar.png')} style={styles.profileHeaderAvatar} />}
         <Text style={styles.headerName}>{name}</Text>
       </View>
     </Image>
@@ -41,7 +41,7 @@ export const ProfileHeaderWithBack = ({ onBack, name }) => (
         </TouchableHighlight>
       </View>
       <View style={styles.headerInfo}>
-        <Image source={require('../../resourses/avatar.jpg')} style={[styles.profileHeaderAvatar, { width: 120, height: 120, borderRadius: 60, marginTop: -15 }]} />
+        <Image source={require('../../resourses/avatar.png')} style={[styles.profileHeaderAvatar, { width: 120, height: 120, borderRadius: 60, marginTop: -15 }]} />
         <Text style={styles.headerName}>{name}</Text>
       </View>
     </Image>
@@ -115,7 +115,7 @@ export const Reviews = ({ reviews, rate, reviewCount, hasMyReview, onCreate }) =
       <View style={styles.inputItem} key={i}>
         <View style={styles.reviewHeader}>
           <View>
-            <Image source={require('../../resourses/avatar.jpg')} style={styles.reviewAvatar} />
+            <Image source={require('../../resourses/avatar.png')} style={styles.reviewAvatar} />
           </View>
           <View>
             <Text style={styles.reviewsTitle}>{item.user.givenName} {item.user.familyName}</Text>
