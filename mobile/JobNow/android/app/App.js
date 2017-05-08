@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, StatusBar, Platform } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
 import Drawer from 'react-native-drawer'
-
-import FCM, { FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType } from 'react-native-fcm';
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 import InitialPage from './containers/InitialPage';
 
@@ -37,14 +36,11 @@ import NotificationsSettings from './containers/Settings/NotificationsSettings';
 
 class App extends Component {
   componentDidMount() {
-    FCM.requestPermissions();
-
-    FCM.getFCMToken().then(token => {
-            console.warn(token)
-            // store fcm token in your server
-        });
+    console.warn('@!');
+    /*FCM.requestPermissions();
 
     FCM.getInitialNotification().then((notif) => {
+      this.props.updateOfferedBadge();
       if (Platform.OS === 'android') {
         if (notif.job) this.goToNotificationResult(notif);
       } else if (notif && notif.job) this.goToNotificationResult(notif);
@@ -74,6 +70,7 @@ class App extends Component {
           });
         }
       }
+
       if (Platform.OS === 'ios') {
         if (notif.opened_from_tray) this.goToNotificationResult(notif);
         switch (notif._notificationType) {
@@ -90,8 +87,7 @@ class App extends Component {
       }
     });
 
-      console.warn('@!');
-    this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => console.warn(token));
+    this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => console.warn(token));*/
   }
 
   goToNotificationResult(notif) {
@@ -106,7 +102,7 @@ class App extends Component {
     }*/
   }
 
-  componentWillUnmount() {
+  /*componentWillUnmount() {
     this.notificationListener.remove();
     this.refreshTokenListener.remove();
   }
@@ -114,7 +110,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
+  }*/
   render = () => {
     return (
       <View style={{ flex: 1, backgroundColor: "#01162b" }}>
@@ -164,7 +160,6 @@ class App extends Component {
                 </Scene>
               </Scene>
             </Scene>
-
           </Scene>
         </Router>
       </View>

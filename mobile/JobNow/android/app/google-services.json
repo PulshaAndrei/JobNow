@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "475302761235",
+    "firebase_url": "https://jobnow-166917.firebaseio.com",
+    "project_id": "jobnow-166917",
+    "storage_bucket": "jobnow-166917.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475302761235:android:93746cfd1624dabb",
+        "android_client_info": {
+          "package_name": "com.jobnow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475302761235-o55pcaq9kk30lbnoqrrss9acm97er30g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM9PBtTn7xjRZWoIEvHSVpiWlxFcAQtFo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
