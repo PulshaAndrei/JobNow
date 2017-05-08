@@ -87,6 +87,7 @@ class OrderDetails extends Component {
           {(!myProposal && !this.state.isOpenPopup) && <ApplyButton onPress={() => {
             this.setState({ isOpenPopup: true });
             this.popupDialog.show();
+            this.forceUpdate();
           }} />}
         </MyOrdersView>
         <LoadingIndiactor visible={isLoading} />
