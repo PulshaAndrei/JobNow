@@ -23,6 +23,16 @@ export const SignupScrollView = ({ children }) => (
   </View>
 );
 
+export const SignupKeyboardScrollView = ({ children }) => (
+  <View style={{ flex: 1 }}>
+    <Image source={require('../../resourses/signup_background.jpg')} style={styles.signupViewImage} />
+    <View style={styles.signupBackgroundView} />
+    <View style={styles.signupScrollView}>
+      {children}
+    </View>
+  </View>
+);
+
 export const NextButton = ({ onPress }) => (
   <TouchableHighlight style={styles.nextButton} onPress={onPress}>
     <Text style={styles.nextButtonText}>Далее</Text>
