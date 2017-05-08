@@ -1,5 +1,6 @@
 package com.jobnow.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jobnow.controller.ExpectedException;
 import com.jobnow.entity.Bet;
 import com.jobnow.entity.Order;
@@ -29,6 +30,9 @@ public class UsersProposalRepositoryImpl implements UsersProposalRepository<Orde
     @Qualifier("orderRepository")
     private OrderRepository orderRepository;
 
+    @Autowired
+    @Qualifier("devicesRepository")
+    private DevicesRepository devicesRepository;
 
     @Override
     public List<Order> get(long id) throws ExpectedException {
@@ -60,7 +64,13 @@ public class UsersProposalRepositoryImpl implements UsersProposalRepository<Orde
     @Override
     public Bet create(long id, long orderId, double proposal) throws ExpectedException {
         jdbcOperations.update("INSERT INTO bets (user_id, order_id, price) VALUES (?, ?, ?);", new Object[]{id, orderId, proposal});
-        return getById(id, orderId);
+        Bet bet = getById(id, orderId);
+        try {
+            devicesRepository.sendNotificationsNewProposal(bet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return bet;
     }
 
     @Override

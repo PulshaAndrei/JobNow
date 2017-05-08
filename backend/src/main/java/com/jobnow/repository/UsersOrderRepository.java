@@ -13,7 +13,7 @@ public interface UsersOrderRepository<V extends DomainObject> {
 
     List<Order> get(long id) throws ExpectedException;
 
-    Order create(Order order) throws ExpectedException;
+    int create(Order order) throws ExpectedException;
 
     Order updateDetails(Order order) throws ExpectedException;
 

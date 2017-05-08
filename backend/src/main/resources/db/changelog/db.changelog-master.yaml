@@ -246,3 +246,26 @@ databaseChangeLog:
                     type: varchar(50)
                     constraints:
                       nullable: false
+  - changeSet:
+        id: 8
+        author: andrei.pulsha
+        changes:
+          - createTable:
+              tableName: devices
+              columns:
+                - column:
+                    name: id
+                    type: serial
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: user_id
+                    type: integer
+                    constraints:
+                      nullable: false
+                - column:
+                    name: token
+                    type: text
+                    constraints:
+                      nullable: false
