@@ -26,7 +26,6 @@ class MyProposals extends Component {
   render() {
     const { showClosed } = this.state;
     const { jobs, categories, isLoading, loadJobs, currentUser } = this.props;
-    console.warn('', jobs);
     return (
       <Container>
         <MyProposalsView>

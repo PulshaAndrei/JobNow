@@ -2,6 +2,7 @@
 import store from 'react-native-simple-store';
 import { Actions } from 'react-native-router-flux';
 import { Alert } from 'react-native';
+import FCM from 'react-native-fcm';
 
 import http from '../utils/http';
 
@@ -123,7 +124,8 @@ export function login(phone, password) {
         store.save('token', response.token)
           .then(dispatch(getUser()))
           .then(dispatch(setIsLoading(false)))
-          .then(() => Actions.drawer());
+          .then(() => Actions.drawer())
+          .then(dispatch(sendFcmToken()));
       })
       .catch((e) => {
         dispatch(setIsLoading(false));
@@ -185,7 +187,8 @@ export function registration(user) {
       .then(dispatch(getUser()))
       .then(dispatch(updateSubscribedCategories([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], true)))
       .then(dispatch(setIsLoading(false)))
-      .then(() => Actions.drawer());
+      .then(() => Actions.drawer())
+      .then(dispatch(sendFcmToken()));
     })
     .catch((e) => {
       dispatch(setIsLoading(false));
@@ -198,6 +201,20 @@ export function registration(user) {
 }
 
 export function logout() {
-  return store.delete('token')
+  return (dispatch, getState) => {
+    FCM.getFCMToken().then((token) => {
+      console.warn('remove token');
+      http.delete('/devices', { token, userId: getState().user.user.id });
+    });
+    store.delete('token')
     .then(() => Actions.login());
+  };
+}
+
+export function sendFcmToken() {
+  return (dispatch, getState) => {
+    FCM.getFCMToken().then((token) => {
+      http.post('/devices', { token, userId: getState().user.user.id });
+    });
+  };
 }

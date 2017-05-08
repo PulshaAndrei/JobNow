@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, StatusBar, Platform } from 'react-native';
 import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
 import Drawer from 'react-native-drawer'
@@ -34,20 +35,18 @@ import CreateReview from './containers/UserProfile/CreateReview';
 
 import Settings from './containers/Settings';
 import NotificationsSettings from './containers/Settings/NotificationsSettings';
+import { loadJob, setFromScreen } from './modules/orderdetails';
+import { loadCurrentJob, setCurrentJob } from './modules/myorders';
+import { sendFcmToken } from './modules/user';
 
 class App extends Component {
   componentDidMount() {
     FCM.requestPermissions();
 
-    FCM.getFCMToken().then(token => {
-            console.warn(token)
-            // store fcm token in your server
-        });
-
     FCM.getInitialNotification().then((notif) => {
       if (Platform.OS === 'android') {
-        if (notif.job) this.goToNotificationResult(notif);
-      } else if (notif && notif.job) this.goToNotificationResult(notif);
+        if (notif.orderId) this.goToNotificationResult(notif);
+      } else if (notif && notif.orderId) this.goToNotificationResult(notif);
     });
 
     this.notificationListener = FCM.on(FCMEvent.Notification, async (notif) => {
@@ -68,8 +67,7 @@ class App extends Component {
             click_action: notif.click_action,
             show_in_foreground: true,
             local: true,
-            job: notif.job,
-            role: notif.role,
+            orderId: notif.orderId,
             type: notif.type,
           });
         }
@@ -90,20 +88,22 @@ class App extends Component {
       }
     });
 
-      console.warn('@!');
-    this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => console.warn(token));
+    this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => this.props.sendFcmToken(token));
   }
 
   goToNotificationResult(notif) {
     console.warn('notif', notif);
-    /*if (notif.role === 'nurse') {
-      Actions.appNurse();
-      this.props.goToJobById(notif.job);
-    } else {
-      Actions.appManager();
-      if (notif.type === 'profile') this.props.goToBookedJobDetails(notif.job);
-      else this.props.goToManagerJobById(notif.job);
-    }*/
+    if (notif.type === 'new_order') {
+      Actions.mainNavigationTab();
+      this.props.loadJob(notif.orderId);
+      this.props.setFromScreen('main');
+      Actions.orderDetails();
+    } else if (notif.type === 'new_proposal') {
+      Actions.myOrdersNavigationTab();
+      this.props.setCurrentJob({ id: notif.orderId, bets: [] });
+      this.props.loadCurrentJob();
+      Actions.myOrderDetails();
+    }
   }
 
   componentWillUnmount() {
@@ -172,4 +172,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(
+  state => ({}),
+  { loadJob, setFromScreen, loadCurrentJob, setCurrentJob, sendFcmToken }
+)(App);

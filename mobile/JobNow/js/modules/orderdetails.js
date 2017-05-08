@@ -8,7 +8,15 @@ import { loadJobs } from './searchorders';
 import { loadJobs as myProposalsLoadJobs } from './myproposals';
 
 const initState = {
-  job: {},
+  job: {
+    name: '',
+    bets: [],
+    user: {
+      givenName: '',
+      familyName: '',
+    },
+    priceTo: 0,
+  },
   isLoading: false,
   fromScreen: '',
 };

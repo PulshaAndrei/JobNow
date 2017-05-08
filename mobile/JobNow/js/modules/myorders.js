@@ -8,7 +8,9 @@ import http from '../utils/http';
 const initState = {
   jobs: [],
   isLoading: false,
-  currentJob: {},
+  currentJob: {
+    bets: [],
+  },
   newJob: {
     name: '',
     description: '',

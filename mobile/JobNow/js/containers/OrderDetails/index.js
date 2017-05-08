@@ -30,7 +30,6 @@ class OrderDetails extends Component {
     const { job, proposePrice, isLoading, categories, sendProposal, currentUser, changeProposal, removeProposal } = this.props;
     var myProposal = job.bets.find(item => item.userId === currentUser.id);
     myProposal = myProposal ? myProposal.price : null;
-    console.warn('', job.user);
     return (
       <Container>
         <MyOrdersView>
