@@ -17,10 +17,10 @@ export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard, animationH
   <Animated.View style={[styles.profileHeader, { height: animationHeight }]}>
     <Image source={require('../../resourses/background_profile.png')} style={styles.profileHeaderBackground}>
       <View style={styles.headerButtons}>
-        <TouchableHighlight style={styles.menuButton} onPress={onMenu}>
+        <TouchableHighlight underlayColor="transparent" style={styles.menuButton} onPress={onMenu}>
           <Icon name="ios-menu-outline" size={30} color="white" />
         </TouchableHighlight>
-        <TouchableHighlight style={styles.menuButton} onPress={onSave}>
+        <TouchableHighlight underlayColor="transparent" style={styles.menuButton} onPress={onSave}>
           <Icon name="ios-checkmark-circle-outline" size={30} color="white" />
         </TouchableHighlight>
       </View>
@@ -36,7 +36,7 @@ export const ProfileHeaderWithBack = ({ onBack, name }) => (
   <View style={styles.profileHeader}>
     <Image source={require('../../resourses/background_profile.png')} style={styles.profileHeaderBackground}>
       <View style={styles.headerButtons}>
-        <TouchableHighlight style={styles.menuButton} onPress={onBack}>
+        <TouchableHighlight underlayColor="transparent" style={styles.menuButton} onPress={onBack}>
           <Icon name="ios-arrow-round-back-outline" size={45} color="white" />
         </TouchableHighlight>
       </View>
@@ -59,10 +59,10 @@ export const PhoneWithButtons = ({ title, value, onCall, onMessage }) => (
       </View>
     </View>
     <View style={styles.itemButtonsView}>
-      <TouchableHighlight onPress={onCall} style={[styles.itemButton, { backgroundColor: '#13bdbf' }]}>
+      <TouchableHighlight underlayColor="transparent" onPress={onCall} style={[styles.itemButton, { backgroundColor: '#13bdbf' }]}>
         <Text style={styles.itemButtonText}>Позвонить</Text>
       </TouchableHighlight>
-      <TouchableHighlight onPress={onMessage} style={styles.itemButton}>
+      <TouchableHighlight underlayColor="transparent" onPress={onMessage} style={styles.itemButton}>
         <Text style={styles.itemButtonText}>Написать СМС</Text>
       </TouchableHighlight>
     </View>
@@ -80,7 +80,7 @@ export const EmailWithButton = ({ title, value, onMessage }) => (
       </View>
     </View>
     <View style={styles.itemButtonsView}>
-      <TouchableHighlight onPress={onMessage} style={styles.itemButton}>
+      <TouchableHighlight underlayColor="transparent" onPress={onMessage} style={styles.itemButton}>
         <Text style={styles.itemButtonText}>Написать e-mail</Text>
       </TouchableHighlight>
     </View>
@@ -141,7 +141,7 @@ export const Reviews = ({ reviews, rate, reviewCount, hasMyReview, onCreate }) =
       </View>
     ))}
     {!hasMyReview &&
-      <TouchableHighlight onPress={onCreate} style={[styles.createReviewButton, reviewCount === 0 && { top: 12 }]}>
+      <TouchableHighlight underlayColor="transparent" onPress={onCreate} style={[styles.createReviewButton, reviewCount === 0 && { top: 12 }]}>
         <Icon name="ios-add" size={45} color="white" />
       </TouchableHighlight>}
   </View>

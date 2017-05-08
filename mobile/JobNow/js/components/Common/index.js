@@ -78,7 +78,7 @@ export const InputDescriptionItem = ({ title, value, setValue, disabled, isRevie
 );
 
 export const ProfileItem = ({ name, rating, reviewCount, onPress }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={styles.profileItem}>
       <View>
         <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
@@ -106,7 +106,7 @@ export const ProfileItem = ({ name, rating, reviewCount, onPress }) => (
 );
 
 export const ApplyButton = ({ onPress }) => (
-  <TouchableHighlight style={styles.applyButton} onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" style={styles.applyButton} onPress={onPress}>
     <Icon name="ios-checkmark" size={45} color="white" />
   </TouchableHighlight>
 );
@@ -124,7 +124,7 @@ export const LoadingView = () => (
 );
 
 export const Category = ({ title, color, selected, onPress }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={[styles.categoryItem, selected && { backgroundColor: '#f8f8fa', borderColor: color }]}>
       <Icon name="ios-checkmark-outline" size={50} color={selected ? color : "#bbbbbd"} />
       <Text style={styles.categoryTitle}>{title}</Text>

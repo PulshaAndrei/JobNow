@@ -34,7 +34,7 @@ export const SignupKeyboardScrollView = ({ children }) => (
 );
 
 export const NextButton = ({ onPress }) => (
-  <TouchableHighlight style={styles.nextButton} onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" style={styles.nextButton} onPress={onPress}>
     <Text style={styles.nextButtonText}>Далее</Text>
   </TouchableHighlight>
 );

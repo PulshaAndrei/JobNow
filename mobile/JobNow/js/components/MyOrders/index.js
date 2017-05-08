@@ -14,13 +14,13 @@ export const MyOrdersView = ({ children }) => (
 );
 
 export const CreateButton = ({ onCreate }) => (
-  <TouchableHighlight style={styles.createButton} onPress={onCreate}>
+  <TouchableHighlight underlayColor="transparent" style={styles.createButton} onPress={onCreate}>
     <Icon name="ios-add" size={45} color="white" />
   </TouchableHighlight>
 );
 
 export const JobItemWithProposals = ({ item, prevItem, category, onPress, isEnded }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={[styles.jobItemView, category && { borderColor: category.color }]}>
       <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
       <View style={styles.jobItemInfo}>
@@ -60,10 +60,10 @@ export const SelectDateTime = ({ isAllDay, dateFrom, dateTo, setAllDay, onPressD
     <View style={styles.dataRangeView}>
       <Text style={styles.inputItemTitleText}>C</Text>
       <View style={styles.dateRange}>
-        <TouchableHighlight onPress={() => onPress('from', 'datetime')}>
+        <TouchableHighlight underlayColor="transparent" onPress={() => onPress('from', 'datetime')}>
           <Text style={styles.selectDateText}>{dateFrom.format('DD MMMM YYYY')}</Text>
         </TouchableHighlight>
-        {!isAllDay && <TouchableHighlight style={styles.selectDateButton} onPress={() => onPress('from', 'time')}>
+        {!isAllDay && <TouchableHighlight underlayColor="transparent" style={styles.selectDateButton} onPress={() => onPress('from', 'time')}>
           <Text style={styles.selectDateText}>{dateFrom.format('HH:mm')}</Text>
         </TouchableHighlight>}
       </View>
@@ -71,10 +71,10 @@ export const SelectDateTime = ({ isAllDay, dateFrom, dateTo, setAllDay, onPressD
     <View style={styles.dataRangeView}>
       <Text style={styles.inputItemTitleText}>До</Text>
       <View style={styles.dateRange}>
-        <TouchableHighlight onPress={() => onPress('to', 'datetime')}>
+        <TouchableHighlight underlayColor="transparent" onPress={() => onPress('to', 'datetime')}>
           <Text style={styles.selectDateText}>{dateTo.format('DD MMMM YYYY')}</Text>
         </TouchableHighlight>
-        {!isAllDay && <TouchableHighlight style={styles.selectDateButton} onPress={() => onPress('to', 'time')}>
+        {!isAllDay && <TouchableHighlight underlayColor="transparent" style={styles.selectDateButton} onPress={() => onPress('to', 'time')}>
           <Text style={styles.selectDateText}>{dateTo.format('HH:mm')}</Text>
         </TouchableHighlight>}
       </View>
@@ -130,7 +130,7 @@ export const DateRange = ({ dateFrom, dateTo, isAllDay }) => (
 );
 
 export const Proposals = ({ title, proposals, onPress, disabled }) => (
-  <TouchableHighlight onPress={(!disabled && proposals.length !== 0) ? onPress: undefined}>
+  <TouchableHighlight underlayColor="transparent" onPress={(!disabled && proposals.length !== 0) ? onPress: undefined}>
     <View  style={styles.inputItem}>
       <View>
         <Text style={styles.inputItemTitleText}>{title}</Text>
@@ -153,7 +153,7 @@ export const Proposals = ({ title, proposals, onPress, disabled }) => (
 );
 
 export const MyProposal = ({ title, value, onPress }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View  style={styles.inputItem}>
       <View>
         <Text style={styles.inputItemTitleText}>{title}</Text>
@@ -169,7 +169,7 @@ export const MyProposal = ({ title, value, onPress }) => (
 );
 
 export const CategoryItem = ({ title, value, onPress }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={styles.inputItem}>
       <View>
         <Text style={styles.inputItemTitleText}>{title}</Text>
@@ -183,7 +183,7 @@ export const CategoryItem = ({ title, value, onPress }) => (
 );
 
 export const Proposal = ({ bet, user, onPress }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={styles.inputItem}>
       <Image source={require('../../resourses/avatar.jpg')} style={styles.proposalAvatar} />
       <View style={styles.proposalInfo}>
@@ -245,24 +245,24 @@ export default class PopupView extends Component {
         {isChange
           ? <View>
               <View style={[styles.bottomButtons, { marginBottom: 15 }]}>
-                <TouchableHighlight onPress={() => onChange(this.state.value)} style={[styles.bottomButton, { backgroundColor: '#13bcbf' }]}>
+                <TouchableHighlight underlayColor="transparent" onPress={() => onChange(this.state.value)} style={[styles.bottomButton, { backgroundColor: '#13bcbf' }]}>
                   <Text style={styles.bottomButtonText}>Изменить</Text>
                 </TouchableHighlight>
               </View>
               <View style={styles.bottomButtons}>
-                  <TouchableHighlight onPress={onClose} style={[styles.bottomButton, { backgroundColor: '#c8c8ca' }]}>
+                  <TouchableHighlight underlayColor="transparent" onPress={onClose} style={[styles.bottomButton, { backgroundColor: '#c8c8ca' }]}>
                     <Text style={styles.bottomButtonText}>Отмена</Text>
                   </TouchableHighlight>
-                  <TouchableHighlight onPress={onDelete} style={[styles.bottomButton, { backgroundColor: '#bf1313' }]}>
+                  <TouchableHighlight underlayColor="transparent" onPress={onDelete} style={[styles.bottomButton, { backgroundColor: '#bf1313' }]}>
                     <Text style={styles.bottomButtonText}>Удалить</Text>
                   </TouchableHighlight>
                 </View>
               </View>
           : <View style={styles.bottomButtons}>
-              <TouchableHighlight onPress={onClose} style={[styles.bottomButton, { backgroundColor: '#c8c8ca' }]}>
+              <TouchableHighlight underlayColor="transparent" onPress={onClose} style={[styles.bottomButton, { backgroundColor: '#c8c8ca' }]}>
                 <Text style={styles.bottomButtonText}>Отмена</Text>
               </TouchableHighlight>
-              <TouchableHighlight onPress={() => onSend(this.state.value)} style={[styles.bottomButton, { backgroundColor: '#13bcbf' }]}>
+              <TouchableHighlight underlayColor="transparent" onPress={() => onSend(this.state.value)} style={[styles.bottomButton, { backgroundColor: '#13bcbf' }]}>
                 <Text style={styles.bottomButtonText}>Подтвердить</Text>
               </TouchableHighlight>
             </View>}

@@ -81,13 +81,13 @@ export const PasswordInput = ({ value, setValue }) => (
 );
 
 export const ForgotButton = ({ onPress }) => (
-  <TouchableHighlight style={styles.forgotButton} onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" style={styles.forgotButton} onPress={onPress}>
     <Text style={styles.forgotButtonText}>Забыли пароль?</Text>
   </TouchableHighlight>
 );
 
 export const LoginButton = ({ onPress }) => (
-  <TouchableHighlight style={styles.loginButton} onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" style={styles.loginButton} onPress={onPress}>
     <Text style={styles.loginButtonText}>Войти</Text>
   </TouchableHighlight>
 );
@@ -95,7 +95,7 @@ export const LoginButton = ({ onPress }) => (
 export const SignupButton = ({ onPress }) => (
   <View style={styles.signupButton}>
     <Text style={styles.signupButtonLabel}>Нет аккаунта?</Text>
-    <TouchableHighlight onPress={onPress}>
+    <TouchableHighlight underlayColor="transparent" onPress={onPress}>
       <Text style={styles.signupButtonRegistration}>Зарегистрироваться</Text>
     </TouchableHighlight>
   </View>
