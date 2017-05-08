@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
+import haversine from 'haversine';
 require('moment/locale/ru');
 
 import { Container, SwitchItem, NoJobs } from '../../components/Common';
@@ -17,6 +18,14 @@ class MyProposals extends Component {
   }
   componentDidMount() {
     this.props.loadJobs();
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.warn('current position: ', position);
+        this.setState({ currentLocation: position.coords });
+      },
+      (error) => console.warn(JSON.stringify(error)),
+      {enableHighAccuracy: true/*, timeout: 20000, maximumAge: 1000 */}
+    );
   }
   goToJob(job) {
     this.props.setJob(job);
@@ -44,6 +53,9 @@ class MyProposals extends Component {
                 category={categories[item.categoryId]}
                 onPress={() => this.goToJob(item)}
                 myProposal={item.bets.find(el => el.userId === currentUser.id).price}
+                distance={!!(item.locationCoordX && item.locationCoordY && this.state.currentLocation)
+                  ? haversine(this.state.currentLocation, { latitude: item.locationCoordX, longitude: item.locationCoordY}).toFixed(1)
+                  : null}
                 prevItem={jobs[i-1]}
               />
             ))}

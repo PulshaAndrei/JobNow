@@ -46,15 +46,6 @@ class Main extends Component {
   render() {
     const { categories, isLoading, loadJobs, jobsByMonth } = this.props;
     const jobs = jobsByMonth(this.state.currentDate);
-    const start = {
-  latitude: 30.849635,
-  longitude: -83.24559
-}
-
-const end = {
-  latitude: 27.950575,
-  longitude: -82.457178
-}
     return (
       <Container>
         <MainView>
