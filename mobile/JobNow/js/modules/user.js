@@ -202,19 +202,17 @@ export function registration(user) {
 
 export function logout() {
   return (dispatch, getState) => {
-    FCM.getFCMToken().then((token) => {
-      console.warn('remove token');
-      http.delete('/devices', { token, userId: getState().user.user.id });
-    });
-    store.delete('token')
-    .then(() => Actions.login());
+    FCM.getFCMToken()
+      .then(token => http.delete('/devices', { token }))
+        .then(() => store.delete('token').then(() => Actions.login()))
+        .catch(() => store.delete('token').then(() => Actions.login()))
   };
 }
 
 export function sendFcmToken() {
   return (dispatch, getState) => {
     FCM.getFCMToken().then((token) => {
-      http.post('/devices', { token, userId: getState().user.user.id });
+      http.post('/devices', { token });
     });
   };
 }
