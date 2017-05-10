@@ -139,4 +139,15 @@ export default StyleSheet.create({
   rateView: {
     marginTop: 15,
   },
+  editAvatar: {
+    backgroundColor: '#13bdbf',
+    width: 35,
+    height: 35,
+    borderRadius: 18,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });

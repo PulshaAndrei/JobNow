@@ -3,10 +3,11 @@ import ReactNative, { Keyboard, Platform, Animated, ScrollView } from 'react-nat
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ImagePicker from 'react-native-image-picker'
 
 import { Container, SwitchItem, InputItem, LoadingIndiactor } from '../../components/Common';
 import { ProfileView, ProfileHeader, ProfileScrollView, Reviews } from '../../components/Profile';
-import { phoneMask, updateUser } from '../../modules/user';
+import { phoneMask, updateUser, uploadImage } from '../../modules/user';
 import { setCurrentUser, loadReviews } from '../../modules/userprofile';
 
 class Profile extends Component {
@@ -41,7 +42,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { updateUser, isLoading, reviews, user } = this.props;
+    const { updateUser, isLoading, reviews, user, uploadImage } = this.props;
     //console.warn('', this.state.animationHeight);
     return (
       <Container>
@@ -52,6 +53,13 @@ class Profile extends Component {
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
             onSave={() => updateUser(this.state)}
             name={`${this.props.user.givenName} ${this.props.user.familyName}`}
+            onPhoto={() => {
+              ImagePicker.launchImageLibrary({}, response  => {
+                uploadImage(response.uri)
+                  //.then(url => console.warn('url: ', url))
+                  //.catch(error => console.warn(error))
+              })
+            }}
           />
           <KeyboardAwareScrollView ref='scrollView'>
             <InputItem
@@ -95,5 +103,5 @@ export default connect(
     user: state.user.user,
     phoneMask
   }),
-  { updateUser, setCurrentUser, loadReviews }
+  { updateUser, setCurrentUser, loadReviews, uploadImage }
 )(Profile);

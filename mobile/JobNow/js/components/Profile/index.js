@@ -13,7 +13,7 @@ export const ProfileView = ({ children }) => (
   </View>
 );
 
-export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard, animationHeight }) => (
+export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard, animationHeight, onPhoto }) => (
   <Animated.View style={[styles.profileHeader, { height: animationHeight }]}>
     <Image source={require('../../resourses/background_profile.png')} style={styles.profileHeaderBackground}>
       <View style={styles.headerButtons}>
@@ -25,7 +25,12 @@ export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard, animationH
         </TouchableHighlight>
       </View>
       <View style={styles.headerInfo}>
-        {!isOpenKeyboard && <Image source={require('../../resourses/avatar.png')} style={styles.profileHeaderAvatar} />}
+        {!isOpenKeyboard && <View>
+          <Image source={require('../../resourses/avatar.png')} style={styles.profileHeaderAvatar} />
+          <TouchableHighlight style={styles.editAvatar} onPress={onPhoto}>
+            <Icon name="md-create" size={18} color="white" />
+          </TouchableHighlight>
+        </View>}
         <Text style={styles.headerName}>{name}</Text>
       </View>
     </Image>

@@ -3,6 +3,8 @@ package com.jobnow;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -27,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
+            new RNFetchBlobPackage(),
             new FIRMessagingPackage(),
             new RNSpinkitPackage(),
             new VectorIconsPackage(),

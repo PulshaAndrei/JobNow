@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -71,6 +70,8 @@
 		CBB2806B687891D8E31EA64C /* Pods_JobNow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1355A7B63C32D31DEB27860 /* Pods_JobNow.framework */; };
 		E1A64C2334A358DC2CDB810A /* Pods_JobNowTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91FCBAD8132D069176DBAEF /* Pods_JobNowTests.framework */; };
 		ED27ABB1F6C346EABBD3B526 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6625FE0A87F04E6AB5FA71D6 /* Ionicons.ttf */; };
+		9818AFFEA8014E6A9EA5854A /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FFB04D943C294042A35555B4 /* libRNFetchBlob.a */; };
+		482A0FDF85C948C6A393B255 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 12C430D199D049A3A70D4AF5 /* libRNImagePicker.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -365,6 +366,10 @@
 		F534FF18D5CB6B054D5E47B3 /* Pods-JobNow-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JobNow-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JobNow-tvOSTests/Pods-JobNow-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F91FCBAD8132D069176DBAEF /* Pods_JobNowTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JobNowTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD037E74531EA9CD33E541CC /* Pods-JobNow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JobNow.release.xcconfig"; path = "Pods/Target Support Files/Pods-JobNow/Pods-JobNow.release.xcconfig"; sourceTree = "<group>"; };
+		822FAC1ADBD04524B99762E1 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		FFB04D943C294042A35555B4 /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		83B03D3DD378489F9210C12C /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; name = "RNImagePicker.xcodeproj"; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		12C430D199D049A3A70D4AF5 /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,6 +402,8 @@
 				591215C331474242B0B619B2 /* libRNSpinkit.a in Frameworks */,
 				A266125049474A2892B033D9 /* libAirMaps.a in Frameworks */,
 				CBB2806B687891D8E31EA64C /* Pods_JobNow.framework in Frameworks */,
+				9818AFFEA8014E6A9EA5854A /* libRNFetchBlob.a in Frameworks */,
+				482A0FDF85C948C6A393B255 /* libRNImagePicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +621,8 @@
 				44ADE68926744393A3B3B74C /* RNVectorIcons.xcodeproj */,
 				B1CF676FF1A142FA81D92676 /* RNSpinkit.xcodeproj */,
 				01F8DB79B30A420DAA94D7B5 /* AirMaps.xcodeproj */,
+				822FAC1ADBD04524B99762E1 /* RNFetchBlob.xcodeproj */,
+				83B03D3DD378489F9210C12C /* RNImagePicker.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1472,12 +1481,16 @@
 					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
 					"$(SRCROOT)..\node_modules\neact-native-spinkitios/**",
 					"$(SRCROOT)..\node_modules\neact-native-mapslibios/**",
+					"$(SRCROOT)\..\node_modules\react-native-fetch-blob\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 				INFOPLIST_FILE = JobNowTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1502,12 +1515,16 @@
 					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
 					"$(SRCROOT)..\node_modules\neact-native-spinkitios/**",
 					"$(SRCROOT)..\node_modules\neact-native-mapslibios/**",
+					"$(SRCROOT)\..\node_modules\react-native-fetch-blob\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 				INFOPLIST_FILE = JobNowTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1542,6 +1559,8 @@
 					ode_modules,
 					"eact-native-mapslibios/**",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)\..\node_modules\react-native-fetch-blob\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 				INFOPLIST_FILE = JobNow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1576,6 +1595,8 @@
 					ode_modules,
 					"eact-native-mapslibios/**",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)\..\node_modules\react-native-fetch-blob\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 				INFOPLIST_FILE = JobNow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1608,11 +1629,15 @@
 					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
 					"$(SRCROOT)..\node_modules\neact-native-spinkitios/**",
 					"$(SRCROOT)..\node_modules\neact-native-mapslibios/**",
+					"$(SRCROOT)\..\node_modules\react-native-fetch-blob\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 				INFOPLIST_FILE = "JobNow-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1647,11 +1672,15 @@
 					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
 					"$(SRCROOT)..\node_modules\neact-native-spinkitios/**",
 					"$(SRCROOT)..\node_modules\neact-native-mapslibios/**",
+					"$(SRCROOT)\..\node_modules\react-native-fetch-blob\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 				INFOPLIST_FILE = "JobNow-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1687,6 +1716,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.JobNow-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1712,6 +1743,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
