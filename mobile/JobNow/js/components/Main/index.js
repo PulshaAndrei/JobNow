@@ -63,7 +63,7 @@ export const JobItem = ({ item, prevItem, category, onPress, myProposal, distanc
       {!(prevItem && moment.unix(prevItem.startWork).isSame(moment.unix(item.startWork), 'days')) &&
         <SectionHeader title={moment.unix(item.startWork).format('dddd, DD MMMM').toUpperCase()} />}
       <View style={[styles.jobItemView, { borderColor: category.color }]}>
-        <Image source={require('../../resourses/avatar.png')} style={styles.jobItemAvatar} />
+        <Image source={!item.user.imageUrl ? require('../../resourses/avatar.png') : { uri: item.user.imageUrl }} style={styles.jobItemAvatar} />
         <View style={styles.jobItemInfo}>
           <View style={styles.jobItemTextRow}>
             <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.name}</Text>

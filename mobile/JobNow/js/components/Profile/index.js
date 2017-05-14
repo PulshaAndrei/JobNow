@@ -13,7 +13,7 @@ export const ProfileView = ({ children }) => (
   </View>
 );
 
-export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard, animationHeight, onPhoto }) => (
+export const ProfileHeader = ({ onMenu, onSave, name, image, isOpenKeyboard, animationHeight, onPhoto }) => (
   <Animated.View style={[styles.profileHeader, { height: animationHeight }]}>
     <Image source={require('../../resourses/background_profile.png')} style={styles.profileHeaderBackground}>
       <View style={styles.headerButtons}>
@@ -26,7 +26,7 @@ export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard, animationH
       </View>
       <View style={styles.headerInfo}>
         {!isOpenKeyboard && <View>
-          <Image source={require('../../resourses/avatar.png')} style={styles.profileHeaderAvatar} />
+          <Image source={!image ? require('../../resourses/avatar.png') : { uri: image }} style={styles.profileHeaderAvatar} />
           <TouchableHighlight style={styles.editAvatar} onPress={onPhoto}>
             <Icon name="md-create" size={18} color="white" />
           </TouchableHighlight>
@@ -37,7 +37,7 @@ export const ProfileHeader = ({ onMenu, onSave, name, isOpenKeyboard, animationH
   </Animated.View>
 );
 
-export const ProfileHeaderWithBack = ({ onBack, name }) => (
+export const ProfileHeaderWithBack = ({ onBack, name, image }) => (
   <View style={styles.profileHeader}>
     <Image source={require('../../resourses/background_profile.png')} style={styles.profileHeaderBackground}>
       <View style={styles.headerButtons}>
@@ -46,7 +46,11 @@ export const ProfileHeaderWithBack = ({ onBack, name }) => (
         </TouchableHighlight>
       </View>
       <View style={styles.headerInfo}>
-        <Image source={require('../../resourses/avatar.png')} style={[styles.profileHeaderAvatar, { width: 120, height: 120, borderRadius: 60, marginTop: -15 }]} />
+        <Image
+          source={!image ? require('../../resourses/avatar.png') : { uri: image }}
+          style={[styles.profileHeaderAvatar, { width: 120, height: 120, borderRadius: 60, marginTop: -15 }]}
+          onError={(e) => console.warn('!error', e)}
+        />
         <Text style={styles.headerName}>{name}</Text>
       </View>
     </Image>
@@ -120,7 +124,7 @@ export const Reviews = ({ reviews, rate, reviewCount, hasMyReview, onCreate }) =
       <View style={styles.inputItem} key={i}>
         <View style={styles.reviewHeader}>
           <View>
-            <Image source={require('../../resourses/avatar.png')} style={styles.reviewAvatar} />
+            <Image source={!item.user.imageUrl ? require('../../resourses/avatar.png') : { uri: item.user.imageUrl }} style={styles.reviewAvatar} />
           </View>
           <View>
             <Text style={styles.reviewsTitle}>{item.user.givenName} {item.user.familyName}</Text>

@@ -10,6 +10,7 @@ const initState = {
   isLoading: false,
   currentJob: {
     bets: [],
+    user: {},
   },
   newJob: {
     name: '',

@@ -77,11 +77,14 @@ export const InputDescriptionItem = ({ title, value, setValue, disabled, isRevie
   </View>
 );
 
-export const ProfileItem = ({ name, rating, reviewCount, onPress }) => (
+export const ProfileItem = ({ name, rating, image, reviewCount, onPress }) => (
   <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={styles.profileItem}>
       <View>
-        <Image source={require('../../resourses/avatar.png')} style={styles.jobItemAvatar} />
+        <Image
+          source={!image ? require('../../resourses/avatar.png') : { uri: image }}
+          style={styles.jobItemAvatar}
+        />
       </View>
       <View>
         <Text style={styles.jobItemTextTitle}>{name}</Text>

@@ -43,7 +43,6 @@ class Profile extends Component {
 
   render() {
     const { updateUser, isLoading, reviews, user, uploadImage } = this.props;
-    //console.warn('', this.state.animationHeight);
     return (
       <Container>
         <ProfileView>
@@ -52,12 +51,11 @@ class Profile extends Component {
             animationHeight={this.state.animationHeight}
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
             onSave={() => updateUser(this.state)}
-            name={`${this.props.user.givenName} ${this.props.user.familyName}`}
+            name={`${user.givenName} ${user.familyName}`}
+            image={user.imageUrl}
             onPhoto={() => {
               ImagePicker.launchImageLibrary({}, response  => {
                 uploadImage(response.uri)
-                  //.then(url => console.warn('url: ', url))
-                  //.catch(error => console.warn(error))
               })
             }}
           />

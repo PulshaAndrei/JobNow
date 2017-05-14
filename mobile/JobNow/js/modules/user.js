@@ -156,7 +156,7 @@ export function uploadImage (uri, mime = 'application/octet-stream') {
       })
       .then((url) => {
         const user = getState().user.user;
-        dispatch(updateUser({ ...user, imageURL: url }))
+        dispatch(updateUser({ ...user, imageUrl: url }))
       })
       .catch((error) => {
         dispatch(setIsLoading(false));

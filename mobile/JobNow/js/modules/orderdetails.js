@@ -14,6 +14,7 @@ const initState = {
     user: {
       givenName: '',
       familyName: '',
+      imageUrl: null,
     },
     priceTo: 0,
   },

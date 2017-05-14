@@ -18,6 +18,7 @@ class UserProfile extends Component {
           <ProfileView>
             <ProfileHeaderWithBack
               onBack={Actions.pop}
+              image={user.imageUrl}
               name={`${user.givenName} ${user.familyName}`}
             />
             <ScrollView>

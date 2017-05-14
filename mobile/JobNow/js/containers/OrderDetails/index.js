@@ -42,6 +42,7 @@ class OrderDetails extends Component {
             <ProfileItem
               name={job.user.givenName + " " + job.user.familyName}
               rating={job.user.rate}
+              image={job.user.imageUrl}
               reviewCount={job.user.reviewCount}
               onPress={() => this.goToUserProfile(job.user.id)}
             />

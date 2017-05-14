@@ -9,7 +9,7 @@ async function getHeaders() {
   return {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': token,
+    'Authorization': token || '',
   };
 }
 
