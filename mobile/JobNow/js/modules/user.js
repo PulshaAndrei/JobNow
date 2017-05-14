@@ -109,6 +109,7 @@ export function getUser() {
   return (dispatch) => {
     http.get('/account')
       .then((response) => {
+        console.warn('', response);
         dispatch({ type: 'SET_USER', payload: response.account });
       })
       .catch((e) => console.warn(e));
@@ -134,7 +135,7 @@ export function updateUser(user) {
 }
 
 export function uploadImage (uri, mime = 'application/octet-stream') {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(setIsLoading(true));
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
     const sessionId = new Date().getTime()
@@ -154,12 +155,15 @@ export function uploadImage (uri, mime = 'application/octet-stream') {
         return imageRef.getDownloadURL()
       })
       .then((url) => {
-        dispatch(setIsLoading(false));
-        console.warn('url: ', url);
+        const user = getState().user.user;
+        dispatch(updateUser({ ...user, imageURL: url }))
       })
       .catch((error) => {
         dispatch(setIsLoading(false));
-        console.warn(error)
+        Alert.alert(
+          'Ошибка загрузки',
+          error,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
       });
   }
 }
