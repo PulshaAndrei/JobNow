@@ -1,7 +1,10 @@
 
 import store from 'react-native-simple-store';
 import { Actions } from 'react-native-router-flux';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
+import FCM from 'react-native-fcm';
+import RNFetchBlob from 'react-native-fetch-blob'
+import firebase from 'firebase'
 
 import http from '../utils/http';
 
@@ -13,6 +16,21 @@ String.prototype.insert = function (index, string) {
   else
     return string + this;
 };
+
+// Init Firebase
+const config = {
+  apiKey: "AIzaSyA5cAQfS39va8vz_WelcmPXE4SXAXKR6Vo",
+  //authDomain: "<FIREBASE_AUTH_DOMAIN>",
+  storageBucket: "gs://jobnow-166917.appspot.com/",
+}
+firebase.initializeApp(config)
+const storage = firebase.storage()
+
+// Prepare Blob support
+const Blob = RNFetchBlob.polyfill.Blob
+const fs = RNFetchBlob.fs
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+window.Blob = Blob
 
 const initState = {
   user: {
@@ -91,6 +109,7 @@ export function getUser() {
   return (dispatch) => {
     http.get('/account')
       .then((response) => {
+        console.warn('', response);
         dispatch({ type: 'SET_USER', payload: response.account });
       })
       .catch((e) => console.warn(e));
@@ -115,6 +134,40 @@ export function updateUser(user) {
   };
 }
 
+export function uploadImage (uri, mime = 'application/octet-stream') {
+  return (dispatch, getState) => {
+    dispatch(setIsLoading(true));
+    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+    const sessionId = new Date().getTime()
+    let uploadBlob = null
+    const imageRef = storage.ref('images').child(`${sessionId}`)
+
+    fs.readFile(uploadUri, 'base64')
+      .then((data) => {
+        return Blob.build(data, { type: `${mime};BASE64` })
+      })
+      .then((blob) => {
+        uploadBlob = blob
+        return imageRef.put(blob, { contentType: mime })
+      })
+      .then(() => {
+        uploadBlob.close()
+        return imageRef.getDownloadURL()
+      })
+      .then((url) => {
+        const user = getState().user.user;
+        dispatch(updateUser({ ...user, imageUrl: url }))
+      })
+      .catch((error) => {
+        dispatch(setIsLoading(false));
+        Alert.alert(
+          'Ошибка загрузки',
+          error,
+          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+      });
+  }
+}
+
 export function login(phone, password) {
   return (dispatch) => {
     dispatch(setIsLoading(true));
@@ -123,7 +176,8 @@ export function login(phone, password) {
         store.save('token', response.token)
           .then(dispatch(getUser()))
           .then(dispatch(setIsLoading(false)))
-          .then(() => Actions.drawer());
+          .then(() => Actions.drawer())
+          .then(dispatch(sendFcmToken()));
       })
       .catch((e) => {
         dispatch(setIsLoading(false));
@@ -185,7 +239,8 @@ export function registration(user) {
       .then(dispatch(getUser()))
       .then(dispatch(updateSubscribedCategories([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], true)))
       .then(dispatch(setIsLoading(false)))
-      .then(() => Actions.drawer());
+      .then(() => Actions.drawer())
+      .then(dispatch(sendFcmToken()));
     })
     .catch((e) => {
       dispatch(setIsLoading(false));
@@ -198,6 +253,18 @@ export function registration(user) {
 }
 
 export function logout() {
-  return store.delete('token')
-    .then(() => Actions.login());
+  return (dispatch, getState) => {
+    FCM.getFCMToken()
+      .then(token => http.delete('/devices', { token }))
+        .then(() => store.delete('token').then(() => Actions.login()))
+        .catch(() => store.delete('token').then(() => Actions.login()))
+  };
+}
+
+export function sendFcmToken() {
+  return (dispatch, getState) => {
+    FCM.getFCMToken().then((token) => {
+      http.post('/devices', { token });
+    });
+  };
 }

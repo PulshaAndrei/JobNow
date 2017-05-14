@@ -17,10 +17,10 @@ export const MainHeader = ({ children, onMenu, onFilter, onPrevMonth, onNextMont
   <View style={styles.mainHeader}>
     <Image source={require('../../resourses/home_background.png')} style={styles.mainHeaderBackground}>
       <View style={styles.headerButtons}>
-        <TouchableHighlight style={styles.menuButton} onPress={onMenu}>
+        <TouchableHighlight underlayColor="transparent" style={styles.menuButton} onPress={onMenu}>
           <Icon name="ios-menu-outline" size={30} color="white" />
         </TouchableHighlight>
-        <TouchableHighlight style={styles.menuButton} onPress={onFilter}>
+        <TouchableHighlight underlayColor="transparent" style={styles.menuButton} onPress={onFilter}>
           <Icon name="ios-funnel-outline" size={30} color="white" />
         </TouchableHighlight>
       </View>
@@ -29,11 +29,11 @@ export const MainHeader = ({ children, onMenu, onFilter, onPrevMonth, onNextMont
         {/* <Text style={styles.headerSubTitle}>г. Минск</Text> */}
       </View>
       <View style={styles.monthControl}>
-        <TouchableHighlight style={styles.monthControlButton} onPress={onPrevMonth}>
+        <TouchableHighlight underlayColor="transparent" style={styles.monthControlButton} onPress={onPrevMonth}>
           <Icon name="ios-arrow-back" size={30} color="#b3bcc1" />
         </TouchableHighlight>
         <Text style={styles.monthControlText}>{currentMonth}</Text>
-        <TouchableHighlight style={styles.monthControlButton} onPress={onNextMonth}>
+        <TouchableHighlight underlayColor="transparent" style={styles.monthControlButton} onPress={onNextMonth}>
           <Icon name="ios-arrow-forward" size={30} color="#b3bcc1" />
         </TouchableHighlight>
       </View>
@@ -57,27 +57,27 @@ export const JobList = ({ children, onRefresh, refreshing }) => (
   </ScrollView>
 );
 
-export const JobItem = ({ item, prevItem, category, onPress }) => (
-  <TouchableHighlight onPress={onPress}>
+export const JobItem = ({ item, prevItem, category, onPress, myProposal, distance }) => (
+  <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View>
       {!(prevItem && moment.unix(prevItem.startWork).isSame(moment.unix(item.startWork), 'days')) &&
         <SectionHeader title={moment.unix(item.startWork).format('dddd, DD MMMM').toUpperCase()} />}
       <View style={[styles.jobItemView, { borderColor: category.color }]}>
-        <Image source={require('../../resourses/avatar.jpg')} style={styles.jobItemAvatar} />
+        <Image source={!item.user.imageUrl ? require('../../resourses/avatar.png') : { uri: item.user.imageUrl }} style={styles.jobItemAvatar} />
         <View style={styles.jobItemInfo}>
           <View style={styles.jobItemTextRow}>
             <Text style={styles.jobItemTextTitle} numberOfLines={2}>{item.name}</Text>
             <View style={styles.jobItemPrice}>
-              <Text style={styles.jobItemPriceTitle}>{item.priceTo} руб.</Text>
+              <Text style={styles.jobItemPriceTitle}>{myProposal ? myProposal : item.priceTo} руб.</Text>
             </View>
           </View>
           <View style={styles.jobItemTextRow}>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, marginRight: 10 }}>
               <Text style={styles.jobItemTextAddress} numberOfLines={1}>{item.description}</Text>
             </View>
-            <View>
-              <Text style={styles.jobItemTextDistance}>{item.distance}250 м</Text>
-            </View>
+            {distance && <View>
+              <Text style={styles.jobItemTextDistance}>{distance} км</Text>
+            </View>}
           </View>
         </View>
       </View>
@@ -94,7 +94,7 @@ export const SectionHeader = ({ title }) => (
 export const MainFilterHeader = ({ onBack }) => (
   <View style={styles.mainFilterHeader}>
     <Image source={require('../../resourses/main_filter-background.png')} style={styles.mainFilterHeaderBackground}>
-      <TouchableHighlight style={styles.menuButton} onPress={onBack}>
+      <TouchableHighlight underlayColor="transparent" style={styles.menuButton} onPress={onBack}>
         <Icon name="ios-arrow-round-back-outline" size={45} color="white" />
       </TouchableHighlight>
       <Text style={styles.headerFilterTitle}>Фильтрация по категориям</Text>
@@ -115,7 +115,7 @@ export const CategoryRow = ({ children }) => (
 );
 
 export const Category = ({ title, icon, color, onPress, isLeft, selected }) => (
-  <TouchableHighlight onPress={onPress} style={{ flex: 1 }}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress} style={{ flex: 1 }}>
     <View style={[styles.category, isLeft && styles.categoryLeft]}>
       <View style={[styles.categoryIconView, selected && { borderColor: color, borderWidth: 1 }]}>
         <MaterialIcon name={icon} size={45} style={[styles.categoryIcon, selected && { color: color}]} />

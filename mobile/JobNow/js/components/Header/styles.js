@@ -5,7 +5,7 @@ import { StyleSheet, Platform, Dimensions, StatusBar } from 'react-native';
 export default StyleSheet.create({
   header: {
     backgroundColor: 'transparent',
-    top: 20,
+    top: Platform.Version < 21 ? 0 : 20,
     left: 0,
     right: 0,
     height: 80,
@@ -30,7 +30,7 @@ export default StyleSheet.create({
     backgroundColor: '#0f334c',
   },
   headerBackground: {
-    paddingTop: 20,
+    paddingTop: Platform.Version < 21 ? 0 : 20,
     backgroundColor: 'transparent',
     flex: 1,
     resizeMode: 'cover',

@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
+import haversine from 'haversine';
 require('moment/locale/ru');
 
 import { Container, NoJobs } from '../../components/Common';
 import { MainView, MainHeader, JobList, JobItem, SectionHeader } from '../../components/Main';
-import { loadJobs, setCurrentJob, jobsByMonth } from '../../modules/searchorders';
+import { loadJobs, jobsByMonth } from '../../modules/searchorders';
+import { setJob, setFromScreen } from '../../modules/orderdetails';
 
 class Main extends Component {
   state = {
-    currentDate: moment()
+    currentDate: moment(),
+    currentLocation: null,
   }
 
   prev = () => {
@@ -25,9 +28,18 @@ class Main extends Component {
 
   componentDidMount() {
     this.props.loadJobs();
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.warn('current position: ', position);
+        this.setState({ currentLocation: position.coords });
+      },
+      (error) => console.warn(JSON.stringify(error)),
+      {enableHighAccuracy: true/*, timeout: 20000, maximumAge: 1000 */}
+    );
   }
   goToJob(job) {
-    this.props.setCurrentJob(job);
+    this.props.setJob(job);
+    this.props.setFromScreen('main');
     Actions.orderDetails();
   }
 
@@ -52,6 +64,9 @@ class Main extends Component {
                 item={item}
                 category={categories[item.categoryId]}
                 prevItem={jobs[i-1]}
+                distance={!!(item.locationCoordX && item.locationCoordY && this.state.currentLocation)
+                  ? haversine(this.state.currentLocation, { latitude: item.locationCoordX, longitude: item.locationCoordY}).toFixed(1)
+                  : null}
                 onPress={() => this.goToJob(item)}
               />
             ))}
@@ -68,5 +83,5 @@ export default connect(
     jobs: state.searchorders.jobs,
     categories: state.common.categories,
   }),
-  { loadJobs, setCurrentJob, jobsByMonth }
+  { loadJobs, setJob, setFromScreen, jobsByMonth }
 )(Main);

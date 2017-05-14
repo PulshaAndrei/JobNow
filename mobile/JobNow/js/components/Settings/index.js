@@ -16,7 +16,7 @@ export const SettingsHeader = ({ title, onMenu, onBack }) => (
   <View style={styles.settingsHeader}>
     <Image source={require('../../resourses/background_settings.png')} style={styles.settingsHeaderBackground}>
       <View style={styles.headerButtons}>
-        <TouchableHighlight style={styles.menuButton} onPress={onMenu || onBack}>
+        <TouchableHighlight underlayColor="transparent" style={styles.menuButton} onPress={onMenu || onBack}>
           <Icon
             name={onMenu ? "ios-menu-outline" : "ios-arrow-round-back-outline"}
             size={onMenu ? 30 : 45}
@@ -32,7 +32,7 @@ export const SettingsHeader = ({ title, onMenu, onBack }) => (
 );
 
 export const SettingButton = ({ title, onPress }) => (
-  <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress}>
     <View style={styles.settingsButton}>
       <Text style={styles.settingsButtonTitle}>{title}</Text>
       <Icon name="ios-arrow-round-forward-outline" size={30} color="#bbbbbd" />
@@ -41,7 +41,7 @@ export const SettingButton = ({ title, onPress }) => (
 );
 
 export const LogoutButton = ({ onPress }) => (
-  <TouchableHighlight style={styles.settingsButton} onPress={onPress}>
+  <TouchableHighlight underlayColor="transparent" style={styles.settingsButton} onPress={onPress}>
     <Text style={styles.settingsButtonTitle}>Выход</Text>
   </TouchableHighlight>
 );

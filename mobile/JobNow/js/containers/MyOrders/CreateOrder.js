@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Keyboard } from 'react-native';
+import ReactNative, { Keyboard, Platform, Animated } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 require('moment/locale/ru');
 
-import { Container, InputItem, InputDescriptionItem, LoadingIndiactor } from '../../components/Common';
+import { Container, InputItem, InputDescriptionItem, LoadingIndiactor, SwitchItem, MapItem } from '../../components/Common';
 import { HeaderWithSave } from '../../components/Header';
 import { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, CategoryItem } from '../../components/MyOrders';
 import { setNewJob, saveJob } from '../../modules/myorders';
@@ -17,6 +18,22 @@ class CreateOrder extends Component {
     dateTimePickerMode: 'date',
     dateTimePickerType: 'from',
     dateTimePickerInitDate: moment().unix(),
+    isOpenKeyboard: false,
+    animationHeight: new Animated.Value(220),
+  }
+  componentWillMount () {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ isOpenKeyboard: true });
+      Animated.timing(this.state.animationHeight, { toValue: 160, duration: 100 }).start();
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ isOpenKeyboard: false });
+      Animated.timing(this.state.animationHeight, { toValue: 220 }).start();
+    });
+  }
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
   showDateTimePicker = (type, mode) => this.setState({
     isDateTimePickerVisible: true,
@@ -47,7 +64,17 @@ class CreateOrder extends Component {
       }
     }
     this.hideDateTimePicker();
-  };
+  }
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.warn('current position: ', position);
+        this.props.setNewJob({ ...this.props.newJob, locationCoordX: position.coords.latitude, locationCoordY: position.coords.longitude });
+      },
+      (error) => console.warn(JSON.stringify(error)),
+      {enableHighAccuracy: true/*, timeout: 20000, maximumAge: 1000 */}
+    );
+  }
   render() {
     const { newJob, setNewJob, categories, saveJob } = this.props;
     const { isDateTimePickerVisible, dateTimePickerType, dateTimePickerMode, dateTimePickerInitDate } = this.state;
@@ -55,6 +82,8 @@ class CreateOrder extends Component {
       <Container>
         <MyOrdersView>
           <HeaderWithSave
+            isOpenKeyboard={this.state.isOpenKeyboard}
+            animationHeight={this.state.animationHeight}
             imageSource={require('../../resourses/home_background.png')}
             title="Создать заказ"
             onBack={Actions.pop}
@@ -64,10 +93,18 @@ class CreateOrder extends Component {
             }}
             isSaveEnabled={ newJob.name && newJob.description && newJob.priceTo }
           />
-          <CreateOrderScrollView>
+          <KeyboardAwareScrollView ref='scrollView'>
             <InputItem title="Название" value={newJob.name} setValue={name => setNewJob({ ...newJob, name })} />
             <InputDescriptionItem title="Описание" value={newJob.description} setValue={description => setNewJob({ ...newJob, description })} />
-            <InputPrice value={newJob.priceTo} setValue={priceTo => setNewJob({ ...newJob, priceTo })} />
+            <InputPrice
+              value={newJob.priceTo}
+              setValue={priceTo => setNewJob({ ...newJob, priceTo })}
+              onFocus={Platform.OS === 'ios' && ((event: Event) => {
+                let scrollResponder = this.refs.scrollView.getScrollResponder();
+                let handle = ReactNative.findNodeHandle(event.target);
+                setTimeout(() => scrollResponder.scrollResponderScrollNativeHandleToKeyboard(handle, 180, true), 300);
+              })}
+            />
             <CategoryItem title="Категория" value={categories[newJob.categoryId].title} onPress={Actions.createOrderCategory}/>
             <SelectDateTime
               isAllDay={newJob.allDay}
@@ -76,8 +113,28 @@ class CreateOrder extends Component {
               setAllDay={(allDay) => setNewJob({ ...newJob, allDay })}
               onPress={(type, mode) => this.showDateTimePicker(type, mode) }
             />
-            <InputItem title="Адрес" value={newJob.address} setValue={address => setNewJob({ ...newJob, address })} />
-          </CreateOrderScrollView>
+            <InputItem
+              title="Адрес"
+              value={newJob.address}
+              setValue={address => setNewJob({ ...newJob, address })}
+              onFocus={Platform.OS === 'ios' && ((event: Event) => {
+                let scrollResponder = this.refs.scrollView.getScrollResponder();
+                let handle = ReactNative.findNodeHandle(event.target);
+                setTimeout(() => scrollResponder.scrollResponderScrollNativeHandleToKeyboard(handle, 170, true), 300);
+              })}
+            />
+            <SwitchItem
+              title="Местоположение на карте"
+              value={newJob.isEnabledGeolocation}
+              setValue={isEnabledGeolocation => setNewJob({ ...newJob, isEnabledGeolocation })}
+            />
+            {newJob.isEnabledGeolocation &&
+              <MapItem
+                latitude={newJob.locationCoordX}
+                longitude={newJob.locationCoordY}
+                setCoords={coords => setNewJob({ ...newJob, locationCoordX: coords.latitude, locationCoordY: coords.longitude })}
+              />}
+          </KeyboardAwareScrollView>
           <DateTimePicker
             isVisible={isDateTimePickerVisible}
             mode={(newJob.allDay && dateTimePickerMode === 'datetime') ? 'date' : dateTimePickerMode}

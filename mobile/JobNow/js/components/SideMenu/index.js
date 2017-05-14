@@ -7,7 +7,7 @@ import styles from './styles';
 
 export const SideMenu = ({ children, onClose, menuButtons, currentItem }) => (
   <View style={styles.sideMenu}>
-    <TouchableHighlight onPress={onClose} style={styles.closeButton}>
+    <TouchableHighlight underlayColor="transparent" onPress={onClose} style={styles.closeButton}>
       <Icon name="ios-close" size={60} color="#bbbbbd" />
     </TouchableHighlight>
     <View style={styles.sideMenuButtons}>
@@ -18,7 +18,7 @@ export const SideMenu = ({ children, onClose, menuButtons, currentItem }) => (
 );
 
 export const SideMenuButton = ({ title, selected, onPress }) => (
-  <TouchableHighlight onPress={onPress} style={[styles.sideMenuButton, selected && styles.sideMenuButtonSelected]}>
+  <TouchableHighlight underlayColor="transparent" onPress={onPress} style={[styles.sideMenuButton, selected && styles.sideMenuButtonSelected]}>
     <Text style={styles.menuButtonText}>{title}</Text>
   </TouchableHighlight>
 );

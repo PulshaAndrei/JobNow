@@ -8,8 +8,10 @@ import http from '../utils/http';
 const initState = {
   jobs: [],
   isLoading: false,
-  currentJob: {},
-  users: [],
+  currentJob: {
+    bets: [],
+    user: {},
+  },
   newJob: {
     name: '',
     description: '',
@@ -19,6 +21,9 @@ const initState = {
     priceTo: '',
     allDay: false,
     categoryId: 0,
+    locationCoordX: null,
+    locationCoordY: null,
+    isEnabledGeolocation: true,
   }
 };
 
@@ -26,8 +31,6 @@ export function reducer(state = initState, action) {
   switch (action.type) {
     case 'SET_MY_ORDERS_JOBS':
       return { ...state, jobs: action.payload };
-    case 'SET_MY_ORDERS_USERS':
-      return { ...state, users: action.payload };
     case 'SET_LOADING_MY_ORDERS':
       return { ...state, isLoading: action.payload };
     case 'SET_NEW_JOB':
@@ -51,14 +54,6 @@ export function setCurrentJob(value) {
   return dispatch => dispatch({ type: 'SET_MY_ORDERS_CURRENT_JOB', payload: value });
 }
 
-export function addLoadedUser(value) {
-  return (dispatch, getState) => {
-    const users = getState().myorders.users;
-    users.push(value);
-    dispatch({ type: 'SET_MY_ORDERS_USERS', payload: users });
-  };
-}
-
 export function loadJobs() {
   return (dispatch) => {
     dispatch(setIsLoading(true));
@@ -74,22 +69,15 @@ export function loadJobs() {
   };
 }
 
-export function loadBetUsers() {
-  return (dispatch, getState) => {
-    const bets = getState().myorders.currentJob.bets;
-    for (bet in bets) {
-      http.get(`/user/${bet.userId}`)
-        .then(response => dispatch(addLoadedUser(response)))
-        .catch(e => console.warn(e));
-    }
-  };
-}
-
 export function saveJob() {
   return (dispatch, getState) => {
     dispatch(setIsLoading(true));
     const data = getState().myorders.newJob;
     data.priceTo = parseFloat(data.priceTo);
+    if (!data.isEnabledGeolocation) {
+      data.locationCoordX = null;
+      data.locationCoordY = null;
+    }
     console.warn('', data);
     http.post('/users_order', data)
       .then((response) => {

@@ -1,0 +1,60 @@
+import React, { Component } from 'react';
+import ReactNative, { Keyboard, Platform, Animated, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+import Communications from 'react-native-communications';
+
+import { Container, SwitchItem, LoadingIndiactor } from '../../components/Common';
+import { ProfileView, ProfileHeaderWithBack, ProfileScrollView, PhoneWithButtons, EmailWithButton, Reviews } from '../../components/Profile';
+import { phoneMask } from '../../modules/user';
+
+class UserProfile extends Component {
+  render() {
+    const { user, reviews, isLoading, myUserId, createAction } = this.props;
+    console.warn('', user);
+    return (
+      <Container>
+        {isLoading ? <LoadingIndiactor visible /> :
+          <ProfileView>
+            <ProfileHeaderWithBack
+              onBack={Actions.pop}
+              image={user.imageUrl}
+              name={`${user.givenName} ${user.familyName}`}
+            />
+            <ScrollView>
+              {user.phone !== '' && <PhoneWithButtons
+                title="Номер телефона"
+                value={phoneMask(user.phone)}
+                onCall={() => Communications.phonecall(phoneMask(user.phone), true)}
+                onMessage={() => Communications.text(phoneMask(user.phone))}
+              />}
+              {user.email !== '' &&
+                <EmailWithButton
+                  title="E-mail"
+                  value={user.email}
+                  onMessage={() => Communications.email([user.email], null, null, 'JobNow', '')}
+                />}
+              <Reviews
+                onCreate={Actions[createAction]}
+                reviews={reviews}
+                rate={user.rate}
+                reviewCount={user.reviewCount}
+                hasMyReview={reviews.map(item => item.userFromId).indexOf(myUserId) !== -1}
+              />
+            </ScrollView>
+          </ProfileView>}
+      </Container>
+    );
+  }
+}
+
+export default connect(
+  state => ({
+    myUserId: state.user.user.id,
+    user: state.userprofile.user,
+    reviews: state.userprofile.reviews,
+    isLoading: state.userprofile.isLoading,
+    createAction: state.userprofile.createAction,
+    phoneMask
+  })
+)(UserProfile);

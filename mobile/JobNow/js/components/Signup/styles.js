@@ -4,11 +4,11 @@ import { StyleSheet, Platform, Dimensions } from 'react-native';
 
 export default StyleSheet.create({
   signupView: {
-    paddingTop: 100,
+    paddingTop: (Platform.OS === 'ios') ? 80 : 100,
     flex: 1,
   },
   signupScrollView: {
-    marginTop: 100,
+    marginTop: (Platform.OS === 'ios') ? 80 : 100,
   },
   signupBackgroundView: {
     top: 0,

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { View, StatusBar, Platform } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
 import Drawer from 'react-native-drawer'
-
-import FCM, { FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType } from 'react-native-fcm';
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 
 import InitialPage from './containers/InitialPage';
 
@@ -35,18 +33,17 @@ import CreateReview from './containers/UserProfile/CreateReview';
 
 import Settings from './containers/Settings';
 import NotificationsSettings from './containers/Settings/NotificationsSettings';
-import { loadJob, setFromScreen } from './modules/orderdetails';
-import { loadCurrentJob, setCurrentJob } from './modules/myorders';
-import { sendFcmToken } from './modules/user';
 
 class App extends Component {
   componentDidMount() {
-    FCM.requestPermissions();
+    console.warn('@!');
+    /*FCM.requestPermissions();
 
     FCM.getInitialNotification().then((notif) => {
+      this.props.updateOfferedBadge();
       if (Platform.OS === 'android') {
-        if (notif.orderId) this.goToNotificationResult(notif);
-      } else if (notif && notif.orderId) this.goToNotificationResult(notif);
+        if (notif.job) this.goToNotificationResult(notif);
+      } else if (notif && notif.job) this.goToNotificationResult(notif);
     });
 
     this.notificationListener = FCM.on(FCMEvent.Notification, async (notif) => {
@@ -67,11 +64,13 @@ class App extends Component {
             click_action: notif.click_action,
             show_in_foreground: true,
             local: true,
-            orderId: notif.orderId,
+            job: notif.job,
+            role: notif.role,
             type: notif.type,
           });
         }
       }
+
       if (Platform.OS === 'ios') {
         if (notif.opened_from_tray) this.goToNotificationResult(notif);
         switch (notif._notificationType) {
@@ -88,25 +87,22 @@ class App extends Component {
       }
     });
 
-    this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => this.props.sendFcmToken(token));
+    this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => console.warn(token));*/
   }
 
   goToNotificationResult(notif) {
     console.warn('notif', notif);
-    if (notif.type === 'new_order') {
-      Actions.mainNavigationTab();
-      this.props.loadJob(notif.orderId);
-      this.props.setFromScreen('main');
-      Actions.orderDetails();
-    } else if (notif.type === 'new_proposal') {
-      Actions.myOrdersNavigationTab();
-      this.props.setCurrentJob({ id: notif.orderId, bets: [] });
-      this.props.loadCurrentJob();
-      Actions.myOrderDetails();
-    }
+    /*if (notif.role === 'nurse') {
+      Actions.appNurse();
+      this.props.goToJobById(notif.job);
+    } else {
+      Actions.appManager();
+      if (notif.type === 'profile') this.props.goToBookedJobDetails(notif.job);
+      else this.props.goToManagerJobById(notif.job);
+    }*/
   }
 
-  componentWillUnmount() {
+  /*componentWillUnmount() {
     this.notificationListener.remove();
     this.refreshTokenListener.remove();
   }
@@ -114,7 +110,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
+  }*/
   render = () => {
     return (
       <View style={{ flex: 1, backgroundColor: "#01162b" }}>
@@ -164,7 +160,6 @@ class App extends Component {
                 </Scene>
               </Scene>
             </Scene>
-
           </Scene>
         </Router>
       </View>
@@ -172,7 +167,4 @@ class App extends Component {
   }
 }
 
-export default connect(
-  state => ({}),
-  { loadJob, setFromScreen, loadCurrentJob, setCurrentJob, sendFcmToken }
-)(App);
+export default App;

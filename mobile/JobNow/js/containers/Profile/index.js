@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import ReactNative from 'react-native';
+import ReactNative, { Keyboard, Platform, Animated, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ImagePicker from 'react-native-image-picker'
 
 import { Container, SwitchItem, InputItem, LoadingIndiactor } from '../../components/Common';
-import { ProfileView, ProfileHeader, ProfileScrollView } from '../../components/Profile';
-import { phoneMask, updateUser } from '../../modules/user';
+import { ProfileView, ProfileHeader, ProfileScrollView, Reviews } from '../../components/Profile';
+import { phoneMask, updateUser, uploadImage } from '../../modules/user';
+import { setCurrentUser, loadReviews } from '../../modules/userprofile';
 
 class Profile extends Component {
   state = {
@@ -15,21 +17,49 @@ class Profile extends Component {
     phone: '',
     email: '',
     communicationMethod: 0,
+    isOpenKeyboard: false,
+    animationHeight: new Animated.Value(290),
   }
+
   componentDidMount() {
     this.setState(this.props.user);
+    this.props.setCurrentUser(this.props.user);
+    this.props.loadReviews();
   }
+  componentWillMount () {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ isOpenKeyboard: true });
+      Animated.timing(this.state.animationHeight, { toValue: 160, duration: 100 }).start();
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ isOpenKeyboard: false });
+      Animated.timing(this.state.animationHeight, { toValue: 290 }).start();
+    });
+  }
+  componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
   render() {
-    const { updateUser, isLoading } = this.props;
+    const { updateUser, isLoading, reviews, user, uploadImage } = this.props;
     return (
       <Container>
         <ProfileView>
           <ProfileHeader
+            isOpenKeyboard={this.state.isOpenKeyboard}
+            animationHeight={this.state.animationHeight}
             onMenu={() => Actions.refresh({key: 'drawer', open: true })}
             onSave={() => updateUser(this.state)}
-            name={`${this.props.user.givenName} ${this.props.user.familyName}`}
+            name={`${user.givenName} ${user.familyName}`}
+            image={user.imageUrl}
+            onPhoto={() => {
+              ImagePicker.launchImageLibrary({}, response  => {
+                uploadImage(response.uri)
+              })
+            }}
           />
-          <KeyboardAwareScrollView ref='scroll' enableAutoAutomaticScroll={false}>
+          <KeyboardAwareScrollView ref='scrollView'>
             <InputItem
               title="Имя"
               value={this.state.givenName}
@@ -44,10 +74,17 @@ class Profile extends Component {
               value={this.state.email}
               setValue={(value) => this.setState({ email: value })}
               keyboardType="email-address"
-              onFocus={(event: Event) => {
-                const UIManager = require('NativeModules').UIManager;
-                const handle = ReactNative.findNodeHandle(event.target);
-                UIManager.measureLayoutRelativeToParent(handle, () => {}, (x, y, w, h) => this.refs.scroll.scrollToPosition(0, h + 60, true))}}
+              onFocus={Platform.OS === 'ios' && ((event: Event) => {
+                let scrollResponder = this.refs.scrollView.getScrollResponder();
+                let handle = ReactNative.findNodeHandle(event.target);
+                setTimeout(() => scrollResponder.scrollResponderScrollNativeHandleToKeyboard(handle, 160, true), 300);
+              })}
+            />
+            <Reviews
+              reviews={reviews}
+              rate={user.rate}
+              reviewCount={user.reviewCount}
+              hasMyReview={true}
             />
           </KeyboardAwareScrollView>
         </ProfileView>
@@ -59,9 +96,10 @@ class Profile extends Component {
 
 export default connect(
   state => ({
-    isLoading: state.user.isLoading,
+    isLoading: state.user.isLoading || state.userprofile.isLoading,
+    reviews: state.userprofile.reviews,
     user: state.user.user,
     phoneMask
   }),
-  { updateUser }
+  { updateUser, setCurrentUser, loadReviews, uploadImage }
 )(Profile);

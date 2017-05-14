@@ -6,14 +6,25 @@ import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dia
 import moment from 'moment';
 require('moment/locale/ru');
 
-import { Container, InputItem, InputDescriptionItem, ProfileItem, ApplyButton, LoadingIndiactor } from '../../components/Common';
+import { Container, InputItem, InputDescriptionItem, ProfileItem, ApplyButton, LoadingIndiactor, MapItemDisabled } from '../../components/Common';
 import { HeaderWithBack } from '../../components/Header';
 import PopupView, { MyOrdersView, SelectDateTime, InputPrice, CreateOrderScrollView, DateRange, Proposals, MyProposal } from '../../components/MyOrders';
-import { sendProposal, changeProposal, removeProposal } from '../../modules/searchorders';
+import { sendProposal, changeProposal, removeProposal } from '../../modules/orderdetails';
+import { loadUser } from '../../modules/userprofile';
 
 class OrderDetails extends Component {
-  componentDidMount() {
-    // this.props.loadCurrentJob();
+  state = {
+    isOpenPopup: false,
+  }
+  goToUserProfile(userId) {
+    if (this.props.fromScreen === 'main') {
+      this.props.loadUser(userId, 'userReviewByMain');
+      Actions.userDetailsByMain();
+    }
+    else if (this.props.fromScreen === 'myproposals') {
+      this.props.loadUser(userId, 'userReviewByMyApplication');
+      Actions.userDetailsByMyApplication();
+    }
   }
   render() {
     const { job, proposePrice, isLoading, categories, sendProposal, currentUser, changeProposal, removeProposal } = this.props;
@@ -28,36 +39,57 @@ class OrderDetails extends Component {
             onBack={Actions.pop}
           />
           <CreateOrderScrollView>
-            <ProfileItem name={job.userId} rating={4.5} />
+            <ProfileItem
+              name={job.user.givenName + " " + job.user.familyName}
+              rating={job.user.rate}
+              image={job.user.imageUrl}
+              reviewCount={job.user.reviewCount}
+              onPress={() => this.goToUserProfile(job.user.id)}
+            />
             {myProposal && <MyProposal title="Мой отклик" value={myProposal} onPress={() => this.popupDialog.show()} />}
             <InputDescriptionItem disabled title="Описание" value={job.description} />
             <InputPrice disabled title="Максимальная цена" value={job.priceTo} />
             <Proposals title="Отклики" proposals={job.bets} disabled />
             <DateRange dateFrom={moment.unix(job.startWork)} dateTo={moment(job.endWork)} isAllDay={job.allDay} />
             <InputItem disabled title="Адрес" value={job.address} />
+            {!!(job.locationCoordX && job.locationCoordY) &&
+              <MapItemDisabled latitude={job.locationCoordX} longitude={job.locationCoordY} />}
           </CreateOrderScrollView>
           <PopupDialog
             ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+            onShowed={() => this.setState({ isOpenPopup: true })}
+            onDismissed={() => this.setState({ isOpenPopup: false })}
             width={Dimensions.get('window').width - 40}
-            dialogAnimation = { new SlideAnimation({ slideFrom: 'bottom' }) }
-            dialogStyle={{ zIndex: 10}}
           >
             <PopupView
               maxPrice={job.priceTo}
               currentPrice={myProposal || job.priceTo}
               isChange={!!myProposal}
-              onClose={() => this.popupDialog.dismiss()}
-              onDelete={() => removeProposal()}
+              onClose={() => {
+                this.popupDialog.dismiss();
+                this.setState({ isOpenPopup: false });
+              }}
+              onDelete={() => {
+                this.popupDialog.dismiss();
+                this.setState({ isOpenPopup: false });
+                removeProposal();
+              }}
               onSend={(value) => {
                 this.popupDialog.dismiss();
+                this.setState({ isOpenPopup: false });
                 sendProposal(value);
               }}
               onChange={(value) => {
                 this.popupDialog.dismiss();
+                this.setState({ isOpenPopup: false });
                 changeProposal(value);
               }}/>
           </PopupDialog>
-          {!myProposal && <ApplyButton onPress={() => this.popupDialog.show()} />}
+          {(!myProposal && !this.state.isOpenPopup) && <ApplyButton onPress={() => {
+            this.setState({ isOpenPopup: true });
+            this.popupDialog.show();
+            this.forceUpdate();
+          }} />}
         </MyOrdersView>
         <LoadingIndiactor visible={isLoading} />
       </Container>
@@ -68,10 +100,11 @@ class OrderDetails extends Component {
 
 export default connect(
   state => ({
-    isLoading: state.searchorders.isLoading,
-    job: state.searchorders.currentJob,
+    isLoading: state.orderdetails.isLoading,
+    job: state.orderdetails.job,
+    fromScreen: state.orderdetails.fromScreen,
     categories: state.common.categories,
     currentUser: state.user.user,
   }),
-  { sendProposal, changeProposal, removeProposal }
+  { sendProposal, changeProposal, removeProposal, loadUser }
 )(OrderDetails);
