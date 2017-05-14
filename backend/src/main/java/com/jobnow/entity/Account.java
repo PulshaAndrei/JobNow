@@ -19,10 +19,11 @@ public class Account implements DomainObject {
     private String email = "";
     private int communicationMethod = 0;
     private String basicInfo = "";
-    private String imageURL = "";
+    private String imageUrl = "";
     private String imageData = ""; //TODO
     private String confirmationCode = "";
     private double rate = 0;
+    private int reviewCount = 0;
 
     public Account() {}
 
@@ -92,12 +93,12 @@ public class Account implements DomainObject {
         this.basicInfo = basicInfo;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @JsonIgnore
@@ -126,5 +127,13 @@ public class Account implements DomainObject {
 
     public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
     }
 }

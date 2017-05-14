@@ -14,17 +14,17 @@ public class Order implements DomainObject {
     private String name = "";
     private String description = "";
     //private Long countryId;
-    private Long locationCityId;
+    private Long locationCityId = Long.valueOf(0);
     private String address = "";
-    private double locationCoordX;
-    private double locationCoordY;
-    private Long startWork;
-    private Long endWork;
-    private Long durationFrom;
-    private Long durationTo;
-    private Double priceFrom;
-    private Double priceTo;
-    private String priceCurrency; //TODO: change to currencyId
+    private double locationCoordX = 0;
+    private double locationCoordY = 0;
+    private Long startWork = Long.valueOf(0);
+    private Long endWork = Long.valueOf(0);
+    private Long durationFrom = Long.valueOf(0);
+    private Long durationTo = Long.valueOf(0);
+    private Double priceFrom = Double.valueOf(0);
+    private Double priceTo = Double.valueOf(0);
+    private String priceCurrency = ""; //TODO: change to currencyId
     private int categoryId = 0;
     private boolean allDay = false;
     private List<Bet> bets = new ArrayList<>();

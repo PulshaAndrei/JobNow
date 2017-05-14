@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Review implements DomainObject {
 
     private Long id;
+    private Long userFromId;
+    private Account user;
     private String title;
     private String text = "";
     private int rate;
@@ -47,5 +49,21 @@ public class Review implements DomainObject {
 
     public void setRate(int rate) {
         this.rate = rate;
+    }
+
+    public Long getUserFromId() {
+        return userFromId;
+    }
+
+    public void setUserFromId(Long userFromId) {
+        this.userFromId = userFromId;
+    }
+
+    public Account getUser() {
+        return user;
+    }
+
+    public void setUser(Account user) {
+        this.user = user;
     }
 }

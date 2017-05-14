@@ -1,6 +1,7 @@
 package com.jobnow.controller;
 
 import com.jobnow.entity.Order;
+import com.jobnow.repository.OrderRepository;
 import com.jobnow.repository.UsersOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,10 @@ public class UsersOrderController {
     @Qualifier("usersOrderRepository")
     private UsersOrderRepository usersOrderRepository;
 
+    @Autowired
+    @Qualifier("orderRepository")
+    private OrderRepository orderRepository;
+
     @RequestMapping(value = "/users_order", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getUsersOrder(@RequestHeader(value="Authorization") String token) throws ExpectedException {
@@ -39,20 +44,18 @@ public class UsersOrderController {
     public ResponseEntity<?> createUsersOrder(@RequestHeader(value="Authorization") String token, @RequestBody Order order) throws ExpectedException {
         long id = Authorization.getUserId(token, tokenKey);
         order.setUserId(id);
-        Order result = usersOrderRepository.create(order);
+        int result = usersOrderRepository.create(order);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    //TODO: change Documentation
-/*
     @RequestMapping(value = "/users_order/{orderId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> createUsersOrder(@RequestHeader(value="Authorization") String token, @PathVariable long orderId) throws ExpectedException {
-        long id = Authorization.getUserId(token, tokenKey);
-        Order result = usersOrderRepository.getDetails(id, orderId);
+        Authorization.getUserId(token, tokenKey);
+        Order result = orderRepository.getById(orderId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-*/
+
     @RequestMapping(value = "/users_order/{orderId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> updateUsersOrderDetails(@RequestHeader(value="Authorization") String token, @RequestBody Order order, @PathVariable long orderId) throws ExpectedException {
