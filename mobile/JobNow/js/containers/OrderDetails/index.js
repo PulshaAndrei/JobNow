@@ -85,10 +85,9 @@ class OrderDetails extends Component {
                 changeProposal(value);
               }}/>
           </PopupDialog>
-          {(!myProposal && !this.state.isOpenPopup) && <ApplyButton onPress={() => {
+          {(!myProposal && !this.state.isOpenPopup && !isLoading) && <ApplyButton onPress={() => {
             this.setState({ isOpenPopup: true });
             this.popupDialog.show();
-            this.forceUpdate();
           }} />}
         </MyOrdersView>
         <LoadingIndiactor visible={isLoading} />

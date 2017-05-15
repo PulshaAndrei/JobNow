@@ -68,7 +68,6 @@ export function sendProposal(value) {
     const jobId = getState().orderdetails.job.id;
     http.post(`/users_proposal/${jobId}`, { proposal: value })
       .then((response) => {
-        dispatch(setIsLoading(false));
         dispatch(loadJob(jobId));
         dispatch(loadJobs());
         dispatch(myProposalsLoadJobs());
@@ -93,7 +92,6 @@ export function changeProposal(value) {
     const jobId = getState().orderdetails.job.id;
     http.put(`/users_proposal/${jobId}`, { proposal: value })
       .then((response) => {
-        dispatch(setIsLoading(false));
         dispatch(loadJob(jobId));
         dispatch(loadJobs());
         dispatch(myProposalsLoadJobs());
@@ -119,7 +117,6 @@ export function removeProposal() {
     const jobId = getState().orderdetails.job.id;
     http.del(`/users_proposal/${jobId}`)
       .then((response) => {
-        dispatch(setIsLoading(false));
         dispatch(loadJob(jobId));
         dispatch(loadJobs());
         dispatch(myProposalsLoadJobs());
