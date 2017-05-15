@@ -140,6 +140,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-resizer')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-spinkit')

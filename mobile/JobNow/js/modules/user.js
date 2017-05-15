@@ -3,8 +3,9 @@ import store from 'react-native-simple-store';
 import { Actions } from 'react-native-router-flux';
 import { Alert, Platform } from 'react-native';
 import FCM from 'react-native-fcm';
-import RNFetchBlob from 'react-native-fetch-blob'
-import firebase from 'firebase'
+import RNFetchBlob from 'react-native-fetch-blob';
+import firebase from 'firebase';
+import ImageResizer from 'react-native-image-resizer';
 
 import http from '../utils/http';
 
@@ -137,34 +138,42 @@ export function updateUser(user) {
 export function uploadImage (uri, mime = 'application/octet-stream') {
   return (dispatch, getState) => {
     dispatch(setIsLoading(true));
-    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-    const sessionId = new Date().getTime()
-    let uploadBlob = null
-    const imageRef = storage.ref('images').child(`${sessionId}`)
+    var uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+    console.warn('upload uri:', uploadUri);
+    ImageResizer.createResizedImage(uploadUri, 600, 600, 'JPEG', 80)
+    .then((resizedImageUri) => {
+      const sessionId = new Date().getTime()
+      let uploadBlob = null
+      const imageRef = storage.ref('images').child(`${sessionId}`)
 
-    fs.readFile(uploadUri, 'base64')
-      .then((data) => {
-        return Blob.build(data, { type: `${mime};BASE64` })
-      })
-      .then((blob) => {
-        uploadBlob = blob
-        return imageRef.put(blob, { contentType: mime })
-      })
-      .then(() => {
-        uploadBlob.close()
-        return imageRef.getDownloadURL()
-      })
-      .then((url) => {
-        const user = getState().user.user;
-        dispatch(updateUser({ ...user, imageUrl: url }))
-      })
-      .catch((error) => {
-        dispatch(setIsLoading(false));
-        Alert.alert(
-          'Ошибка загрузки',
-          error,
-          [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
-      });
+      fs.readFile(resizedImageUri, 'base64')
+        .then((data) => {
+          return Blob.build(data, { type: `${mime};BASE64` })
+        })
+        .then((blob) => {
+          uploadBlob = blob
+          return imageRef.put(blob, { contentType: mime })
+        })
+        .then(() => {
+          uploadBlob.close()
+          return imageRef.getDownloadURL()
+        })
+        .then((url) => {
+          const user = getState().user.user;
+          dispatch(updateUser({ ...user, imageUrl: url }))
+        })
+        .catch((error) => {
+          dispatch(setIsLoading(false));
+          Alert.alert(
+            'Ошибка загрузки',
+            error,
+            [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
+        });
+    })
+    .catch((err) => {
+      console.warn(err);
+      return;
+    });
   }
 }
 
