@@ -187,8 +187,8 @@ export const Proposal = ({ bet, user, onPress }) => (
     <View style={styles.inputItem}>
       <Image source={!user.imageUrl ? require('../../resourses/avatar.png') : { uri: user.imageUrl }} style={styles.proposalAvatar} />
       <View style={styles.proposalInfo}>
-        <View style={{ flex: 1, marginRight: 10 }}>
-          <Text style={[styles.inputItemTitleText, {color: 'black', fontSize: 18, flex: 1, textAlignVertical: 'center'}]}>
+        <View style={{ flex: 1, marginRight: 10, justifyContent: 'center' }}>
+          <Text style={[styles.inputItemTitleText, {color: 'black', fontSize: 18, /*flex: 1,*/ textAlignVertical: 'center'}]}>
             {user.givenName} {user.familyName}
           </Text>
         </View>
