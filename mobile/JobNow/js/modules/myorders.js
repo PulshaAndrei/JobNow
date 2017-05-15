@@ -86,7 +86,7 @@ export function saveJob() {
         dispatch(loadJobs());
         Alert.alert(
           'Поздравляем!',
-          `Заказ «${response.name}» успешно создан! \nПолучили уведомления - Х человек.`,
+          `Заказ успешно создан! \nПолучили уведомления - ${response} человек.`,
           [{ text: 'OK', onPress: Actions.pop, style: 'cancel' }]);
       })
       .catch((e) => {
