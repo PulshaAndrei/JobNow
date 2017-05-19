@@ -64,7 +64,8 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
         Random rNo = new Random();
         final int code = rNo.nextInt((99999 - 10000) + 1) + 10000;
 
-        String text = "Your+code+JobNow:+" + code;
+        String text = "JobNow:+" + code + "+-+ваш+код+для+регистрации.";
+        System.out.println(text);
 
         HttpResponse<JsonNode> response = null;
         try {
@@ -75,17 +76,16 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
             throw new ExpectedException("SMS сервис не отправил сообщение. Пожалуйста, попробуйте еще раз через некоторое время.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if (response.getBody().getObject().get("error") != null) {
-            //TODO: uncomment in production
-            //throw new Exception("Send SMS failed: " + response.getBody().getObject().get("error"), new Throwable("userDataWrong"));
+        try {
+            response.getBody().getObject().get("error");
+            throw new ExpectedException("Ощибка при отправке СМС: " + response.getBody().getObject().get("error"), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 1);
+            jdbcOperations.update("INSERT INTO phone_confirmations (phone, code, expiration_date, activated) VALUES (?, ?, ?, ?) " +
+                            "ON CONFLICT (phone) DO UPDATE SET code = EXCLUDED.code, expiration_date = EXCLUDED.expiration_date, activated = EXCLUDED.activated;",
+                    phone, code, calendar.getTimeInMillis(), false);
         }
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 1);
-        jdbcOperations.update("INSERT INTO phone_confirmations (phone, code, expiration_date, activated) VALUES (?, ?, ?, ?) " +
-                        "ON CONFLICT (phone) DO UPDATE SET code = EXCLUDED.code, expiration_date = EXCLUDED.expiration_date, activated = EXCLUDED.activated;",
-                phone, code, calendar.getTimeInMillis(), false);
-
     }
 
     public void activateConfirmationCode(ConfirmationCode confirmationCode) throws ExpectedException {
@@ -134,8 +134,7 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
             throw new ExpectedException("Такой номер телефона ужу зарегистрирован.", HttpStatus.BAD_REQUEST);
         }
 
-        //TODO: uncomment in production
-        /*ConfirmationCode serverConfirmationCode;
+        ConfirmationCode serverConfirmationCode;
 
         try {
             serverConfirmationCode = (ConfirmationCode) jdbcOperations.queryForObject("SELECT * FROM phone_confirmations WHERE phone = ?",
@@ -151,7 +150,7 @@ public class AccountRepositoryImpl implements AccountRepository<Account> {
 
         if (!serverConfirmationCode.isActivated()) {
             throw new ExpectedException("Confirmation code hasn't been activated.", HttpStatus.BAD_REQUEST);
-        }*/
+        }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(account.getPassword());
