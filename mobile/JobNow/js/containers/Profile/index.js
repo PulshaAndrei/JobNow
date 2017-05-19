@@ -55,7 +55,18 @@ class Profile extends Component {
             image={user.imageUrl}
             onPhoto={() => {
               ImagePicker.launchImageLibrary({}, response  => {
-                uploadImage(response.uri)
+                if (response.didCancel) {
+                  console.warn('User cancelled image picker');
+                }
+                else if (response.error) {
+                  console.warn('ImagePicker Error: ', response.error);
+                }
+                else if (response.customButton) {
+                  console.warn('User tapped custom button: ', response.customButton);
+                }
+                else {
+                  uploadImage(response.uri)
+                }
               })
             }}
           />
