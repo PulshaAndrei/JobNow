@@ -228,13 +228,10 @@ export function confirmActivation(phone, code) {
     })
     .catch((e) => {
       dispatch(setIsLoading(false));
-      dispatch(setConfirmationCode(code));
-      Actions.registration();
-      // TODO: uncomment in prod
-      /*Alert.alert(
+      Alert.alert(
         'Ошибка',
         e.response.data.message,
-        [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);*/
+        [{ text: 'OK', onPress: () => {}, style: 'cancel' }]);
     });
   }
 }
